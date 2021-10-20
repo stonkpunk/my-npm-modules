@@ -1,0 +1,20 @@
+{
+  "name": "list-of-brands",
+  "version": "1.0.03",
+  "description": "List of 40,000 brands based on amazon product listings",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "company",
+    "companies",
+    "brands",
+    "products",
+    "list",
+    "amazon",
+    "dataset"
+  ],
+  "author": "stonkpunk",
+  "license": "CC-BY-4.0"
+}

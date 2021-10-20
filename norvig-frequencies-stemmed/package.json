@@ -1,0 +1,18 @@
+{
+  "name": "norvig-frequencies-stemmed",
+  "version": "0.0.121",
+  "description": "frequencies of stemmed words based on norvig dataset",
+  "main": "norvig-frequencies-stemmed.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "stemmed",
+    "words",
+    "nlp",
+    "norvig",
+    "word frequency"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT"
+}

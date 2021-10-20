@@ -1,0 +1,27 @@
+{
+  "name": "ngt-tool",
+  "version": "0.0.581",
+  "description": "Unofficial tool for interacting with Yahoo Japan's NGT Neighborhood Graph and Tree for Indexing High-dimensional Data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ngt",
+    "spatial",
+    "kdtree",
+    "nd",
+    "milvus",
+    "nn",
+    "nearest neighbors",
+    "db",
+    "graph",
+    "tree",
+    "n-dimensional"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "deasync": "^0.1.21"
+  }
+}

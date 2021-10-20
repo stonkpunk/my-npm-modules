@@ -1,0 +1,22 @@
+{
+  "name": "jsonfile-compressed",
+  "version": "0.0.11",
+  "description": "similar to jsonfile, but with automatic jsonpack + lzma (7zip) compression+decompression",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "compression",
+    "compress",
+    "jsonpack",
+    "jsonfile",
+    "json",
+    "shrink"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "json-shrink": "0.0.11"
+  }
+}

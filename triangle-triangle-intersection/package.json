@@ -1,0 +1,16 @@
+{
+  "name": "triangle-triangle-intersection",
+  "version": "0.0.02",
+  "description": "return line segment representing the intersection between a pair of 3D triangles. based on Thomas Möller's algorithm.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangle","intersection","3d","raycasting"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0-1.0",
+  "dependencies": {
+  }
+}

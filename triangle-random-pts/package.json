@@ -1,0 +1,16 @@
+{
+  "name": "triangle-random-pts",
+  "version": "0.0.01",
+  "description": "generate uniformly distributed random points in a 3d triangle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangle","random","quasirandom","3d","points"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0-1.0",
+  "dependencies": {
+  }
+}

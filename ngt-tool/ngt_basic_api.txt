@@ -1,0 +1,15 @@
+ngt docs --
+https://github.com/yahoojapan/NGT
+https://github.com/yahoojapan/NGT/blob/master/bin/ngt/README.md#command
+
+create index --
+ngt create -d no_of_dimensions INDEX_NAME
+
+append item(s) -- [.tsv file should have 1 vector per line separated by spaces or tabs]
+ngt append INDEX_NAME FILENAME.tsv
+
+search --
+ngt search [-n no_of_search_results] [-r search_radius] INDEX_NAME FILENAME_WITH_QUERIES.tsv
+
+remove --
+ngt remove [-d object_id_specification_method f|d ] INDEX_NAME FILE_NAME_WITH_IDS|OBJECT_ID

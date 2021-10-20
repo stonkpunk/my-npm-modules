@@ -1,0 +1,22 @@
+{
+  "name": "float-array-to-string",
+  "version": "1.0.0",
+  "description": "convert/encode a float array as a hex string and back again.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "convert",
+    "decoder",
+    "encoder",
+    "hex",
+    "base16",
+    "float32",
+    "typed",
+    "string",
+    "array"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT"
+}

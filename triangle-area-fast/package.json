@@ -1,0 +1,16 @@
+{
+  "name": "triangle-area-fast",
+  "version": "0.0.021",
+  "description": "quickly get area of 3d triangle, using cross-product",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangle","area","3d","cross product"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0-1.0",
+  "dependencies": {
+  }
+}

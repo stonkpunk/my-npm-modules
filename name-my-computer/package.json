@@ -1,0 +1,23 @@
+{
+  "name": "name-my-computer",
+  "version": "1.0.2",
+  "description": "give your computer a human name based on its mac address",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "human",
+    "name",
+    "computer",
+    "mac",
+    "address",
+    "cluster"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "chance": "^1.1.7",
+    "getmac": "^5.17.0"
+  }
+}

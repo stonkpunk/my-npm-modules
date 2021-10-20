@@ -1,0 +1,23 @@
+{
+  "name": "json-shrink",
+  "version": "0.0.12",
+  "description": "shrink json objects with LZMA (7-zip) compression + jsonpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "compression",
+    "compress",
+    "jsonpack",
+    "lzma",
+    "7zip",
+    "shrink"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "jsonpack": "^1.1.5",
+    "lzma": "^2.3.2"
+  }
+}

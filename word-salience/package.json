@@ -1,0 +1,28 @@
+{
+  "name": "word-salience",
+  "version": "0.0.1",
+  "description": "measure the salience / importance of words in a text document -- based on the frequency of the words in the document, versus their frequency in English",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "salience",
+    "importance",
+    "stem",
+    "text",
+    "nlp",
+    "frequency",
+    "wordcount",
+    "tf-idf",
+    "norvig"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "match-words": "^1.0.0",
+    "norvig-frequencies-stemmed": "0.0.12",
+    "stemmer": "^1.0.5",
+    "word-count-frequency": "0.0.1"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "word2vec-wordlist",
+  "version": "1.0.11",
+  "description": "word2vec embeddings for the top 15,000 english words [300 dimensional]",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "word2vec",
+    "embedding",
+    "dataset",
+    "nlp",
+    "norvig",
+    "wordlist",
+    "words",
+    "300d"
+  ],
+  "author": "stonkpunk",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "float-array-to-string": "^1.0.0",
+    "jsonfile-compressed": "0.0.11"
+  }
+}

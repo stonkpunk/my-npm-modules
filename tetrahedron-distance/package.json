@@ -1,0 +1,16 @@
+{
+  "name": "tetrahedron-distance",
+  "version": "0.0.02",
+  "description": "Signed distance function for arbitrary tetrahedron, suitable for marching cubes etc. Includes fast function to check if tetrahedron contains point.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tetrahedron","sdf","signed distance function","marching cubes","3d"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0-1.0",
+  "dependencies": {
+  }
+}

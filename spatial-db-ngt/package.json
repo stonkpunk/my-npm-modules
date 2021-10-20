@@ -1,0 +1,29 @@
+{
+  "name": "spatial-db-ngt",
+  "version": "0.0.111",
+  "description": "n-dimensional spatial database for JSON docs with vectors, combining NGT vector search with leveldb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nd",
+    "spatial",
+    "db",
+    "ngt",
+    "level",
+    "leveldb",
+    "json",
+    "nn",
+    "nearest neighbors",
+    "milvus"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^3.2.0",
+    "deasync": "^0.1.21",
+    "level": "^6.0.1",
+    "ngt-tool": "0.0.581"
+  }
+}
