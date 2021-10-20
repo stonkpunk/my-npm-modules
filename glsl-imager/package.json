@@ -1,0 +1,28 @@
+{
+  "name": "glsl-imager",
+  "version": "0.0.151",
+  "description": "render glsl shaders to the terminal(!) or to a JPG, GIF, PNG, or PPM file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ascii",
+    "cli",
+    "terminal",
+    "glsl",
+    "shader",
+    "headless",
+    "opengl",
+    "gpu"
+  ],
+  "author": "bonsai3d",
+  "license": "MIT",
+  "dependencies": {
+    "ascii-data-image": "^1.0.78",
+    "gl": "^4.9.0",
+    "ndarray": "^1.0.19",
+    "save-pixels": "^2.3.4"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/glsl-imager"
+}

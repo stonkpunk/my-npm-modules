@@ -1,0 +1,23 @@
+{
+  "name": "round-cone-distance",
+  "version": "1.0.011",
+  "description": "optimized signed distance function for rounded cones (aka lozenges with different-sized \"ends\")",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lozenge",
+    "signed",
+    "distance",
+    "field",
+    "function",
+    "sdf",
+    "3d",
+    "cone",
+    "raytrace"
+  ],
+  "author": "bonsai3d",
+  "license": "MIT",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/round-cone-distance"
+}

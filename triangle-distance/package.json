@@ -1,0 +1,22 @@
+{
+  "name": "triangle-distance",
+  "version": "1.0.011",
+  "description": "Highly optimized javascript distance function for triangles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangle",
+    "distance",
+    "function",
+    "field",
+    "3d",
+    "raytrace",
+    "physics",
+    "sdf"
+  ],
+  "author": "bonsai3d",
+  "license": "MIT",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangle-distance"
+}
