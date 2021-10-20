@@ -1,0 +1,17 @@
+{
+  "name": "merge-boxes",
+  "version": "0.0.01",
+  "description": "recursively merge 3d axis-aligned bounding boxes / cuboids.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "aabb","3d","merge","axis","aligned","bounding","box","voxel","brush","cuboid"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/merge-boxes"
+}
