@@ -1,6 +1,6 @@
 {
   "name": "wordlist-with-phrases",
-  "version": "1.0.01",
+  "version": "1.0.02",
   "description": "list of 182,447 words and phrases from OpenThesaurus",
   "main": "index.js",
   "scripts": {
@@ -14,5 +14,6 @@
     "nlp"
   ],
   "author": "stonkpunk",
-  "license": "LGPL-3.0-or-later"
+  "license": "LGPL-3.0-or-later",
+   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/wordlist-with-phrases"
 }

@@ -1,6 +1,6 @@
 {
   "name": "word-salience",
-  "version": "0.0.1",
+  "version": "0.0.11",
   "description": "measure the salience / importance of words in a text document -- based on the frequency of the words in the document, versus their frequency in English",
   "main": "index.js",
   "scripts": {
@@ -24,5 +24,7 @@
     "norvig-frequencies-stemmed": "0.0.12",
     "stemmer": "^1.0.5",
     "word-count-frequency": "0.0.1"
-  }
+  },
+   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/word-salience"
+
 }

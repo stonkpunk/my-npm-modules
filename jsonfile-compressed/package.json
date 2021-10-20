@@ -1,6 +1,6 @@
 {
   "name": "jsonfile-compressed",
-  "version": "0.0.11",
+  "version": "0.0.111",
   "description": "similar to jsonfile, but with automatic jsonpack + lzma (7zip) compression+decompression",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,6 @@
   "license": "MIT",
   "dependencies": {
     "json-shrink": "0.0.11"
-  }
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/jsonfile-compressed"
 }

@@ -1,6 +1,6 @@
 {
   "name": "triangle-random-pts",
-  "version": "0.0.01",
+  "version": "0.0.011",
   "description": "generate uniformly distributed random points in a 3d triangle",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,6 @@
   "author": "stonkpunk",
   "license": "CC0-1.0",
   "dependencies": {
-  }
+  },
+   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangle-random-pts"
 }

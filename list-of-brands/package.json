@@ -1,6 +1,6 @@
 {
   "name": "list-of-brands",
-  "version": "1.0.03",
+  "version": "1.0.031",
   "description": "List of 40,000 brands based on amazon product listings",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,6 @@
     "dataset"
   ],
   "author": "stonkpunk",
-  "license": "CC-BY-4.0"
+  "license": "CC-BY-4.0",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/list-of-brands"
 }

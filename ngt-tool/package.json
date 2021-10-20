@@ -1,6 +1,6 @@
 {
   "name": "ngt-tool",
-  "version": "0.0.581",
+  "version": "0.0.582",
   "description": "Unofficial tool for interacting with Yahoo Japan's NGT Neighborhood Graph and Tree for Indexing High-dimensional Data",
   "main": "index.js",
   "scripts": {
@@ -23,5 +23,6 @@
   "license": "MIT",
   "dependencies": {
     "deasync": "^0.1.21"
-  }
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/ngt-tool"
 }

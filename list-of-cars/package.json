@@ -1,6 +1,6 @@
 {
   "name": "list-of-cars",
-  "version": "0.0.14",
+  "version": "0.0.141",
   "description": "list of car / automobile makes and models 1992-2020",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,6 @@
   "license": "CC0-1.0",
   "dependencies": {
     "jsonfile-compressed": "0.0.11"
-  }
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/list-of-cars"
 }

@@ -1,6 +1,6 @@
 {
   "name": "barycentric-coordinates",
-  "version": "0.0.01",
+  "version": "0.0.02",
   "description": "get barycentric coordinates for triangle and tetrahedron, convert to/from cartesian coordinates",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   ],
   "author": "stonkpunk",
   "license": "CC0-1.0",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/barycentric-coordinates",
   "dependencies": {
   }
 }

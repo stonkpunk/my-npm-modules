@@ -1,6 +1,6 @@
 {
   "name": "word2vec-wordlist",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "word2vec embeddings for the top 15,000 english words [300 dimensional]",
   "main": "index.js",
   "scripts": {
@@ -21,5 +21,6 @@
   "dependencies": {
     "float-array-to-string": "^1.0.0",
     "jsonfile-compressed": "0.0.11"
-  }
+  },
+   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/word2vec-wordlist"
 }

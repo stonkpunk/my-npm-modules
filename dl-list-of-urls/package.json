@@ -1,6 +1,6 @@
 {
   "name": "dl-list-of-urls",
-  "version": "0.0.2",
+  "version": "0.0.21",
   "description": "request a list of urls, optionally load each result into jquery object",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,6 @@
     "async": "^3.2.1",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.2"
-  }
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/dl-list-of-urls"
 }

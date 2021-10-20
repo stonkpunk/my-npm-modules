@@ -1,6 +1,6 @@
 {
   "name": "name-my-computer",
-  "version": "1.0.2",
+  "version": "1.0.21",
   "description": "give your computer a human name based on its mac address",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,6 @@
   "dependencies": {
     "chance": "^1.1.7",
     "getmac": "^5.17.0"
-  }
+  },
+   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/name-my-computer"
 }

@@ -1,6 +1,6 @@
 {
   "name": "triangle-triangle-intersection",
-  "version": "0.0.02",
+  "version": "0.0.021",
   "description": "return line segment representing the intersection between a pair of 3D triangles. based on Thomas Möller's algorithm.",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,6 @@
   "author": "stonkpunk",
   "license": "CC0-1.0",
   "dependencies": {
-  }
+  },
+   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangle-triangle-intersection"
 }

@@ -1,6 +1,6 @@
 {
   "name": "tetrahedron-distance",
-  "version": "0.0.02",
+  "version": "0.0.021",
   "description": "Signed distance function for arbitrary tetrahedron, suitable for marching cubes etc. Includes fast function to check if tetrahedron contains point.",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,6 @@
   "author": "stonkpunk",
   "license": "CC0-1.0",
   "dependencies": {
-  }
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/tetrahedron-distance"
 }

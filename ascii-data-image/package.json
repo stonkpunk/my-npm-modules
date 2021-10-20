@@ -1,6 +1,6 @@
 {
   "name": "ascii-data-image",
-  "version": "1.0.781",
+  "version": "1.0.782",
   "description": "produces ascii images/animations from 2D datasets [2d float arrays] - eg raw pixel data, histograms, signed distance functions etc - for use in CLI / terminal / console applications",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,7 @@
   ],
   "author": "stonkpunk",
   "license": "MIT",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/ascii-data-image",
   "dependencies": {
     "chalk": "^4.1.0"
   }

@@ -1,6 +1,6 @@
 {
   "name": "norvig-frequencies-stemmed",
-  "version": "0.0.121",
+  "version": "0.0.122",
   "description": "frequencies of stemmed words based on norvig dataset",
   "main": "norvig-frequencies-stemmed.js",
   "scripts": {
@@ -14,5 +14,6 @@
     "word frequency"
   ],
   "author": "stonkpunk",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/norvig-frequencies-stemmed"
 }

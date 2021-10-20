@@ -1,6 +1,6 @@
 {
   "name": "spatial-db-ngt",
-  "version": "0.0.111",
+  "version": "0.0.112",
   "description": "n-dimensional spatial database for JSON docs with vectors, combining NGT vector search with leveldb",
   "main": "index.js",
   "scripts": {
@@ -25,5 +25,6 @@
     "deasync": "^0.1.21",
     "level": "^6.0.1",
     "ngt-tool": "0.0.581"
-  }
+  },
+   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/spatial-db-ngt"
 }
