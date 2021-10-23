@@ -55,8 +55,6 @@ art.runScene(config);
 
 ## With Custom Raytracer - Maze
 
-Note: move the camera up/back to see the maze (see the coordinates in the screenshot)
-
 ```javascript
 //here we additionally include a custom raytracing function [much faster than naive marching spheres]
 
@@ -83,8 +81,6 @@ art.runScene(config);
 ![maze](https://i.imgur.com/ut7P0ZU.png)
 
 ## Polygon Mesh with Bounding Volume Hierarchy
-
-Note: move the camera backwards to see the object (see the coordinates in the screenshot)
 
 ```javascript
 //example with polygon mesh, 5000 triangles

@@ -1,6 +1,6 @@
 {
   "name": "ascii-raytracer",
-  "version": "0.0.111",
+  "version": "0.0.114",
   "description": "Explore infinite 3d worlds from the comfort of your terminal",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
   },
   "keywords": [
     "ascii",
-    "cli","terminal",
+    "cli",
+    "terminal",
     "raytracer",
     "raytrace",
     "3d",

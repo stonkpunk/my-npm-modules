@@ -73,7 +73,7 @@ function sector2RTreeObj(sector,_rad){
     return item;
 }
 
-function sectorsTraceFast(sectors, radius){
+function sectorsTraceFast(sectors){
     var sectorsRTree = sectors2RTree(sectors);//console.log("TRI RTREE?", trisRTree);
     //var s = radius;
     return function(ray){
@@ -106,4 +106,50 @@ function sectorsTraceFast(sectors, radius){
     }
 }
 
-module.exports = {sectorsTraceFast, trianglesTraceFast};
+
+function createDistortionObjFromSector(s){
+    return {
+        p000: [s[0][0], s[0][1], s[0][2]],
+        p001: [s[0][0], s[0][1], s[1][2]],
+        p010: [s[0][0], s[1][1], s[0][2]],
+        p011: [s[0][0], s[1][1], s[1][2]],
+        p100: [s[1][0], s[0][1], s[0][2]],
+        p101: [s[1][0], s[0][1], s[1][2]],
+        p110: [s[1][0], s[1][1], s[0][2]],
+        p111: [s[1][0], s[1][1], s[1][2]],
+    }
+}
+
+function sector2Triangles(sector){
+    var d = createDistortionObjFromSector(sector);
+    var tris = [
+        [d.p010, d.p001, d.p000], //xlo 0
+        [d.p010, d.p011, d.p001], //xlo 1
+        [d.p111, d.p100, d.p101], //xhi 0
+        [d.p111, d.p110, d.p100], //xhi 1
+        [d.p001, d.p100, d.p000], //ylo 0
+        [d.p001, d.p101, d.p100], //ylo 1
+        [d.p111, d.p010, d.p110], //yhi 0
+        [d.p111, d.p011, d.p010], //yhi 1
+        [d.p110, d.p000, d.p100], //zlo 0
+        [d.p110, d.p010, d.p000], //zlo 1
+        [d.p011, d.p101, d.p001], //zhi 0
+        [d.p011, d.p111, d.p101]  //zhi 1
+    ];
+
+    return tris;
+}
+
+function flipTriangle(tri){
+    return [tri[0],tri[2],tri[1]];
+}
+
+function sectorsTraceBVH(sectors){ //similar to sectorsTraceFast but using BHV instead. seems to be slightly slower.
+    var tris = [];
+    sectors.forEach(function(sector){
+        tris.push(...sector2Triangles(sector).map(flipTriangle));
+    });
+    return trianglesTraceFast(tris);
+}
+
+module.exports = {sectorsTraceFast, trianglesTraceFast, sectorsTraceBVH};

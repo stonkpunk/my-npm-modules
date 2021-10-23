@@ -41,8 +41,8 @@ function updateRES(){
 
 var Vector = require('./Vector.js');
 
-var cameraPhi=Math.PI/2;
-var cameraTheta=-Math.PI;
+var cameraPhi=1.87;//Math.PI/2;
+var cameraTheta=-2.55;//-Math.PI;
 
 function anglesToCartesian(r,theta,phi){
     //console.log(cameraTheta/Math.PI*180);
@@ -286,16 +286,16 @@ var SCENE_DF_NORMAL = dfu.fNormalUnitLinePtTurbo_alt(SCENE_DF);
 
 
 
+////1.4fps|normals|20.84,3.26,18.65|p1.87,t-2.55|fov45
 
-
-var pts = createCirclePts(1024,16);
+var pts = [[33.36,9.52,22.71]];//createCirclePts(1024,16);
 
 var cameraList = pts.map(function(pt){
     return {
         point: {
             x: pt[0],
-            y: 0,
-            z: pt[1]
+            y: pt[1],
+            z: pt[2]
         },
         fieldOfView: 45,
         vector: {
@@ -491,7 +491,7 @@ function animate(){
 
     var p = scene.camera.point;
     var status =
-    `${p.x.toFixed(2)},${p.y.toFixed(2)},${p.y.toFixed(2)}|p${cameraPhi.toFixed(2)},t${cameraTheta.toFixed(2)}|fov${scene.camera.fieldOfView}`;
+    `${p.x.toFixed(2)},${p.y.toFixed(2)},${p.z.toFixed(2)}|p${cameraPhi.toFixed(2)},t${cameraTheta.toFixed(2)}|fov${scene.camera.fieldOfView}`;
 
     //rocess.stdout.clearLine();
     //process.stdout.moveCursor(0,-2);
