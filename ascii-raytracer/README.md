@@ -82,7 +82,7 @@ art.runScene(config);
 ```
 ![maze](https://i.imgur.com/ut7P0ZU.png)
 
-##Polygon Mesh with Bounding Volume Hierarchy
+## Polygon Mesh with Bounding Volume Hierarchy
 
 Note: move the camera backwards to see the object (see the coordinates in the screenshot)
 
