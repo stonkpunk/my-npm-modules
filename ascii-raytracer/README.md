@@ -98,3 +98,53 @@ var config = {
 art.runScene(config);
 ```
 ![skull](https://i.imgur.com/baZkxNd.png)
+
+## Texture Mapping
+
+specify `config.uvFunction` and `config.textureFunction` to render a texture onto the scene.
+
+- `uvFunction` takes (x,y,z) as input and returns `[u,v]` texture coordinates in range 0...1
+- `textureFunction` takes (u,v) as inputs and returns `[r,g,b]` color data in range 0...1
+
+in this example we load a PNG file with the `readimage` module and then specify textureFunction to pull color values from the image, and uvFunction for tiling the image. 
+
+the scene is the same maze from the earlier example. 
+
+```javascript
+var art = require('ascii-raytracer');
+var fs = require("fs")
+var readimage = require("readimage")
+var filedata = fs.readFileSync("./cat.png")
+
+readimage(filedata, function (err, image) {
+    var w = image.width;
+    var h = image.height;
+    var d = image.frames[0].data;
+
+    var myTextureFunction = function(u,v){ //pull colors from texture data
+        var xc = Math.floor(u*w);
+        var yc = Math.floor(v*h);
+        var o = (yc*h+xc)*4;
+        return [d[o]/255, d[o+1]/255, d[o+2]/255] //return [r,g,b] in range 0...1
+    }
+
+    var myUvFunction = function(x,y,z){ //tile texture across XZ plane
+        return [Math.abs(x/1.0)%1.0, Math.abs(z/1.0)%1.0]; //return u,v coords
+    }
+
+    var config = {
+        distanceFunction: art.distanceFunctions.dfMaze,
+        raytraceFunction: art.distanceFunctions.dfMazeTrace,
+        uvFunction: myUvFunction,
+        textureFunction: myTextureFunction,
+        resolution: 64,
+        aspectRatio: 1.0
+    }
+
+    art.runScene(config);
+})
+```
+
+![texture](https://i.imgur.com/jCrxgOf.png)
+![cat](https://i.imgur.com/ZcAwO6R.png)
+

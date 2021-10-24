@@ -282,6 +282,8 @@ module.exports.runScene = function(config){
     ASPECT=_ASPECT;
     updateRES();
 
+    if(config.uvFunction && config.textureFunction){CAMERA_MODE=1000004;}
+
 var SCENE_DF_NORMAL = dfu.fNormalUnitLinePtTurbo_alt(SCENE_DF);
 
 
@@ -375,13 +377,13 @@ function render(scene) {
 
             var cmode = (CAMERA_MODE%5);
             if(lastIntPt && cmode>1){
-                if(cmode==2 || cmode==4){
+                if(cmode==2){
                     ao = dfu.calcAO([lastIntPt.x,lastIntPt.y,lastIntPt.z], SCENE_DF, SCENE_DF_NORMAL);
                 }
                 if(cmode==4){
-                    color2 = calcColor([lastIntPt.x,lastIntPt.y,lastIntPt.z])
+                    //color2 = calcColor([lastIntPt.x,lastIntPt.y,lastIntPt.z])
                 }
-                if(cmode==3 || cmode==4){
+                if(cmode==3){
                     isInShadow = dfu.hardShadow(lastIntPt, lightPt, SCENE_DF);
                 }
             }
@@ -402,9 +404,23 @@ function render(scene) {
             dataRgb_normal[y][x][1] = color.y;
             dataRgb_normal[y][x][2] = color.z;
 
-            dataRgb_color[y][x][0] = dataRgb_normal[y][x][0] * dataBw_ao[y][x] * dataBw_shadow[y][x];
-            dataRgb_color[y][x][1] = dataRgb_normal[y][x][1] * dataBw_ao[y][x] * dataBw_shadow[y][x];
-            dataRgb_color[y][x][2] = dataRgb_normal[y][x][2] * dataBw_ao[y][x] * dataBw_shadow[y][x];
+            if(config.uvFunction && config.textureFunction){
+                if(depth>9000){
+                    dataRgb_color[y][x][0] = 0;
+                    dataRgb_color[y][x][1] = 0;
+                    dataRgb_color[y][x][2] = 0;
+                }else{
+                    var uvResult = config.uvFunction(lastIntPt.x,lastIntPt.y,lastIntPt.z);
+                    var colorResult = config.textureFunction(uvResult[0],uvResult[1]);
+                    dataRgb_color[y][x][0] = colorResult[0];
+                    dataRgb_color[y][x][1] = colorResult[1];
+                    dataRgb_color[y][x][2] = colorResult[2];
+                }
+            }else{
+               dataRgb_color[y][x][0] = dataRgb_normal[y][x][0] * dataBw_ao[y][x] * dataBw_shadow[y][x];
+               dataRgb_color[y][x][1] = dataRgb_normal[y][x][1] * dataBw_ao[y][x] * dataBw_shadow[y][x];
+               dataRgb_color[y][x][2] = dataRgb_normal[y][x][2] * dataBw_ao[y][x] * dataBw_shadow[y][x];
+            }
 
             //dataRgb_color[y][x][0] = color2[0];
             //dataRgb_color[y][x][1] = color2[1];
@@ -459,7 +475,7 @@ function animate(){
 
     switch(fiveSecondsPeriods){
         case 4:
-            caption = 'composite [hard shadow x ao x normals]';
+            caption = 'texture';
             thingToDraw = res.colorDataStr;
             break;
         case 3:
