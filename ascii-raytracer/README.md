@@ -61,7 +61,7 @@ var config = {
 art.runScene(config);
 ```
 
-![blob world](https://i.imgur.com/lw0k06D.png)
+![blob world](https://i.imgur.com/GvLQZtV.png)
 
 ## With Custom Raytracer - Maze
 
@@ -88,7 +88,7 @@ var config = {
 
 art.runScene(config);
 ```
-![maze](https://i.imgur.com/ut7P0ZU.png)
+![maze](https://i.imgur.com/wJLHP5m.png)
 
 ## Polygon Mesh with Bounding Volume Hierarchy
 
@@ -107,7 +107,7 @@ var config = {
 
 art.runScene(config);
 ```
-![skull](https://i.imgur.com/baZkxNd.png)
+![skull](https://i.imgur.com/DeIc8qd.png)
 
 ## UV Texture Mapping
 
@@ -155,7 +155,7 @@ readimage(filedata, function (err, image) {
 })
 ```
 
-![texture](https://i.imgur.com/jCrxgOf.png)
+![texture](https://i.imgur.com/hiwMlHi.png)
 ![cat](https://i.imgur.com/ZcAwO6R.png)
 
 ## 3D Texture Mapping 
@@ -185,5 +185,5 @@ var config = {
 art.runScene(config);
 ```
 
-![maze with perlin noise](https://i.imgur.com/yIfnwHg.png)
+![maze with perlin noise](https://i.imgur.com/xEBovyQ.png)
 
