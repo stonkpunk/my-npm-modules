@@ -282,7 +282,7 @@ module.exports.runScene = function(config){
     ASPECT=_ASPECT;
     updateRES();
 
-    if(config.uvFunction && config.textureFunction){CAMERA_MODE=1000004;}
+    if((config.uvFunction && config.textureFunction) || config.textureFunction3d){CAMERA_MODE=1000004;}
 
 var SCENE_DF_NORMAL = dfu.fNormalUnitLinePtTurbo_alt(SCENE_DF);
 
@@ -404,7 +404,18 @@ function render(scene) {
             dataRgb_normal[y][x][1] = color.y;
             dataRgb_normal[y][x][2] = color.z;
 
-            if(config.uvFunction && config.textureFunction){
+            if(config.textureFunction3d){
+                if(depth>9000){
+                    dataRgb_color[y][x][0] = 0;
+                    dataRgb_color[y][x][1] = 0;
+                    dataRgb_color[y][x][2] = 0;
+                }else{
+                    var colorResult = config.textureFunction3d(lastIntPt.x,lastIntPt.y,lastIntPt.z);
+                    dataRgb_color[y][x][0] = colorResult[0];
+                    dataRgb_color[y][x][1] = colorResult[1];
+                    dataRgb_color[y][x][2] = colorResult[2];
+                }
+            }else if(config.uvFunction && config.textureFunction){
                 if(depth>9000){
                     dataRgb_color[y][x][0] = 0;
                     dataRgb_color[y][x][1] = 0;

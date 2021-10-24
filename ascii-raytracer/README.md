@@ -10,6 +10,16 @@ Simple utility takes a signed distance function and lets you explore it with rea
 
 For retro fun, to experiment with distance functions / 3d algorithms / ray-tracing / data-stuctures / optimization without dealing with browser, GPU, ect.
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Controls](#controls)
+- [Simple Example - Blob World](#simple-example---blob-world)
+- [With Custom Raytracer - Maze](#with-custom-raytracer---maze)
+- [Polygon Mesh with Bounding Volume Hierarchy](#polygon-mesh-with-bounding-volume-hierarchy)
+- [UV Texture Mapping](#uv-texture-mapping)
+- [3D Texture Mapping](#3d-texture-mapping)
+
 ## Installation
 
 ```sh
@@ -99,9 +109,9 @@ art.runScene(config);
 ```
 ![skull](https://i.imgur.com/baZkxNd.png)
 
-## Texture Mapping
+## UV Texture Mapping
 
-specify `config.uvFunction` and `config.textureFunction` to render a texture onto the scene.
+specify `config.uvFunction` and `config.textureFunction` to render a 2D texture onto the scene.
 
 - `uvFunction` takes (x,y,z) as input and returns `[u,v]` texture coordinates in range 0...1
 - `textureFunction` takes (u,v) as inputs and returns `[r,g,b]` color data in range 0...1
@@ -147,4 +157,33 @@ readimage(filedata, function (err, image) {
 
 ![texture](https://i.imgur.com/jCrxgOf.png)
 ![cat](https://i.imgur.com/ZcAwO6R.png)
+
+## 3D Texture Mapping 
+
+Specify `textureFunction3d` instead of `textureFunction` if you want to define surface colors directly from a 3D function.
+
+In this example we apply 3D perlin noise [from the blob world example] as the surface texture for our maze.
+
+Because the blob world distance function varies over time, the texture is animated!
+
+```javascript
+var art = require('ascii-raytracer');
+
+var my3dTextureFunction = function(x,y,z){
+    var d = Math.abs(art.distanceFunctions.dfBlobWorld(x*15,y*15,z*15))/2.0; //using 3d perlin noise to define color
+    return [d,d,d] //return [r,g,b]
+}
+
+var config = {
+    distanceFunction: art.distanceFunctions.dfMaze,
+    raytraceFunction: art.distanceFunctions.dfMazeTrace,
+    textureFunction3d: my3dTextureFunction,
+    resolution: 64,
+    aspectRatio: 1.0
+}
+
+art.runScene(config);
+```
+
+![maze with perlin noise](https://i.imgur.com/yIfnwHg.png)
 
