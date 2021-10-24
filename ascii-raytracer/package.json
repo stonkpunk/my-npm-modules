@@ -1,6 +1,6 @@
 {
   "name": "ascii-raytracer",
-  "version": "0.0.116",
+  "version": "0.0.117",
   "description": "Explore infinite 3d worlds from the comfort of your terminal",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "terminal",
     "raytracer",
     "raytrace",
+    "raycast",
     "3d",
     "signed distance",
     "sdf",
