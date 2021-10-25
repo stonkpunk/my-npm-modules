@@ -195,7 +195,7 @@ art.runScene(config);
 ![maze with perlin noise](https://i.imgur.com/xEBovyQ.png)
 ![maze with perlin noise](https://i.imgur.com/fWyO2Is.png)
 
-##Taking high-res screenshots
+## Taking high-res screenshots
 
 Press P to save a screenshot [png file]. By default, screenshots are 4x higher resolution than the ascii render. 
 
