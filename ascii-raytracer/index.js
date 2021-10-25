@@ -1,7 +1,9 @@
 
 var DO_ANTI_ALIAS = false;
+var TAKING_SCREENSHOT = false;
 var RES = 64;
 var ASPECT = 1.0;
+var SCREENSHOT_SCALEUP = 4.0;
 var width = DO_ANTI_ALIAS ? RES*2 : RES;//Math.floor(64*4/3);
 var height = DO_ANTI_ALIAS ? RES*2 : RES;
 
@@ -23,6 +25,9 @@ function updateRES(){
 
     width = DO_ANTI_ALIAS ? RES*2 : RES;//Math.floor(64*4/3);
     height = DO_ANTI_ALIAS ? RES*2 : RES;
+
+    width = TAKING_SCREENSHOT ? width * SCREENSHOT_SCALEUP : width;
+    height = TAKING_SCREENSHOT ? height * SCREENSHOT_SCALEUP : height;
 
     width=Math.floor(width*ASPECT);
     width+=width%2; //width must be even number
@@ -126,6 +131,10 @@ process.stdin.on('keypress', (str, key) => {
               DO_ANTI_ALIAS=!DO_ANTI_ALIAS;
               updateRES();
           }
+          if (key.name === 'p') {
+              TAKING_SCREENSHOT=true;
+              updateRES();
+          }
           //
           if (key.name === 'left') {
               cameraTheta+=t;
@@ -224,7 +233,27 @@ var createCirclePts = function(_steps, radius){
     return pts;
 };
 
+function flattenImgDataArr(arrNested){
+     var res=[];
+     var data = arrNested;
+     var w = DO_ANTI_ALIAS ? width / 2 : width;
+     var h = DO_ANTI_ALIAS ? height / 2 : height;
 
+     for(var y=0;y<h;y++){
+        for(var x=0;x<w;x++){
+
+            // var average4r = (data[y][x][0] + data[y+1][x][0]+ data[y][x+1][0] + data[y+1][x+1][0])/4.0;
+            // var average4g = (data[y][x][1] + data[y+1][x][1]+ data[y][x+1][1] + data[y+1][x+1][1])/4.0;
+            // var average4b = (data[y][x][2] + data[y+1][x][2]+ data[y][x+1][2] + data[y+1][x+1][2])/4.0;
+            // reducedOutput[y/2][x/2]=[average4r,average4g,average4b];
+            res.push(
+                Math.floor(data[y][x][0]*255),
+                Math.floor(data[y][x][1]*255),
+                Math.floor(data[y][x][2]*255),255);
+        }
+    }
+     return res;
+}
 
 function reduceByHalf(data){ //reduce pixel data by half
     var height = data.length;
@@ -280,6 +309,11 @@ module.exports.runScene = function(config){
     var _RAYTRACE_FUNC = config.raytraceFunction;
     RES=_RES;
     ASPECT=_ASPECT;
+
+    if(config.screenShotScaleUp){
+        SCREENSHOT_SCALEUP = config.screenShotScaleUp;
+    }
+
     updateRES();
 
     if((config.uvFunction && config.textureFunction) || config.textureFunction3d){CAMERA_MODE=1000004;}
@@ -441,12 +475,19 @@ function render(scene) {
 
     //ctx.putImageData(data, 0, 0);
 
-    var imgStr = adi.data2Img_rgb(DO_ANTI_ALIAS ? reduceByHalf_rgb(dataRgb_normal) : dataRgb_normal);
-    var imgStr2 = adi.data2Img_rgb(DO_ANTI_ALIAS ? reduceByHalf_rgb(dataRgb_color) : dataRgb_color);
+    var dataRgbNormal = DO_ANTI_ALIAS ? reduceByHalf_rgb(dataRgb_normal) : dataRgb_normal;
+    var dataRgbColor = DO_ANTI_ALIAS ? reduceByHalf_rgb(dataRgb_color) : dataRgb_color;
 
-    var imgStrBw = adi.data2Img(DO_ANTI_ALIAS ? reduceByHalf(dataBw_depth) : dataBw_depth);
-    var imgStrBw2 = adi.data2Img(DO_ANTI_ALIAS ? reduceByHalf(dataBw_ao) : dataBw_ao);
-    var imgStrBw3 = adi.data2Img(DO_ANTI_ALIAS ? reduceByHalf(dataBw_shadow) : dataBw_shadow);
+    var dataBwDepth = DO_ANTI_ALIAS ? reduceByHalf(dataBw_depth) : dataBw_depth;
+    var dataBwAo = DO_ANTI_ALIAS ? reduceByHalf(dataBw_ao) : dataBw_ao;
+    var dataBwShadow = DO_ANTI_ALIAS ? reduceByHalf(dataBw_shadow) : dataBw_shadow;
+
+    var imgStr = adi.data2Img_rgb(dataRgbNormal);
+    var imgStr2 = adi.data2Img_rgb(dataRgbColor);
+
+    var imgStrBw = adi.data2Img(dataBwDepth);
+    var imgStrBw2 = adi.data2Img(dataBwAo);
+    var imgStrBw3 = adi.data2Img(dataBwShadow);
     //rgb image data is NOT normalized
 
     /*console.log(imgStr);
@@ -459,7 +500,14 @@ function render(scene) {
         colorDataStr: imgStr2,
         depthDataStr: imgStrBw,
         aoDataStr: imgStrBw2,
-        shadowDataStr: imgStrBw3
+        shadowDataStr: imgStrBw3,
+        data:{
+            dataRgbNormal: dataRgbNormal,
+            dataRgbColor: dataRgbColor,
+            dataBwDepth: dataBwDepth,
+            dataBwAo: dataBwAo,
+            dataBwShadow: dataBwShadow,
+        }
     }
 
     /*adi.writeSelfOverwrite(imgStr);
@@ -479,35 +527,45 @@ function animate(){
     scene.camera = cameraList[0];//i%cameraList.length];
     var res = render(scene);
 
+
     var fiveSecondsPeriods = CAMERA_MODE%5;//Math.floor((Date.now()-t0)/4000)%5;
     //console.log(fiveSecondsPeriods)
     var thingToDraw = res.colorDataStr;
+    var thingToDrawData = res.data.dataRgbColor;
     var caption = '';
 
     switch(fiveSecondsPeriods){
         case 4:
             caption = 'texture';
             thingToDraw = res.colorDataStr;
+            thingToDrawData = res.data.dataRgbColor;
             break;
         case 3:
             caption = 'hard shadow';
             thingToDraw = res.shadowDataStr;
+            thingToDrawData = res.data.dataBwShadow;
             break;
         case 2:
             caption = 'ambient occlusion';
             thingToDraw = res.aoDataStr;
+            thingToDrawData = res.data.dataBwAo;
             break;
         case 1:
             caption = 'depth';
             thingToDraw = res.depthDataStr;
+            thingToDrawData = res.data.dataBwDepth;
             break;
         case 0:
             caption = 'normals';
             thingToDraw = res.normalDataStr;
+            thingToDrawData = res.data.dataRgbNormal;
 
             //TODO add "world space" color map for bounding box ...
     }
 
+    if(TAKING_SCREENSHOT){
+        thingToDraw="";
+    }
 
 
     var msThisFrame = Date.now()-_t0;
@@ -520,15 +578,36 @@ function animate(){
     var status =
     `${p.x.toFixed(2)},${p.y.toFixed(2)},${p.z.toFixed(2)}|p${cameraPhi.toFixed(2)},t${cameraTheta.toFixed(2)}|fov${scene.camera.fieldOfView}`;
 
+    if(TAKING_SCREENSHOT){
+        status = "taking screenshot..."
+    }
+
     //rocess.stdout.clearLine();
     //process.stdout.moveCursor(0,-2);
     process.stdout.clearLine();
     console.log(`${fps}fps|${caption}|${status}`)
-    adi.writeSelfOverwrite(thingToDraw);
+    if(!TAKING_SCREENSHOT){
+        adi.writeSelfOverwrite(thingToDraw);
+    }else{
+        //console.log("ok");
+        var dataSet=flattenImgDataArr(thingToDrawData);
+        var png = require('fast-png');
+        var fileData = png.encode({
+            width: DO_ANTI_ALIAS ? width / 2 : width,
+            height: DO_ANTI_ALIAS ? height / 2 : height,
+            data: dataSet
+        });
+        require('fs').writeFileSync(`./screenshot_${Date.now()}.png`,fileData);
+
+        TAKING_SCREENSHOT=false;
+        updateRES();
+    }
     process.stdout.moveCursor(0,-1);
     //process.stdout.write(str);
 
     i++;
+
+
 
     setTimeout(function(){
 

@@ -4,7 +4,8 @@ var config = {
     distanceFunction: art.distanceFunctions.dfSkull,
     raytraceFunction: art.distanceFunctions.dfSkullTrace,
     resolution: 64,
-    aspectRatio: 1.0
+    aspectRatio: 1.0,
+    screenShotScaleUp: 8
 }
 
 art.runScene(config);

@@ -19,6 +19,7 @@ For retro fun, to experiment with distance functions / 3d algorithms / ray-traci
 - [Polygon Mesh with Bounding Volume Hierarchy](#polygon-mesh-with-bounding-volume-hierarchy)
 - [UV Texture Mapping](#uv-texture-mapping)
 - [3D Texture Mapping](#3d-texture-mapping)
+- [Taking high-res screenshots](#taking-high-res-screenshots)
 
 ## Installation
 
@@ -39,6 +40,8 @@ npm i ascii-raytracer
 - C/X - change camera mode 
 
 - V - Toggle anti-aliasing (runs 4x slower)
+
+- P - Take screenshot (saves PNG with 4x resolution)
 
 - Hold shift to move/rotate faster 
 
@@ -62,6 +65,7 @@ art.runScene(config);
 ```
 
 ![blob world](https://i.imgur.com/GvLQZtV.png)
+![blob world](https://i.imgur.com/xL7RjdO.png)
 
 ## With Custom Raytracer - Maze
 
@@ -89,6 +93,7 @@ var config = {
 art.runScene(config);
 ```
 ![maze](https://i.imgur.com/wJLHP5m.png)
+![maze](https://i.imgur.com/YaRuimz.png)
 
 ## Polygon Mesh with Bounding Volume Hierarchy
 
@@ -108,6 +113,7 @@ var config = {
 art.runScene(config);
 ```
 ![skull](https://i.imgur.com/DeIc8qd.png)
+![screenshot](https://i.imgur.com/eZrUu7P.png)
 
 ## UV Texture Mapping
 
@@ -156,6 +162,7 @@ readimage(filedata, function (err, image) {
 ```
 
 ![texture](https://i.imgur.com/hiwMlHi.png)
+![texture](https://i.imgur.com/pDDBBD1.png)
 ![cat](https://i.imgur.com/ZcAwO6R.png)
 
 ## 3D Texture Mapping 
@@ -186,4 +193,28 @@ art.runScene(config);
 ```
 
 ![maze with perlin noise](https://i.imgur.com/xEBovyQ.png)
+![maze with perlin noise](https://i.imgur.com/fWyO2Is.png)
 
+##Taking high-res screenshots
+
+Press P to save a screenshot [png file]. By default, screenshots are 4x higher resolution than the ascii render. 
+
+To make screenshots bigger or smaller, specify `screenShotScaleUp` in the config [default 4]
+
+Warning - depending on your scene, taking a screenshot may be very slow!
+
+```javascript
+var art = require('./index.js');
+
+var config = {
+    distanceFunction: art.distanceFunctions.dfSkull,
+    raytraceFunction: art.distanceFunctions.dfSkullTrace,
+    resolution: 64,
+    aspectRatio: 1.0,
+    screenShotScaleUp: 8 //default is 4 
+}
+
+art.runScene(config);
+```
+
+![screenshot](https://i.imgur.com/kEmFe93.png)

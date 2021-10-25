@@ -1,6 +1,6 @@
 {
   "name": "ascii-raytracer",
-  "version": "0.0.118",
+  "version": "0.0.120",
   "description": "Explore infinite 3d worlds from the comfort of your terminal",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "bvh-tree-plus": "^1.0.2",
+    "fast-png": "^6.1.0",
     "maze": "^0.1.0",
     "maze-generator": "^0.1.2",
     "merge-boxes": "0.0.1",
