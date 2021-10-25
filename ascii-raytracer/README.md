@@ -204,7 +204,7 @@ To make screenshots bigger or smaller, specify `screenShotScaleUp` in the config
 Warning - depending on your scene, taking a screenshot may be very slow!
 
 ```javascript
-var art = require('./index.js');
+var art = require('ascii-raytracer');
 
 var config = {
     distanceFunction: art.distanceFunctions.dfSkull,
