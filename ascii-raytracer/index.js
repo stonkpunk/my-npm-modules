@@ -255,6 +255,33 @@ function flattenImgDataArr(arrNested){
      return res;
 }
 
+
+function flattenImgDataArrBW(arrNested){
+     var res=[];
+     var data = arrNested;
+     var w = DO_ANTI_ALIAS ? width / 2 : width;
+     var h = DO_ANTI_ALIAS ? height / 2 : height;
+
+     var dataMin = 9999;
+     var dataMax = -9999;
+     for(var y=0;y<h;y++){
+        for(var x=0;x<w;x++){
+            dataMax=Math.max(dataMax,data[y][x]);
+            dataMin=Math.min(dataMin,data[y][x]);
+        }
+    }
+
+     var dataRange = (dataMax-dataMin) || 1.0;
+
+     for(var y=0;y<h;y++){
+        for(var x=0;x<w;x++){
+            var c = Math.floor((data[y][x]-dataMin)/dataRange*255);
+            res.push(c, c, c, 255);
+        }
+    }
+     return res;
+}
+
 function reduceByHalf(data){ //reduce pixel data by half
     var height = data.length;
     var width = data[0].length;
@@ -531,6 +558,7 @@ function animate(){
     var fiveSecondsPeriods = CAMERA_MODE%5;//Math.floor((Date.now()-t0)/4000)%5;
     //console.log(fiveSecondsPeriods)
     var thingToDraw = res.colorDataStr;
+    var dataIsRGB=true;
     var thingToDrawData = res.data.dataRgbColor;
     var caption = '';
 
@@ -539,26 +567,31 @@ function animate(){
             caption = 'texture';
             thingToDraw = res.colorDataStr;
             thingToDrawData = res.data.dataRgbColor;
+            dataIsRGB=true;
             break;
         case 3:
             caption = 'hard shadow';
             thingToDraw = res.shadowDataStr;
             thingToDrawData = res.data.dataBwShadow;
+            dataIsRGB=false;
             break;
         case 2:
             caption = 'ambient occlusion';
             thingToDraw = res.aoDataStr;
             thingToDrawData = res.data.dataBwAo;
+            dataIsRGB=false;
             break;
         case 1:
             caption = 'depth';
             thingToDraw = res.depthDataStr;
             thingToDrawData = res.data.dataBwDepth;
+            dataIsRGB=false;
             break;
         case 0:
             caption = 'normals';
             thingToDraw = res.normalDataStr;
             thingToDrawData = res.data.dataRgbNormal;
+            dataIsRGB=true;
 
             //TODO add "world space" color map for bounding box ...
     }
@@ -590,7 +623,7 @@ function animate(){
         adi.writeSelfOverwrite(thingToDraw);
     }else{
         //console.log("ok");
-        var dataSet=flattenImgDataArr(thingToDrawData);
+        var dataSet=dataIsRGB ? flattenImgDataArr(thingToDrawData) : flattenImgDataArrBW(thingToDrawData);
         var png = require('fast-png');
         var fileData = png.encode({
             width: DO_ANTI_ALIAS ? width / 2 : width,
