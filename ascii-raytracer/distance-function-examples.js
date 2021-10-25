@@ -77,6 +77,7 @@ var dfPerlin3D = noise.perlin3;
     //return Math.max(dfSphere(0,0,0,7)(x,y,z), noise.perlin3(x/s,y/s,z/s)) //planet
 //}
 var _noise = require('noisejs');
+const path = require("path");
 var noise = new _noise.Noise();
 
 //var SCENE_DF = dfSphere(0,0,0,5);
@@ -176,7 +177,7 @@ var dfMaze = function(x,y,z){
 
 var dfMazeTrace = dfSectorsTrace;
 
-var meshTris = trisSwapZY(jf.readFileSync('./Bitey_Reconstructed_rotated_5k_2digit.json'));
+var meshTris = trisSwapZY(jf.readFileSync(path.resolve(__dirname, './Bitey_Reconstructed_rotated_5k_2digit.json')));
 
 function ptSwapZY(p){
     return [p[0],p[2],p[1]];
