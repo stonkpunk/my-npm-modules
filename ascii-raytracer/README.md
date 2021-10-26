@@ -15,8 +15,8 @@ For retro fun, to experiment with distance functions / 3d algorithms / ray-traci
 - [Installation](#installation)
 - [Controls](#controls)
 - [Example - Blob World](#example---blob-world)
-- [Example - Custom Raytracer - Maze](#example---custom-raytracer---maze)
-- [Example - View STL file](#example---polygon-mesh-with-bounding-volume-hierarchy)
+- [Example - Custom Raycaster - Maze](#example---custom-raycaster---maze)
+- [Example - View STL file](#view-stl-file)
 - [Build a scene from boxes](#build-a-scene-from-boxes)
 - [Build a scene from triangles](#build-a-scene-from-triangles)
 - [UV Texture Mapping](#uv-texture-mapping)
@@ -76,7 +76,7 @@ art.runScene(config);
 ![blob world](https://i.imgur.com/GvLQZtV.png)
 ![blob world](https://i.imgur.com/xL7RjdO.png)
 
-## Example - Custom Raytracer - Maze
+## Example - Custom Raycaster - Maze
 
 It's usually a good idea to use a custom raytracing / raycasting function if you can organize your scene with an efficent data structure.
 
