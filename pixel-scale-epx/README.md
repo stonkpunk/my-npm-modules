@@ -1,7 +1,10 @@
 # pixel-scale-epx
 
-[EPX / Scale2x / AdvMAME2x](https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms#EPX/Scale2%C3%97/AdvMAME2%C3%97) pixel art scaling algorithm (Eric's Pixel Expansion). 
-2x, 4x, 8x. 
+[EPX / Scale2x / AdvMAME2x](https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms#EPX/Scale2%C3%97/AdvMAME2%C3%97) pixel art scaling algorithm (Eric's Pixel Expansion) 
+
+Also includes the 3x version, aka [Scale3x / AdvMAME3x](https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms#Scale3%C3%97/AdvMAME3%C3%97_and_ScaleFX). 
+
+Scale pixel art 2x, 3x, 4x, 6x, 8x. 
 
 ```javascript
 var upscale = require('pixel-scale-epx');
@@ -9,8 +12,11 @@ var pixelsData = [r,g,b,a,  r,g,b,a, ... ]; //rgba array 0...255
 var width = 256, height = 256; //dimensions of original img
 var use8BitColors = false; //if true, ignore lower 8 bits of color channels 
 var D2x = upscale.upscaleRgba2x(pixelsData,width,height,use8BitColors); //2x bigger
-var D4x = upscale.upscaleRgba4x(pixelsData,width,height,use8BitColors); //4x bigger
-var D8x = upscale.upscaleRgba8x(pixelsData,width,height,use8BitColors); //8x bigger
+var D3x = upscale.upscaleRgba3x(pixelsData,width,height,use8BitColors); //3x bigger
+var D4x = upscale.upscaleRgba4x(pixelsData,width,height,use8BitColors); //4x bigger [applies 2x op twice]
+var D6x = upscale.upscaleRgba6x(pixelsData,width,height,use8BitColors); //6x bigger [applies 2x op then 3x op]
+var D8x = upscale.upscaleRgba8x(pixelsData,width,height,use8BitColors); //8x bigger [applies 2x op thrice]
+
 //format of output is same as input [r,g,b,a ...]
 ```
 
