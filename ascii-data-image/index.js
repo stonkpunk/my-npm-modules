@@ -1,6 +1,7 @@
 var chalk = require('chalk');
 var grayScaleStr = ' .:-=+*#%@'; //http://paulbourke.net/dataformats/asciiart/
 
+
 function data2Img(pixelDataArrs, options){
     var simpleAsciiMode = (options || {}).simpleAsciiMode;
     var resolution = {x:pixelDataArrs[0].length, y:pixelDataArrs.length};

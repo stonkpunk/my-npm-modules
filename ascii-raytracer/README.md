@@ -4,7 +4,7 @@ Explore infinite 3d worlds from the comfort of your terminal!
 
 Simple utility takes a signed distance function and lets you explore it with realtime raytracing (marching spheres) or alternatively by using a user-provided raytracing function. No GPU needed! 
 
-![blob world](https://i.imgur.com/Ok0CE7M.gif)
+[![blob world](https://i.imgur.com/Ok0CE7M.gif)](https://www.youtube.com/watch?v=kh4cRvTnPO8)
 
 ## Why?
 
@@ -39,7 +39,11 @@ npm i ascii-raytracer
 
 - C/X - change camera mode 
 
-- V - Toggle anti-aliasing (runs 4x slower)
+- H - Toggle fast anti-aliasing ([EPX](https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms#EPX/Scale2%C3%97/AdvMAME2%C3%97) + anti-aliasing simultaneous)
+
+- V - Toggle naive anti-aliasing (2x render size, runs 4x slower)
+
+- U - Toggle [EPX](https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms#EPX/Scale2%C3%97/AdvMAME2%C3%97) Upscaling (1/2 render size + 2x upscale)
 
 - P - Take screenshot (saves PNG with 4x resolution)
 

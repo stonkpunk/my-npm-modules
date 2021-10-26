@@ -131,6 +131,8 @@ btc: `bc1qr2taxcwnyr28f7xnqv4r86zjrcv83qg5grhu48`
 
 ## See Also
 
+
+- [ascii-raytracer](https://www.npmjs.com/package/ascii-raytracer) - explore 3d worlds in your terminal
 - [glsl-imager](https://www.npmjs.com/package/glsl-imager) - uses `ascii-data-image` for rendering to terminal
 
 

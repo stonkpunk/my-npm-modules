@@ -1,6 +1,6 @@
 {
   "name": "ascii-raytracer",
-  "version": "0.0.124",
+  "version": "0.0.133",
   "description": "Explore infinite 3d worlds from the comfort of your terminal",
   "main": "index.js",
   "scripts": {
@@ -18,20 +18,19 @@
     "sdf",
     "benchmark",
     "texture",
-    "cat"
+    "cat",
+    "epx"
   ],
   "author": "bonsai3d",
   "license": "MIT",
   "dependencies": {
     "bvh-tree-plus": "^1.0.2",
     "fast-png": "^6.1.0",
-    "maze": "^0.1.0",
-    "maze-generator": "^0.1.2",
-    "merge-boxes": "0.0.1",
+    "jsonfile": "^6.1.0",
+    "noisejs": "^2.1.0",
     "ray-triangle-intersection": "^1.0.3",
     "rbush-3d": "0.0.4",
     "readimage": "^1.1.1",
-    "stl": "^1.1.1",
     "triangle-distance": "^1.0.11"
   },
   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/ascii-raytracer"
