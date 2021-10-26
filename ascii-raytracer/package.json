@@ -1,6 +1,6 @@
 {
   "name": "ascii-raytracer",
-  "version": "0.0.138",
+  "version": "0.0.139",
   "description": "Explore infinite 3d worlds from the comfort of your terminal",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,9 @@
     "texture",
     "cat",
     "epx",
-    "stl"
+    "stl",
+    "viewer",
+    "view"
   ],
   "author": "bonsai3d",
   "license": "MIT",
