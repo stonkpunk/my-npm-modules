@@ -78,6 +78,8 @@ var dfPerlin3D = noise.perlin3;
 //}
 
 const path = require("path");
+const stl = require("stl");
+const fs = require("fs");
 
 
 //var SCENE_DF = dfSphere(0,0,0,5);
@@ -177,7 +179,8 @@ var dfMaze = function(x,y,z){
 
 var dfMazeTrace = dfSectorsTrace;
 
-var meshTris = trisSwapZY(jf.readFileSync(path.resolve(__dirname, './Bitey_Reconstructed_rotated_5k_2digit.json')));
+//var meshTris = trisSwapZY(jf.readFileSync(path.resolve(__dirname, './Bitey_Reconstructed_rotated_5k_2digit.json')));
+var meshTris = stl.toObject(fs.readFileSync(path.resolve(__dirname, "Bitey_Reconstructed_5k.stl"))).facets.map(function(f){return f.verts})
 
 function ptSwapZY(p){
     return [p[0],p[2],p[1]];

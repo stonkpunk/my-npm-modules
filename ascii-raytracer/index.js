@@ -1,5 +1,6 @@
 
-var scale2x = require('./upscale-rgba-2x.js');
+var scale2x = require('pixel-scale-epx');
+var path = require('path');
 
 var DO_ANTI_ALIAS = false;
 var DO_SCALE_UP=false; //upscale 2x
@@ -14,7 +15,8 @@ var raycasting_height = 1;
 var t0=Date.now();
 var adi = require('ascii-data-image');
 var dfu = require('./distance-function-utils.js');
-
+var ru  = require('./raytrace-utils.js');
+var stl = require('stl');
 
 var dataRgb_normal = adi.generateRandomImgData_rgb({x:raycasting_width,y:raycasting_height});
 var dataRgb_color = adi.generateRandomImgData_rgb({x:raycasting_width,y:raycasting_height});
@@ -212,6 +214,8 @@ var lastIntDist = 9999;
 
 
 var _noise = require('noisejs');
+const fs = require("fs");
+
 var noise = new _noise.Noise();
 
 //console.log(noise);
@@ -381,6 +385,19 @@ var CAMERA_MODE = 1000000;
 module.exports.distanceFunctions = require('./distance-function-examples.js');
 
 module.exports.runScene = function(config){
+
+    if(config.triangles){
+        config.distanceFunction = dfu.trianglesDistFast(config.triangles, 0.10)
+        config.raytraceFunction = ru.trianglesTraceFast(config.triangles, 10.0);
+    }else if(config.boxes || config.bricks || config.blocks){
+        var boxes = config.boxes || config.bricks || config.blocks;
+        config.distanceFunction = dfu.sectorsDistFast(boxes,10.00);
+        config.raytraceFunction = ru.sectorsTraceFast(boxes,10.00);
+    }else if(config.stl){
+        var triangles = stl.toObject(fs.readFileSync(config.stl)).facets.map(function(f){return f.verts});
+        config.distanceFunction = dfu.trianglesDistFast(triangles, 0.10)
+        config.raytraceFunction = ru.trianglesTraceFast(triangles, 10.0);
+    }
 
     var SCENE_DF = config.distanceFunction;//, _RES=64, _ASPECT=1.0, _RAYTRACE_FUNC
     var _RES = config.resolution || 64;
@@ -730,7 +747,7 @@ function animate(){
             height: _h,
             data: dataSet
         });
-        require('fs').writeFileSync(`./screenshot_${Date.now()}.png`,fileData);
+        require('fs').writeFileSync(path.resolve(config.screenShotDir || "./", `screenshot_${Date.now()}.png`),fileData);
 
         TAKING_SCREENSHOT=false;
         updateRES();

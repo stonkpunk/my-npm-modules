@@ -14,12 +14,15 @@ For retro fun, to experiment with distance functions / 3d algorithms / ray-traci
 
 - [Installation](#installation)
 - [Controls](#controls)
-- [Simple Example - Blob World](#simple-example---blob-world)
-- [With Custom Raytracer - Maze](#with-custom-raytracer---maze)
-- [Polygon Mesh with Bounding Volume Hierarchy](#polygon-mesh-with-bounding-volume-hierarchy)
+- [Example - Blob World](#example---blob-world)
+- [Example - Custom Raytracer - Maze](#example---custom-raytracer---maze)
+- [Example - View STL file](#example---polygon-mesh-with-bounding-volume-hierarchy)
+- [Build a scene from boxes](#build-a-scene-from-boxes)
+- [Build a scene from triangles](#build-a-scene-from-triangles)
 - [UV Texture Mapping](#uv-texture-mapping)
 - [3D Texture Mapping](#3d-texture-mapping)
 - [Taking high-res screenshots](#taking-high-res-screenshots)
+- [See Also](#see-also)
 
 ## Installation
 
@@ -49,7 +52,9 @@ npm i ascii-raytracer
 
 - Hold shift to move/rotate faster 
 
-## Simple Example - Blob World
+## Example - Blob World
+
+Simplest pre-built example, using only a distance function.
 
 ```javascript
 //here just a distance function - raytracing is done with marching spheres
@@ -71,7 +76,15 @@ art.runScene(config);
 ![blob world](https://i.imgur.com/GvLQZtV.png)
 ![blob world](https://i.imgur.com/xL7RjdO.png)
 
-## With Custom Raytracer - Maze
+## Example - Custom Raytracer - Maze
+
+It's usually a good idea to use a custom raytracing / raycasting function if you can organize your scene with an efficent data structure.
+
+This pre-built example renders a maze which internally is stored in an R-Tree.
+
+Note - the scene will still render if `raytraceFunction` is removed, but may be very slow!
+
+You can also build scenes using just a list of boxes (see [below](#build-a-scene-from-boxes)).
 
 ```javascript
 //here we additionally include a custom raytracing function [much faster than naive marching spheres]
@@ -99,25 +112,97 @@ art.runScene(config);
 ![maze](https://i.imgur.com/wJLHP5m.png)
 ![maze](https://i.imgur.com/YaRuimz.png)
 
-## Polygon Mesh with Bounding Volume Hierarchy
+## View STL file
+
+By specifying `stl` in the config, the program will automatically produce a distance function and raycaster for your STL model.
+
+You can also build scenes using just a list of triangles (see [below](#build-a-scene-from-triangles)).
 
 ```javascript
 //example with polygon mesh, 5000 triangles
-//raytracer uses bounding volume hierarchy 
+//raycaster uses bounding volume hierarchy 
 
 var art = require('ascii-raytracer');
 
 var config = {
-    distanceFunction: art.distanceFunctions.dfSkull,
-    raytraceFunction: art.distanceFunctions.dfSkullTrace,
-    resolution: 64,
-    aspectRatio: 1.0
+    stl: "./Bitey_Reconstructed_5k.stl"
 }
 
 art.runScene(config);
 ```
 ![skull](https://i.imgur.com/DeIc8qd.png)
 ![screenshot](https://i.imgur.com/eZrUu7P.png)
+
+## Build a scene from boxes
+
+Instead of dealing with distance functions, you can specify your scene with a list of axis-aligned bounding boxes. 
+
+The program will automatically create an appropriate distance function+raycaster.
+
+In this example we create a bunch of random boxes and render them. 
+
+```javascript
+var art = require('ascii-raytracer');
+
+//format of box: [lower-point-3d, upper-point-3d]
+
+var randomBox3d = function(){
+    var range = 32;
+    var boxSizeMax = 8;
+    var p0 = [Math.random()*range,Math.random()*range,Math.random()*range];
+    var p1 = [p0[0]+Math.random()*boxSizeMax,p0[1]+Math.random()*boxSizeMax,p0[2]+Math.random()*boxSizeMax];
+    return [p0,p1];
+}
+
+var randomBoxes = [];
+for(var i=0; i<100; i++){
+    randomBoxes.push(randomBox3d());
+}
+
+var config = {
+    boxes: randomBoxes, //or bricks, or blocks
+    resolution: 64,
+    aspectRatio: 1.0
+}
+
+art.runScene(config);
+```
+![boxes](https://i.imgur.com/EQUvrsF.png)
+
+## Build a scene from triangles
+
+Instead of dealing with distance functions, you can specify your scene with a list of triangles. 
+
+The program will automatically create an appropriate distance function+raycaster.
+
+In this example we create a bunch of random triangles and render them. 
+
+```javascript
+var art = require('ascii-raytracer');
+
+var randomPoint3d = function(){
+    var S = 32;
+    return [Math.random()*S,Math.random()*S,Math.random()*S];
+}
+
+var randomTriangles = [];
+
+for(var i=0; i<100; i++){
+    var randomTri = [ randomPoint3d(), randomPoint3d(), randomPoint3d() ];
+    randomTriangles.push(randomTri);
+}
+
+var config = {
+    triangles: randomTriangles,
+    resolution: 64,
+    aspectRatio: 1.0
+}
+
+art.runScene(config);
+```
+
+![triangles](https://i.imgur.com/ukBi9W2.png)
+
 
 ## UV Texture Mapping
 
@@ -215,10 +300,16 @@ var config = {
     raytraceFunction: art.distanceFunctions.dfSkullTrace,
     resolution: 64,
     aspectRatio: 1.0,
-    screenShotScaleUp: 8 //default is 4 
+    screenShotScaleUp: 8, //default is 4 
+    screenShotDir: '/Users/user/Desktop/' //default is ./
 }
 
 art.runScene(config);
 ```
 
 ![screenshot](https://i.imgur.com/kEmFe93.png)
+
+## See Also
+- [ascii-data-image](https://www.npmjs.com/package/ascii-data-image) - render data to ascii
+- [pixel-scale-epx](https://www.npmjs.com/package/pixel-scale-epx) - EPX scaling
+- [glsl-imager](https://www.npmjs.com/package/glsl-imager) - render GLSL in terminal

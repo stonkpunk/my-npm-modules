@@ -56,4 +56,7 @@ readimage(filedata, function (err, image) {
 ![8x](https://i.imgur.com/82z25wd.png)
 *enlarged 8x*
 
+## See Also
+
+- [ascii-raytracer](https://www.npmjs.com/package/ascii-raytracer) - uses `pixel-scale-epx`
 

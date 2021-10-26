@@ -1,6 +1,6 @@
 {
   "name": "pixel-scale-epx",
-  "version": "0.0.115",
+  "version": "0.0.116",
   "description": "EPX / Scale2x / AdvMAME2x pixel art scaling algorithm (Eric's Pixel Expansion). 2x, 4x, 8x. Works on flat RGBA data.",
   "main": "index.js",
   "scripts": {

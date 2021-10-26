@@ -5,7 +5,8 @@ var config = {
     raytraceFunction: art.distanceFunctions.dfSkullTrace,
     resolution: 64,
     aspectRatio: 1.0,
-    screenShotScaleUp: 8
+    screenShotScaleUp: 8,
+    screenShotDir: '',//'/Users/user/Desktop/'
 }
 
 art.runScene(config);
