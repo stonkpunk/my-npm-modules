@@ -399,6 +399,8 @@ module.exports.runScene = function(config){
         config.raytraceFunction = ru.trianglesTraceFast(triangles, 10.0);
     }
 
+
+
     var SCENE_DF = config.distanceFunction;//, _RES=64, _ASPECT=1.0, _RAYTRACE_FUNC
     var _RES = config.resolution || 64;
     var _ASPECT = config.aspectRatio || 1.0;
@@ -439,6 +441,18 @@ var cameraList = pts.map(function(pt){
 });
 
 scene.camera = cameraList[0];
+
+if(config.cameraPos){
+    scene.camera.point.x = config.cameraPos[0];
+    scene.camera.point.y = config.cameraPos[1];
+    scene.camera.point.z = config.cameraPos[2];
+}
+
+if(config.cameraRot){
+    cameraPhi = config.cameraRot[0];
+    cameraTheta = config.cameraRot[1];
+}
+
 updateCameraAngle();
 
 function bwArr2Rgba(bwArr,h,w){

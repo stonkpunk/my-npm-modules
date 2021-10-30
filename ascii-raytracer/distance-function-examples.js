@@ -81,14 +81,59 @@ const path = require("path");
 const stl = require("stl");
 const fs = require("fs");
 
+const {SimplexNoise} = require('simplex-noise');
+const simplex = new SimplexNoise(1004);
+//var osn = require('open-simplex-noise');
+//var noise3d = osn.makeNoise3D(Date.now());
+
+//makeNoise3D (seed: number) => Noise3D
 
 //var SCENE_DF = dfSphere(0,0,0,5);
 var dfBlobWorld = function(x,y,z){
     var s = 5.0
     var t = Date.now()/5000;
-    return noise.perlin3(x/s+t,y/s,z/s)+0.5; //blobs world
+
+    return simplex.noise3D(x/s+t,y/s,z/s)+0.5; //~2x faster than perlin
+    //return noise3d(x/s+t,y/s,z/s)+0.5 //open simplex noise, ~2x slower than perlin
+    //return noise.perlin3(x/s+t,y/s,z/s)+0.5; //blobs world, perlin noise
+
     //return Math.max(dfSphere(0,0,0,7)(x,y,z), noise.perlin3(x/s+t,y/s,z/s)+0.75) //lava lamp
     //return Math.max(dfSphere(0,0,0,7)(x,y,z), noise.perlin3(x/s,y/s,z/s)) //planet
+}
+
+var dfCloudWorld = function(x,y,z){
+    var s = 5.0
+    var t = Date.now()/5000;
+
+    return (simplex.noise4D(x/s*4,y/s*4,z/s*4,t)/4+simplex.noise4D(x/s,y/s,z/s,t))/1.0+0.5;
+}
+
+var dfHillsWorld = function(x,y,z){
+    var s = 5.0
+    var t = Date.now()/5000;
+
+    //return simplex.noise3D(x/s,y/s,z/s) + y*0.25
+    return simplex.noise2D(x/s,z/s)+y*0.25 ;
+}
+
+var dfHillsWorldOctaves = function(x,y,z){
+    var s = 5.0
+    //var t = Date.now()/5000;
+
+    //return simplex.noise3D(x/s,y/s,z/s) + y*0.25
+
+    if(y<=0){return y;}else if(y>4){return 9999;}
+
+    var hills = (
+        //simplex.noise2D(x/s*32,z/s*32)/32.0
+        //+simplex.noise2D(x/s*16,z/s*16)/16.0
+        +simplex.noise2D(x/s*8,z/s*8)/8.0
+        +simplex.noise2D(x/s*4,z/s*4)/4.0
+        +simplex.noise2D(x/s*2,z/s*2)/2.0
+        +simplex.noise2D(x/s,z/s)
+        +simplex.noise2D(x/s/2,z/s/2))/4+y*0.25 ;
+    var water = y;
+    return Math.min(hills,water);
 }
 
 var dfPlanet = function(x,y,z){
@@ -257,4 +302,4 @@ var dfSkullTrace = ru.trianglesTraceFast(meshTris);
 //
 //
 
-module.exports = {dfSphere, dfPerlin3D, dfBlobWorld, dfPlanet, dfLavaLamp, dfSkullTrace, dfSkull, dfMaze, dfMazeTrace};
+module.exports = {dfSphere, dfPerlin3D, dfBlobWorld, dfPlanet, dfLavaLamp, dfSkullTrace, dfSkull, dfMaze, dfMazeTrace, dfHillsWorld, dfHillsWorldOctaves, dfCloudWorld};
