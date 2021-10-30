@@ -116,6 +116,25 @@ var dfHillsWorld = function(x,y,z){
     return simplex.noise2D(x/s,z/s)+y*0.25 ;
 }
 
+var dfCanyon = function(x,y,z){
+    var s = 5.0
+    //if(y<=0){return y;}else if(y>4){return 9999;}
+
+    var blobs2d = simplex.noise2D(x/s,z/s)+0.5;
+    var blobs2dBig = simplex.noise2D(x/s/2,z/s/2)+0.5;
+    var blobs = Math.min(blobs2d,blobs2dBig);
+
+    // if(blobs<0.1){
+    //     var holes = simplex.noise3D(x/s*2,y/s, z/s*2)+0.25
+    //     blobs = Math.max(blobs,-holes);
+    // }
+
+    var floor = y+5 + blobs*3;
+    var floor2 = Math.min(y+7, floor);
+
+    return Math.min(floor2,Math.max(y+2,blobs)) ;
+}
+
 var dfHillsWorldOctaves = function(x,y,z){
     var s = 5.0
     //var t = Date.now()/5000;
@@ -302,4 +321,4 @@ var dfSkullTrace = ru.trianglesTraceFast(meshTris);
 //
 //
 
-module.exports = {dfSphere, dfPerlin3D, dfBlobWorld, dfPlanet, dfLavaLamp, dfSkullTrace, dfSkull, dfMaze, dfMazeTrace, dfHillsWorld, dfHillsWorldOctaves, dfCloudWorld};
+module.exports = {dfCanyon,dfSphere, dfPerlin3D, dfBlobWorld, dfPlanet, dfLavaLamp, dfSkullTrace, dfSkull, dfMaze, dfMazeTrace, dfHillsWorld, dfHillsWorldOctaves, dfCloudWorld};
