@@ -246,6 +246,8 @@ function sectorsMergeFull_coordBuckets_aspectLimited(sectors, aspectLimit){
     sectors.forEach(function(s){
         delete s.noMoreMerges;
     });
+
+    return sectors;
 }
 
 module.exports.mergeBoxes = sectorsMergeFull_coordBuckets_aspectLimited;
