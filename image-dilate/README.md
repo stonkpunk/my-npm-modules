@@ -17,28 +17,18 @@ Here we load pixel data from a PNG file, dilate it a few pixels, then save the r
 See results below.
 
 ```javascript
-var fs = require("fs")
-var png = require('fast-png');
-var readimage = require("readimage")
-
 var dilate = require('image-dilate');
-var filedata = fs.readFileSync("./dilate.png");
+var img = require('image-sync').read('./dilate.png'); //{width, height, data, saveAs}
 
-readimage(filedata, function (err, image) {
-    var w = image.width;
-    var h = image.height;
-    var d = image.frames[0].data; //format [r,g,b,a, r,g,b,a ... ] in range 0...255
+//img.data has format [r,g,b,a, r,g,b,a ... ]
 
-    var rad = 2; //dilate 2 pixels
-    var bgColor = [0,0,0]; //background color [r,g,b] in range 0...255 [background is not dilated]
-    var dilated = dilate.dilateColors(d,h,w,bgColor,rad); //data is dilated in-place
+//dilate the image
+var radius = 16;
+var bgColor = [0,0,0]; //background color [r,g,b] in range 0...255 [background is not dilated]
+img.data = dilate.dilateColors(img.data,img.height,img.width,bgColor,radius);
 
-    //save result
-    var fileData = png.encode({width: w, height: h, data: dilated});
-    fs.writeFileSync(`./test_out_rad${rad}.png`, fileData);
-
-    //for large radius, end result is similar to voronoi diagram [with manhattan distance (?) because of rectangular kernel]
-});
+//save the result
+img.saveAs(`./output.png`);
 ```
 
 Results [enlarged 2x]
@@ -53,11 +43,12 @@ Results [enlarged 2x]
 
 ![dilated 8px](https://i.imgur.com/uZD1xG9.png) *dilated 8px*
 
-![dilated 32px](https://i.imgur.com/96fnfSK.png) *dilated 8px*
+![dilated 32px](https://i.imgur.com/96fnfSK.png) *dilated 32px*
 
 ## See Also
 
 - [image-blur-gaussian](https://www.npmjs.com/package/image-blur-gaussian) - fast gaussian blur  
+- [image-sync](https://www.npmjs.com/package/image-sync) - synchronous image reader/writer
 
 
 

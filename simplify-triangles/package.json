@@ -1,6 +1,6 @@
 {
   "name": "simplify-triangles",
-  "version": "0.0.012",
+  "version": "0.0.014",
   "description": "quadratic error mesh decimation. simplified interface for npm mesh-simplifier - use simple triangles instead of Three.js geometry.",
   "main": "index.js",
   "scripts": {

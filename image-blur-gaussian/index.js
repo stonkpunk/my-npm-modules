@@ -68,18 +68,18 @@ function splitDataTextureIntoChannelArrays(dt,w,h){
     return [arrR, arrG, arrB, arrA];
 }
 
-function blurTexture(dt,w,h,blurRadius){
+function blurImage(dt,w,h,blurRadius){
     var dtChannelsOld = splitDataTextureIntoChannelArrays(dt,w,h);
     var dtChannelsBlurred = splitDataTextureIntoChannelArrays(dt,w,h);
-    gaussBlur_4(dtChannelsOld[0], dtChannelsBlurred[0],w,h,blurRadius);
-    gaussBlur_4(dtChannelsOld[1], dtChannelsBlurred[1],w,h,blurRadius);
-    gaussBlur_4(dtChannelsOld[2], dtChannelsBlurred[2],w,h,blurRadius);
+    var bxs = boxesForGauss(blurRadius, 3);
+    gaussBlur_4(dtChannelsOld[0], dtChannelsBlurred[0],w,h,blurRadius,bxs);
+    gaussBlur_4(dtChannelsOld[1], dtChannelsBlurred[1],w,h,blurRadius,bxs);
+    gaussBlur_4(dtChannelsOld[2], dtChannelsBlurred[2],w,h,blurRadius,bxs);
     updateDataTextureFromChannelArrs(dt,w,h,dtChannelsBlurred[0],dtChannelsBlurred[1],dtChannelsBlurred[2],dtChannelsBlurred[3]);
     return dt;
 }
 
-function gaussBlur_4 (scl, tcl, w, h, r) {
-    var bxs = boxesForGauss(r, 3);
+function gaussBlur_4 (scl, tcl, w, h, r,bxs) {
     boxBlur_4 (scl, tcl, w, h, (bxs[0]-1)/2);
     boxBlur_4 (tcl, scl, w, h, (bxs[1]-1)/2);
     boxBlur_4 (scl, tcl, w, h, (bxs[2]-1)/2);
@@ -128,4 +128,4 @@ function boxesForGauss(sigma, n){  // standard deviation, number of boxes
     return sizes;
 }
 
-module.exports = {blurTexture};
+module.exports = {blurImage};

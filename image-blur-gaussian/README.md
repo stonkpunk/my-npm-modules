@@ -1,6 +1,6 @@
 # image-blur-gaussian
 
-very fast gaussian image blur functions by [Ivan Kutskir](http://blog.ivank.net/fastest-gaussian-blur.html) and [Wojciech Jarosz](http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf).
+very fast gaussian image blur functions originally by [Ivan Kutskir](http://blog.ivank.net/fastest-gaussian-blur.html) and [Wojciech Jarosz](http://elynxsdk.free.fr/ext-docs/Blur/Fast_box_blur.pdf).
 
 works with `[r,g,b,a ... ]` data array.
 
@@ -9,35 +9,27 @@ for best results, use images with power-of-2 dimensions.
 ## Installation
 
 ```sh
-npm i image-blur
+npm i image-blur-gaussian
 ```
 
 ## Usage 
 
-Here we load pixel data from a PNG file, blur it a few pixels, then save the result. 
+Here we load pixel data from a PNG file, blur it, then save the result. 
 
 See results below.
 
 ```javascript
-var fs = require("fs")
-var png = require('fast-png');
-var readimage = require("readimage")
+var blur = require('image-blur-gaussian');
+var img = require('image-sync').read('./cat.png'); //{width, height, data, saveAs}
 
-var blur = require('image-blur');
-var filedata = fs.readFileSync("./cat.png");
+//img.data has format [r,g,b,a, r,g,b,a ... ]
 
-readimage(filedata, function (err, image) {
-    var w = image.width; //should be power of 2
-    var h = image.height;
-    var d = image.frames[0].data; //format [r,g,b,a, r,g,b,a ... ] in range 0...255
+//blur the image
+var radius = 16;
+img.data = blur.blurImage(img.data,img.height,img.width,radius);
 
-    var rad = 8; //blur 8 pixel radius
-    var blurred = blur.blurTexture(d,h,w,rad); //data is dilated in-place
-
-    //save result
-    var fileData = png.encode({width: w, height: h, data: blurred});
-    fs.writeFileSync(`./test_out_rad${rad}.png`, fileData);
-});
+//save the result
+img.saveAs(`./output.png`); 
 ```
 
 ![original](https://i.imgur.com/6swcKzf.png) *original*
@@ -52,5 +44,6 @@ readimage(filedata, function (err, image) {
 ## See Also
 
 - [image-dilate](https://www.npmjs.com/package/image-dilate) - dilate image pixels by color
+- [image-sync](https://www.npmjs.com/package/image-sync) - synchronous image reader/writer
 
 

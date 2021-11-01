@@ -1,0 +1,17 @@
+{
+  "name": "image-sync",
+  "version": "0.0.01",
+  "description": "synchronously read, modify, and save PNG and JPG image data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "image","pixels","rgba","png","jpg","jpeg","sync"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/image-sync"
+}

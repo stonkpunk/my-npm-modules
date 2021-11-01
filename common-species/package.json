@@ -1,0 +1,26 @@
+{
+  "name": "common-species",
+  "version": "0.0.1",
+  "description": "smaller alternative to all-the-species. information about 80,149 species with common names, icons and categories for species. animals, plants, bacteria, etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "animals",
+    "species",
+    "zoology",
+    "ecology",
+    "ecofactbook",
+    "dataset",
+    "common names",
+    "plants",
+    "nature",
+    "icons"
+  ],
+  "author": "ecofactbook",
+  "license": "CC-BY-4.0",
+  "dependencies": {
+    "jsonfile-compressed": "0.0.11"
+  }
+}
