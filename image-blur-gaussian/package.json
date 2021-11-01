@@ -1,0 +1,17 @@
+{
+  "name": "image-blur-gaussian",
+  "version": "0.0.01",
+  "description": "very fast gaussian image blur functions by Ivan Kutskir and Wojciech Jarosz",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "image","blur","gaussian","rgba"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0-1.0",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/image-blur-gaussian"
+}

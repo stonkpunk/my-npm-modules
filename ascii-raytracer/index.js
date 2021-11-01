@@ -24,6 +24,13 @@ var dataBw_depth = adi.generateRandomImgData({x:raycasting_width,y:raycasting_he
 var dataBw_ao = adi.generateRandomImgData({x:raycasting_width,y:raycasting_height});
 var dataBw_shadow = adi.generateRandomImgData({x:raycasting_width,y:raycasting_height});
 
+function pts2Boxes(pts){
+    var S = 0.5;
+    return pts.map(function(pt){
+        return [[pt[0]-S,pt[1]-S,pt[2]-S],[pt[0]+S,pt[1]+S,pt[2]+S]];
+    });
+}
+
 function updateRES(){
 
     raycasting_width = DO_SCALE_UP ? RES/2 : RES;
@@ -382,21 +389,32 @@ function reduceByHalf_rgb(data){ //reduce pixel data by half
 var scene = {};
 var CAMERA_MODE = 1000000;
 
+var cone2Triangles = require('./cones-to-triangles.js').cone2Triangles;
+
 module.exports.distanceFunctions = require('./distance-function-examples.js');
 
 module.exports.runScene = function(config){
 
-    if(config.triangles){
-        config.distanceFunction = dfu.trianglesDistFast(config.triangles, 0.10)
-        config.raytraceFunction = ru.trianglesTraceFast(config.triangles, 10.0);
-    }else if(config.boxes || config.bricks || config.blocks){
-        var boxes = config.boxes || config.bricks || config.blocks;
+    if(config.triangles || config.tris || config.lines){
+        if(config.lines){
+            var tris = [];
+            var r = 1;
+            config.lines.forEach(function(line){
+                 tris.push(...cone2Triangles({line: line, r0: r, r1: r},3))
+            })
+            config.triangles=tris;
+        }
+        var tris = config.triangles || config.tris;
+        config.distanceFunction = dfu.trianglesDistFast(tris, 0.10)
+        config.raytraceFunction = ru.trianglesTraceFast(tris, 10.0);
+    }else if(config.boxes || config.bricks || config.blocks || config.pts || config.points){
+        var boxes = config.boxes || config.bricks || config.blocks || pts2Boxes(config.pts || config.points);
         config.distanceFunction = dfu.sectorsDistFast(boxes,10.00);
         config.raytraceFunction = ru.sectorsTraceFast(boxes,10.00);
     }else if(config.stl){
         var triangles = stl.toObject(fs.readFileSync(config.stl)).facets.map(function(f){return f.verts});
         config.distanceFunction = dfu.trianglesDistFast(triangles, 0.10)
-        config.raytraceFunction = ru.trianglesTraceFast(triangles, 10.0);
+        config.raytraceFunction = ru.trianglesTraceFast(triangles);
     }
 
 
@@ -442,15 +460,18 @@ var cameraList = pts.map(function(pt){
 
 scene.camera = cameraList[0];
 
-if(config.cameraPos){
-    scene.camera.point.x = config.cameraPos[0];
-    scene.camera.point.y = config.cameraPos[1];
-    scene.camera.point.z = config.cameraPos[2];
+
+if(config.cameraPos || config.cameraPosition){
+    var pos = config.cameraPos || config.cameraPosition;
+    scene.camera.point.x = pos[0];
+    scene.camera.point.y = pos[1];
+    scene.camera.point.z = pos[2];
 }
 
-if(config.cameraRot){
-    cameraPhi = config.cameraRot[0];
-    cameraTheta = config.cameraRot[1];
+if(config.cameraRot || config.cameraRotation){
+    var rot = config.cameraRot || config.cameraRotation;
+    cameraPhi = rot[0];
+    cameraTheta = rot[1];
 }
 
 updateCameraAngle();
@@ -506,9 +527,11 @@ function render(scene) {
 
             ray.vector = Vector.unitVector(Vector.add3(eyeVector, xcomp, ycomp));
 
-            color = dfu.traceNormal(ray,SCENE_DF,SCENE_DF_NORMAL,_RAYTRACE_FUNC);
+            var normal = dfu.traceNormal(ray,SCENE_DF,SCENE_DF_NORMAL,_RAYTRACE_FUNC); //{x,y,z}
 
+            var color = normal;
 
+            //TODO un-rotate normal according to camera rotation
 
             var depth = dfu.getLastIntDist();//color.depth;//traceDepth(ray).x;
             var ao = 0.0;

@@ -22,6 +22,7 @@ For retro fun, to experiment with distance functions / 3d algorithms / ray-traci
 - [UV Texture Mapping](#uv-texture-mapping)
 - [3D Texture Mapping](#3d-texture-mapping)
 - [Taking high-res screenshots](#taking-high-res-screenshots)
+- [All Config Options](#all-config-options)
 - [See Also](#see-also)
 
 ## Installation
@@ -308,6 +309,29 @@ art.runScene(config);
 ```
 
 ![screenshot](https://i.imgur.com/kEmFe93.png)
+
+## All Config Options
+
+Note that the options `distanceFunction`,`triangles`, `boxes`, `lines`, `points`, `stl` are mutually exclusive - you should only declare one of these at a time.
+
+```javascript
+{
+    triangles: [], //list of tris [pt0,pt1,pt2]
+    boxes: [], //list of aabb's [minPt,maxPt]
+    lines: [], //list of line segments [startPt,endPt]
+    points: [], //list of pts [x,y,z] -- rendered as small cubes 
+    stl: "something.stl",
+    distanceFunction: myDistFunc,
+    raytraceFunction: myTraceFunc,
+    uvFunction: myUvFunction,
+    textureFunction: myTextureFunction,
+    cameraPos: [-17.96,8.02,14.72], //camera position [x,y,z]
+    cameraRot: [1.82,-0.40], //camera rotation, radians [phi, theta]
+    aspectRatio: 4/3,
+    screenShotScaleUp: 8, //default is 4 
+    screenShotDir: '/Users/user/Desktop/' //default is ./
+}
+```
 
 ## See Also
 - [ascii-data-image](https://www.npmjs.com/package/ascii-data-image) - render data to ascii

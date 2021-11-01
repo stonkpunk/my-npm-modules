@@ -1,0 +1,17 @@
+{
+  "name": "image-dilate",
+  "version": "0.0.011",
+  "description": "dilate / expand the pixels in a color image",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dilate","image","morphological","rgba","png"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/image-dilate"
+}

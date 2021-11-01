@@ -17,7 +17,7 @@ var randomCone3d = function(){
     }
 }
 
-var cone2Triangles = require('./cone-to-triangles.js').cone2Triangles;
+var cone2Triangles = require('./cones-to-triangles.js').cone2Triangles;
 
 var tris = [];
 for(var i=0; i<32; i++){

@@ -74,13 +74,13 @@ function lineDirection(line){
     return normalizePt(ptDiff(line[1],line[0]));
 }
 
-var cone2Triangles = function(cone){
+var cone2Triangles = function(cone, sides){
 
     var d = lineDirection(cone.line);
     var lineAxis0 = _crossProduct(nonParallelPt(d),d);
     var lineAxis1 = _crossProduct(lineAxis0,d);
 
-    var steps = 5;
+    var steps = sides || 5;
     var circlePts0p=[];
     var circlePts1p=[];
     for(var i=0;i<steps;i++){
@@ -127,4 +127,12 @@ function circlePtsPair2Triangles(circlePts0, circlePts1, origLine){
     return tris;
 }
 
-module.exports = {cone2Triangles};
+function cones2Triangles(cones){
+    var res = [];
+    cones.forEach(function(cone){
+        res.push(...cone2Triangles(cone));
+    });
+    return res;
+}
+
+module.exports = {cone2Triangles, cones2Triangles};

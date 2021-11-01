@@ -2,6 +2,7 @@
 var Vector = require('./Vector.js');
 
 var eps=0.0001;
+var eps2=0.0000000001;
 
 function clamp1(x){return x < 0.0 ? 0.0 : x > 1.0 ? 1.0 : x;} //see https://jsperf.com/clamp-functions/7
 
@@ -22,15 +23,16 @@ function fNormalUnitLinePtTurbo_alt(f1){
     //in turn from https://github.com/stackgl/glsl-sdf-normal -- mit license
 
     return function(x,y,z){
-        var dv1 = f1(x+eps,y-eps,z-eps);
-        var dv2 = f1(x-eps,y-eps,z+eps);
-        var dv3 = f1(x-eps,y+eps,z-eps);
-        var dv4 = f1(x+eps,y+eps,z+eps);
+        var dv1 = f1(x+eps,y-eps,z-eps);// + Math.random()*eps2;
+        var dv2 = f1(x-eps,y-eps,z+eps);// + Math.random()*eps2;
+        var dv3 = f1(x-eps,y+eps,z-eps);// + Math.random()*eps2;
+        var dv4 = f1(x+eps,y+eps,z+eps);// + Math.random()*eps2;
         var vecSum = [
-            dv1-dv2-dv3+dv4,
-            -dv1-dv2+dv3+dv4,
-            -dv1+dv2-dv3+dv4];
-        var dlen = Math.sqrt(vecSum[0]*vecSum[0]+vecSum[1]*vecSum[1]+vecSum[2]*vecSum[2]);
+            (dv1-dv2-dv3+dv4),//+ (Math.random()-0.5)*eps2,
+            (-dv1-dv2+dv3+dv4),//+ (Math.random()-0.5)*eps2,
+            (-dv1+dv2-dv3+dv4)//+ (Math.random()-0.5)*eps2
+        ];
+        var dlen = Math.sqrt(vecSum[0]*vecSum[0]+vecSum[1]*vecSum[1]+vecSum[2]*vecSum[2])+ 0.0000001;//Math.random()*eps2;
 
         return [vecSum[0]/dlen,vecSum[1]/dlen,vecSum[2]/dlen];
     };
