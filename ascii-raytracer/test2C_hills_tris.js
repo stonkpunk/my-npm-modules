@@ -11,7 +11,8 @@ var config = {
     triangles: tris,
     cameraPos: [-41.46,3.02,-3.93],
     cameraRot: [1.57,-0.90],
-    aspectRatio: 4/3
+    aspectRatio: 4/3,
+    mouseControl:true
 }
 
 

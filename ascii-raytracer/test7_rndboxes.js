@@ -16,7 +16,8 @@ for(var i=0; i<100; i++){
 var config = {
     boxes: randomBoxes, //or bricks, or blocks
     resolution: 64,
-    aspectRatio: 1.0
+    aspectRatio: 1.0,
+    mouseControl:true,
 }
 
 art.runScene(config);

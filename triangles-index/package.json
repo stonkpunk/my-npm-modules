@@ -1,0 +1,17 @@
+{
+  "name": "triangles-index",
+  "version": "0.0.003",
+  "description": "index a set of triangles into a set of positions/pts and cells. merge vertices fast.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangle","mesh","index","merge"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0-1.0",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangles-index"
+}

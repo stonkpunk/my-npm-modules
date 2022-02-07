@@ -14,7 +14,8 @@ for(var i=0; i<100; i++){
 var config = {
     pts: randomPts,
     resolution: 64,
-    aspectRatio: 1.0
+    aspectRatio: 1.0,
+    mouseControl:true,
 }
 
 art.runScene(config);

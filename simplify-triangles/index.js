@@ -29,13 +29,31 @@ function geom2Tris(geom){
     });
 }
 
-function simplify(tris, percent, verbose){
+function simplifyThreeGeom(geometry, percent, verbose, aggressiveness=7){
+    //const geometry = tris2Geom(tris);//new THREE.TorusKnotGeometry(10); //tris2Geom(tris);//.toBufferGeometry();//
+    const adaptedGeometry = new ThreeGeometry(geometry);
+    const simplifier = new FastQuadric(
+        {
+            targetPercentage: percent,
+            aggressiveness: aggressiveness
+        }); //lower agg = more accurate, slower? [not sure - lower numbers = more verts]
+
+    simplifier.simplify(adaptedGeometry);
+
+    if(verbose){
+        console.log(geometry.faces.length, adaptedGeometry.originalGeometry.faces.length)
+    }
+
+    return adaptedGeometry.originalGeometry;
+}
+
+function simplify(tris, percent, verbose, aggressiveness=7){
     const geometry = tris2Geom(tris);//new THREE.TorusKnotGeometry(10); //tris2Geom(tris);//.toBufferGeometry();//
     const adaptedGeometry = new ThreeGeometry(geometry);
     const simplifier = new FastQuadric(
         {
             targetPercentage: percent,
-            aggressiveness: 7
+            aggressiveness: aggressiveness
         }); //lower agg = more accurate, slower? [not sure - lower numbers = more verts]
 
     simplifier.simplify(adaptedGeometry);
@@ -47,4 +65,4 @@ function simplify(tris, percent, verbose){
     return geom2Tris(adaptedGeometry);
 }
 
-module.exports = {simplify};
+module.exports = {simplify, simplifyThreeGeom};

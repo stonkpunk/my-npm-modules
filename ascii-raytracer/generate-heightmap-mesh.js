@@ -1,4 +1,4 @@
-function generateHeightmapMeshXZ(resolution=64, boundingBox, distanceFunction, yCoordinate=0.0){
+function generateHeightmapMeshXZ(resolution=64, boundingBox, distanceFunction, yCoordinate=0.0,df_scale=20.0,df_scaleY=1.0){
     var res = resolution;
     var df = distanceFunction;
     var bb = boundingBox;
@@ -25,10 +25,10 @@ function generateHeightmapMeshXZ(resolution=64, boundingBox, distanceFunction, y
             //  | 0 \ |
             // p2----p3
 
-            var p0v = df(x,sy,z);
-            var p1v = df(x+xStep,sy,z);
-            var p2v = df(x,sy,z+zStep);
-            var p3v = df(x+xStep,sy,z+zStep);
+            var p0v = df(x,sy,z,df_scale)*df_scaleY;
+            var p1v = df(x+xStep,sy,z,df_scale)*df_scaleY;
+            var p2v = df(x,sy,z+zStep,df_scale)*df_scaleY;
+            var p3v = df(x+xStep,sy,z+zStep,df_scale)*df_scaleY;
 
             var p0 = [x,p0v,z];
             var p1 = [x+xStep,p1v,z];

@@ -135,19 +135,21 @@ var dfCanyon = function(x,y,z){
     return Math.min(floor2,Math.max(y+2,blobs)) ;
 }
 
-var dfHillsWorld2D = function(x, y, z){ //hillsworldoctaves2d
-        var s = 10.0
-    var hills =
-        //simplex.noise2D(x/s*32,z/s*32)/32.0
-        //+simplex.noise2D(x/s*16,z/s*16)/16.0
-        // +simplex.noise2D(x/s*8,z/s*8)/8.0
-        // +simplex.noise2D(x/s*4,z/s*4)/4.0
-        // +simplex.noise2D(x/s*2,z/s*2)/2.0
-        +simplex.noise2D(x/s,z/s)*5;
-        //+simplex.noise2D(x/s/2,z/s/2)) * 2 ;
-        var water = 0;
-    return hills > water ? hills : water+ (Math.random())*0.00001 ;//+ Math.random()*0.001;
+var dfHillsWorld2D = function(x, y, z, _s=20.0){ //hillsworldoctaves2d
+        var s = _s
+    var hills =(
+         simplex.noise2D(x/s*32,z/s*32)/32.0
+         +simplex.noise2D(x/s*16,z/s*16)/16.0
+          +simplex.noise2D(x/s*8,z/s*8)/8.0
+          +simplex.noise2D(x/s*4,z/s*4)/4.0
+        +simplex.noise2D(x/s*2,z/s*2)/2.0
+        +simplex.noise2D(x/s,z/s)*1
+        +simplex.noise2D(x/s/2,z/s/2))  ;
+        var water = -0.5; //0
+    return hills > water ? hills*2 : water+ (Math.random())*0.00001 ;//+ Math.random()*0.001;
 }
+
+
 
 var dfHillsWorldOctaves = function(x,y,z){
     var s = 5.0

@@ -16,6 +16,7 @@ var t0=Date.now();
 var adi = require('ascii-data-image');
 var dfu = require('./distance-function-utils.js');
 var ru  = require('./raytrace-utils.js');
+var lu = require('./lines-utils.js')
 var stl = require('stl');
 
 var dataRgb_normal = adi.generateRandomImgData_rgb({x:raycasting_width,y:raycasting_height});
@@ -68,6 +69,9 @@ var Vector = require('./Vector.js');
 
 var cameraPhi=1.87;//Math.PI/2;
 var cameraTheta=-2.55;//-Math.PI;
+var cameraPhiOrig = cameraPhi;
+var cameraThetaOrig = cameraTheta;
+var mouseOrig = {x: 0,y:0}
 
 function anglesToCartesian(r,theta,phi){
     //console.log(cameraTheta/Math.PI*180);
@@ -209,6 +213,10 @@ process.stdin.on('keypress', (str, key) => {
               //cameraPhi-=t;
               CAMERA_MODE++;
           }
+          // if (key.name === 'm') {
+          //     MOUSE_CONTROL_ENABLED=!MOUSE_CONTROL_ENABLED
+          //     updateMouseControl();
+          // }
           updateCameraAngle();
       }
   }
@@ -225,17 +233,7 @@ const fs = require("fs");
 
 var noise = new _noise.Noise();
 
-//console.log(noise);
-
-
-
 function clamp1(x){return x < 0.0 ? 0.0 : x > 1.0 ? 1.0 : x;} //see https://jsperf.com/clamp-functions/7
-
-
-
-
-
-
 
 var lineLength = function(line){
     var a = line[1][0]-line[0][0];
@@ -393,16 +391,98 @@ var cone2Triangles = require('./cones-to-triangles.js').cone2Triangles;
 
 module.exports.distanceFunctions = require('./distance-function-examples.js');
 
+var MOUSE_CONTROL_ENABLED = false;
+var freeCursor = require('./cursor-freedom.js');
+const robot = require("robotjs");
+
+
+var lastCameraUpdate = 0;
+function updateMouseControl(){
+
+    if(MOUSE_CONTROL_ENABLED){
+
+        cameraPhiOrig = cameraPhi;
+        cameraThetaOrig = cameraTheta;
+        mouseOrig = robot.getMousePos();
+
+        function onMouseUpdated(screenSize,mousePos){
+            var yo = mouseOrig.y/screenSize.height*(Math.PI);
+            var screenCoords01 = [
+                ((mousePos.x-mouseOrig.x+screenSize.width)%screenSize.width)/screenSize.width,
+                ((mousePos.y+screenSize.height)%screenSize.height)/screenSize.height
+            ];
+            cameraPhi = cameraPhiOrig + screenCoords01[1]*(Math.PI);
+            cameraPhi = Math.min(2*Math.PI-0.1,Math.max(cameraPhi,0)) - yo;
+
+            cameraTheta = cameraThetaOrig - screenCoords01[0]*Math.PI*2.0 ;
+            //console.log(screenCoords01);//cameraPhi,cameraTheta);//screenSize,mousePos, screenCoords01);
+            if(Date.now()-lastCameraUpdate>100){
+                updateCameraAngle();
+                lastCameraUpdate=Date.now();
+            }
+        }
+
+        freeCursor.startFreeMouse(onMouseUpdated);
+    }else{
+        freeCursor.stopFreeMouse();
+    }
+}
+
 module.exports.runScene = function(config){
 
+    if(config.mouseControl){
+        MOUSE_CONTROL_ENABLED=true;
+        updateMouseControl();
+    }
+
+    if(config.antiAlias){
+        DO_ANTI_ALIAS=true;
+    }
+
+    if(config.cameraMode){
+        CAMERA_MODE=config.cameraMode;
+    }
+
+    if(config.lines && !config.lineColors){
+        if(config.lines.length>0){
+            if(config.lines[0].color){
+                config.lineColors = config.lines.map(l=>l.color);
+            }
+        }
+    }
+
+    if((config.triangles || config.tris) && !config.triangleColors){
+        var tris = (config.triangles || config.tris);
+        if(tris.length>0){
+            if(tris[0].color){
+                config.triangleColors = tris.map(l=>l.color);
+            }
+        }
+    }
+
+    var CONE_COLOR_JITTER = 0.0;
     if(config.triangles || config.tris || config.lines){
         if(config.lines){
             var tris = [];
-            var r = 1;
-            config.lines.forEach(function(line){
-                 tris.push(...cone2Triangles({line: line, r0: r, r1: r},3))
+            var r = config.thickness || 1;
+            var coneTriLen = 0 ;
+
+            if(config.lineColors){
+                config.triangleColors=[];
+            }
+
+            config.lines.forEach(function(line,i){
+                var res = cone2Triangles({line: line, r0: r, r1: r},3);
+                coneTriLen=res.length;
+                tris.push(...res);
+                if(config.triangleColors){
+                    for(var j=0;j<coneTriLen;j++){
+                        config.triangleColors.push(lu.jitterPt3d(config.lineColors[i],CONE_COLOR_JITTER));
+                    }
+                }
             })
             config.triangles=tris;
+
         }
         var tris = config.triangles || config.tris;
         config.distanceFunction = dfu.trianglesDistFast(tris, 0.10)
@@ -415,9 +495,21 @@ module.exports.runScene = function(config){
         var triangles = stl.toObject(fs.readFileSync(config.stl)).facets.map(function(f){return f.verts});
         config.distanceFunction = dfu.trianglesDistFast(triangles, 0.10)
         config.raytraceFunction = ru.trianglesTraceFast(triangles);
+
+        if(config.stlRandomColors){
+            var startColor = [0,0.6,0];
+            config.triangleColors = triangles.map(t=>lu.jitterColorF(startColor,0.5));
+            config.triangles = triangles;
+        }
     }
 
-
+    if(config.triangleColors){//console.log("TCOLORS",config.triangleColors);
+        var tris = (config.triangles || config.tris);
+        var colors = config.triangleColors;//(config.triangles || config.tris).map(t=>[Math.random(),Math.random(),Math.random()]);
+        var dfc = dfu.trianglesColorsFast(tris,colors,0.01);
+        var textureFunction3d = function(x,y,z){return dfc(x,y,z);}
+        config.textureFunction3d=textureFunction3d;
+    }
 
     var SCENE_DF = config.distanceFunction;//, _RES=64, _ASPECT=1.0, _RAYTRACE_FUNC
     var _RES = config.resolution || 64;
@@ -432,7 +524,14 @@ module.exports.runScene = function(config){
 
     updateRES();
 
-    if((config.uvFunction && config.textureFunction) || config.textureFunction3d){CAMERA_MODE=1000004;}
+    if((config.uvFunction && config.textureFunction) || (config.textureFunction3d)){CAMERA_MODE=1000004;}
+
+    // if(config.colors){
+    //     config.textureFunction3d = function(x,y,z){
+    //         //var d = Math.abs(art.distanceFunctions.dfBlobWorld(x*15,y*15,z*15))/2.0; //using 3d perlin noise to define color
+    //         return [Math.random(),Math.random(),Math.random()] //return [r,g,b]
+    //     }
+    // }
 
 var SCENE_DF_NORMAL = dfu.fNormalUnitLinePtTurbo_alt(SCENE_DF);
 

@@ -15,15 +15,15 @@ var lineLength = function(line){
     return Math.sqrt(a*a+b*b+c*c);
 };
 
-function trianglesTraceFast(tris){
+function trianglesTraceFast(tris, backfaceCulling=true){
     var meshTrisFlat = buildFlatList(tris);
     var maxTrianglesPerNode = 2;
     var bvhSkull = new bvhtree.BVH(meshTrisFlat, maxTrianglesPerNode);
 
-    return function(ray){ //unknown issue -- generates weird garbage ascii stuff in background
+    return function(ray){
         var o = ray.point;
         var v = ray.vector;
-        var backfaceCulling = true;
+        //var backfaceCulling = true;
         var intersectionResult = bvhSkull.intersectRay(o, v, backfaceCulling);
 
         var dist = 9999+Math.random();
@@ -38,6 +38,67 @@ function trianglesTraceFast(tris){
         return dist;
     }
 }
+
+function trianglesTraceFast_returnIndex(tris, backfaceCulling=true){
+    var meshTrisFlat = buildFlatList(tris);
+    var maxTrianglesPerNode = 2;
+    var bvhSkull = new bvhtree.BVH(meshTrisFlat, maxTrianglesPerNode);
+
+    return function(ray){
+        var o = ray.point;
+        var v = ray.vector;
+        //var backfaceCulling = true;
+        var intersectionResult = bvhSkull.intersectRay(o, v, backfaceCulling);
+
+        var dist = 9999+Math.random();
+        var minIndex = -1;
+        for(var i=0;i<intersectionResult.length;i++){
+            //var t = intersectionResult[i].triangle;
+            var _o = intersectionResult[i].intersectionPoint;
+            var D = lineLength([[_o.x,_o.y,_o.z],[o.x,o.y,o.z]]);//Math.min(dist, triangleDistance([_o.x,_o.y,_o.z], [t[0],t[1],t[2]],[t[3],t[4],t[5]],[t[6],t[7],t[8]]))
+            //dist = Math.min(dist,D);
+            if(D<dist){
+                dist=D;
+                minIndex = intersectionResult.triangleIndex;
+            }
+
+        }
+
+
+        return {dist: dist, index: minIndex};
+    }
+}
+
+function trianglesTraceFast_colored(tris, backfaceCulling=true){
+    var meshTrisFlat = buildFlatList(tris);
+    var maxTrianglesPerNode = 2;
+    var bvhSkull = new bvhtree.BVH(meshTrisFlat, maxTrianglesPerNode);
+
+    return function(ray){
+        var o = ray.point;
+        var v = ray.vector;
+        //var backfaceCulling = true;
+        var intersectionResult = bvhSkull.intersectRay(o, v, backfaceCulling);
+
+        var dist = 9999+Math.random();
+        var minColor = [0,0,1];
+        for(var i=0;i<intersectionResult.length;i++){
+            //var t = intersectionResult[i].triangle;
+            var _o = intersectionResult[i].intersectionPoint;
+            var D = lineLength([[_o.x,_o.y,_o.z],[o.x,o.y,o.z]]);//Math.min(dist, triangleDistance([_o.x,_o.y,_o.z], [t[0],t[1],t[2]],[t[3],t[4],t[5]],[t[6],t[7],t[8]]))
+            dist = Math.min(dist,D);
+
+            if(D<dist){
+                dist=D;
+                minColor=tris[intersectionResult[i].triangleIndex].color || minColor;
+            }
+
+        }
+
+        return [dist, minColor];
+    }
+}
+
 
 var RTREE = require('rbush-3d');
 const {BBox} = require("rbush-3d");
@@ -152,4 +213,4 @@ function sectorsTraceBVH(sectors){ //similar to sectorsTraceFast but using BHV i
     return trianglesTraceFast(tris);
 }
 
-module.exports = {sectorsTraceFast, trianglesTraceFast, sectorsTraceBVH};
+module.exports = {sectorsTraceFast, trianglesTraceFast, trianglesTraceFast_colored, trianglesTraceFast_returnIndex, sectorsTraceBVH};

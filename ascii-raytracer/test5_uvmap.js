@@ -30,7 +30,8 @@ readimage(filedata, function (err, image) {
         uvFunction: myUvFunction,
         textureFunction: myTextureFunction,
         resolution: 64,
-        aspectRatio: 1.0
+        aspectRatio: 1.0,
+        mouseControl:true,
     }
 
     art.runScene(config);

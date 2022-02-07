@@ -35,3 +35,9 @@ img.saveAs(`./output.png`);
 
 ![blurred 16 pixels](https://i.imgur.com/D6C2CKt.png) *output.png*
 
+
+## See Also
+
+- [image-blur-gaussian](https://www.npmjs.com/package/image-blur-gaussian) - fast gaussian blur  
+- [image-dilate](https://www.npmjs.com/package/image-dilate) - dilate image pixels by color
+

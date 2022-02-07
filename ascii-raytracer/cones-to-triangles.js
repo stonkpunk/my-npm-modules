@@ -74,7 +74,7 @@ function lineDirection(line){
     return normalizePt(ptDiff(line[1],line[0]));
 }
 
-var cone2Triangles = function(cone, sides){
+var cone2Triangles = function(cone, sides,color){
 
     var d = lineDirection(cone.line);
     var lineAxis0 = _crossProduct(nonParallelPt(d),d);
@@ -97,10 +97,10 @@ var cone2Triangles = function(cone, sides){
         circlePts1p.push(addPtsScaled(lineAxis0,lineAxis1,xy1[0],xy1[1]));
     }
 
-    return circlePtsPair2Triangles(circlePts0p,circlePts1p,cone.line);
+    return circlePtsPair2Triangles(circlePts0p,circlePts1p,cone.line,  color);
 }
 
-function circlePtsPair2Triangles(circlePts0, circlePts1, origLine){
+function circlePtsPair2Triangles(circlePts0, circlePts1, origLine, color){
     var tris = [];
     circlePts0.forEach(function(circlePt,i){
 
@@ -124,7 +124,12 @@ function circlePtsPair2Triangles(circlePts0, circlePts1, origLine){
 
         //TODO extend caps by radius?
     });
-    return tris;
+    return tris.map(function(tri){
+        if(color){
+            tri.color=color;
+        }
+        return tri;
+    });
 }
 
 function cones2Triangles(cones){

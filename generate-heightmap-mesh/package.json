@@ -1,0 +1,21 @@
+{
+  "name": "generate-heightmap-mesh",
+  "version": "0.0.011",
+  "description": "generate a triangle mesh from a distance function",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangles",
+    "heightmap",
+    "mesh"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/generate-heightmap-mesh",
+  "dependencies": {
+    "simplex-noise": "^3.0.1",
+    "simplify-triangles": "0.0.15"
+  }
+}

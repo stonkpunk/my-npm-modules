@@ -1,0 +1,32 @@
+{
+  "name": "triangles-cross-section",
+  "version": "0.0.0274",
+  "description": "get cross-secnptions of a 3d triangle mesh",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangles",
+    "mesh",
+    "3d",
+    "cross section"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangles-cross-section",
+  "dependencies": {
+    "bvh-tree-plus": "^1.0.2",
+    "chance": "^1.1.8",
+    "chunk-array": "^1.0.2",
+    "earcut": "^2.2.3",
+    "hull.js": "^1.0.2",
+    "line-of-closest-approach": "0.0.1",
+    "simplify-path": "^1.1.0",
+    "triangle-area-fast": "0.0.24",
+    "triangle-distance": "^1.0.11",
+    "triangle-random-pts": "0.0.11",
+    "triangle-triangle-intersection": "0.0.21",
+    "triangles-distance-fast": "^1.0.2"
+  }
+}

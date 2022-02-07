@@ -12,7 +12,8 @@ for(var i=0; i<dLines.length; i++){
 var config = {
     triangles: tris,
     resolution: 64,
-    aspectRatio: 1.0
+    aspectRatio: 1.0,
+    mouseControl:true,
 }
 
 art.runScene(config);

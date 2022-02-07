@@ -1,0 +1,21 @@
+{
+  "name": "triangles-mesh-find-edges",
+  "version": "0.0.01",
+  "description": "convert list of triangles into list of edges where curvature is above threshold",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangles",
+    "mesh",
+    "edges",
+    "curvature"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangles-mesh-find-edges",
+  "dependencies": {
+    "triangles-index": "0.0.1"
+  }
+}

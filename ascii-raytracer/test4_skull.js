@@ -7,6 +7,7 @@ var config = {
     aspectRatio: 1.0,
     screenShotScaleUp: 8,
     screenShotDir: '',//'/Users/user/Desktop/'
+    mouseControl:true,
 }
 
 art.runScene(config);

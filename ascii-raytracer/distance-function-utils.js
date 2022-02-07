@@ -1,6 +1,6 @@
 
 var Vector = require('./Vector.js');
-
+var lu = require('./lines-utils.js');
 var eps=0.0001;
 var eps2=0.0000000001;
 
@@ -178,6 +178,49 @@ function getLastIntDist(){
 var RTREE = require('rbush-3d');
 //const {BBox} = require("rbush-3d");
 
+function linesDistFast(lines, radius=1.0){
+    LINES_TREE=null;
+    return function(x,y,z){
+        var res = 9999999999;
+        var attempts = 0;
+        while(res>9999999 && attempts<20){
+            res = _linesDistFast(lines, radius, LINES_TREE)(x,y,z);
+            radius*=2;
+            attempts++;
+        }
+        return res;
+    }
+}
+
+var LINES_TREE=null;
+function _linesDistFast(lines, radius, tree){ //increases radius until it gets a hit
+    var sectorsRTree = tree || sectors2RTree(lines);
+    LINES_TREE = sectorsRTree;
+    var s = radius;
+    return function(x,y,z){
+        var potentialSectors = sectorsRTree.search(sector2RTreeObj([[x,y,z],[x,y,z]],s)).map(s=>s.sector);//(x,y,z,ndir[0],ndir[1],ndir[2],1000);//.map(o=>o.triangle);
+        return lineStackDistFast(potentialSectors,x,y,z, 0.0);
+    }
+}
+
+function linesNearbyFunc(lines, radius){//}, tree){
+    var sectorsRTree = sectors2RTree(lines); //tree ||
+    //LINES_TREE = sectorsRTree;
+    var s = radius;
+    return function(line){
+        return sectorsRTree.search(sector2RTreeObj(line,s)).map(s=>s.sector);//(x,y,z,ndir[0],ndir[1],ndir[2],1000);//.map(o=>o.triangle);
+    }
+}
+
+function linesNearbyPtFunc(lines, radius){//}, tree){
+    var sectorsRTree = sectors2RTree(lines); //tree ||
+    //LINES_TREE = sectorsRTree;
+    var s = radius/2;
+    return function(pt){
+        return sectorsRTree.search(sector2RTreeObj([lu.addPts(pt,[-s,-s,-s]),lu.addPts(pt,[s,s,s])],s)).map(s=>s.sector);//(x,y,z,ndir[0],ndir[1],ndir[2],1000);//.map(o=>o.triangle);
+    }
+}
+
 
 function sectorsDistFast(sectors, radius){
     var sectorsRTree = sectors2RTree(sectors);//console.log("TRI RTREE?", trisRTree);
@@ -188,12 +231,12 @@ function sectorsDistFast(sectors, radius){
     }
 }
 
-function sectors2RTree(sos) {
+function sectors2RTree(sos,rad) {
     if (!RTREE) console.log("RTREE library not found! import rtree.js");
     var theTree = new RTREE.RBush3D(2); //Higher value means faster insertion and slower search, and vice versa.
     theTree.clear();
     var sectorBoxes = sos.map(function (sector) {
-        return sector2RTreeObj(sector, 0.0001);
+        return sector2RTreeObj(sector, rad||0.0001);
     });
     theTree.load(sectorBoxes);
     return theTree;
@@ -206,19 +249,56 @@ function sectors2RTree(sos) {
 }
 
 function sector2RTreeObj(sector,_rad){
+
+    var minX = Math.min(sector[0][0],sector[1][0]);
+    var maxX = Math.max(sector[0][0],sector[1][0]);
+    var minY = Math.min(sector[0][1],sector[1][1]);
+    var maxY = Math.max(sector[0][1],sector[1][1]);
+    var minZ = Math.min(sector[0][2],sector[1][2]);
+    var maxZ = Math.max(sector[0][2],sector[1][2]);
+
     var rad = _rad || 0.0001;
     const item = {
-        minX: sector[0][0]-rad,
-        minY: sector[0][1]-rad,
-        minZ: sector[0][2]-rad,
-        maxX: sector[1][0]+rad,
-        maxY: sector[1][1]+rad,
-        maxZ: sector[1][2]+rad,
+        minX: minX-rad,
+        minY: minY-rad,
+        minZ: minZ-rad,
+        maxX: maxX+rad,
+        maxY: maxY+rad,
+        maxZ: maxZ+rad,
         sector: sector
     };
     return item;
 }
 
+if(!Math.clamp01){
+    (function(){Math.clamp01=function(a/*,b,c*/){return Math.max(0.0,Math.min(1.0,a));}})();
+}
+
+var _t_typed = new Float32Array(16);
+function distanceFromLineSegmentThickCone_pts(p, a, b, r0, r1){
+    _t_typed[0] = p[0]-a[0];
+    _t_typed[1] = p[1]-a[1];
+    _t_typed[2] = p[2]-a[2];
+    _t_typed[3] = b[0]-a[0];
+    _t_typed[4] = b[1]-a[1];
+    _t_typed[5] = b[2]-a[2];
+    _t_typed[6] = Math.clamp01((_t_typed[0]*_t_typed[3]+_t_typed[1]*_t_typed[4]+_t_typed[2]*_t_typed[5]) / (_t_typed[3]*_t_typed[3]+_t_typed[4]*_t_typed[4]+_t_typed[5]*_t_typed[5])); //h
+    _t_typed[7] = _t_typed[0]-_t_typed[6]*_t_typed[3]; //[, , _t_typed[2]-_t_typed[6]*_t_typed[5]];
+    _t_typed[8] = _t_typed[2]-_t_typed[6]*_t_typed[5];//[_t_typed[0]-_t_typed[6]*_t_typed[3], _t_typed[1]-_t_typed[6]*_t_typed[4], _t_typed[2]-_t_typed[6]*_t_typed[5]];
+    _t_typed[9] = _t_typed[1]-_t_typed[6]*_t_typed[4]; //[ _t_typed[1]-_t_typed[6]*_t_typed[4],];
+    return Math.sqrt(_t_typed[7]*_t_typed[7]+_t_typed[9]*_t_typed[9]+_t_typed[8]*_t_typed[8]) - r0 - (r1-r0)*_t_typed[6];
+}
+
+function lineStackDistFast(sectors, x,y,z, radius){
+    var i = sectors.length;
+    var d = 99999999;
+    var s = null;
+    while(i--){
+        s = sectors[i];
+        d = Math.min(d, distanceFromLineSegmentThickCone_pts([x,y,z],s[0],s[1],radius,radius));
+    }
+    return d;
+}
 
 function sectorStackDistFast(sectors, x,y,z){
     var i = sectors.length;
@@ -294,25 +374,178 @@ function sectorDistFast(s,x,y,z){
     );
 }
 
-function trianglesDistFast(tris, radius){
+// function trianglesDistFast(tris, radius){
+//     var trianglesRTree = triangles2RTree(tris);//console.log("TRI RTREE?", trisRTree);
+//     var s = radius;
+//     return function(x,y,z){
+//         var potentialTris = trianglesRTree.search(sector2RTreeObj([[x,y,z],[x,y,z]],s)).map(s=>s.triangle);//(x,y,z,ndir[0],ndir[1],ndir[2],1000);//.map(o=>o.triangle);
+//         if(potentialTris.length>0){
+//             var dist = 9999+Math.random();
+//             var triDists = potentialTris.map(t=>triangleDistance([x,y,z],t));
+//             //return Math.min(...triDists);
+//             for(var i=0;i<triDists.length;i++){
+//                 dist = Math.min(dist,triDists[i]);
+//             }
+//             return dist;
+//         }
+//
+//         return 9999+Math.random();
+//     }
+// }
+
+var trianglesDistFast = require('triangles-distance-fast').trianglesDistance;
+
+function trianglesColorsFast(tris,colors, radius){
+    tris = tris.map(function(t,i){
+        t.color=colors[i];
+        return t;
+    })
     var trianglesRTree = triangles2RTree(tris);//console.log("TRI RTREE?", trisRTree);
     var s = radius;
     return function(x,y,z){
+        var color=[0,1.0,0];
         var potentialTris = trianglesRTree.search(sector2RTreeObj([[x,y,z],[x,y,z]],s)).map(s=>s.triangle);//(x,y,z,ndir[0],ndir[1],ndir[2],1000);//.map(o=>o.triangle);
         if(potentialTris.length>0){
             var dist = 9999+Math.random();
-            var triDists = potentialTris.map(t=>triangleDistance([x,y,z],t));
+            var triDists = potentialTris.map(t=>[triangleDistance([x,y,z],t),t.color]);
             //return Math.min(...triDists);
             for(var i=0;i<triDists.length;i++){
-                dist = Math.min(dist,triDists[i]);
+                //dist = Math.min(dist,triDists[i]);
+                if(triDists[i][0]<dist){
+                    dist=triDists[i][0];
+                    color=triDists[i][1];
+                }
             }
-            return dist;
+            return color;
         }
 
-        return 9999+Math.random();
+        return color;
     }
 }
 
 
 
-module.exports = {sectorsDistFast, trianglesDistFast, hardShadow, traceNormal, calcAO, fNormalUnitLinePtTurbo_old, fNormalUnitLinePtTurbo_alt, projectLineByDF, getLastIntPt,getLastIntDist, lastIntPt, lastIntV, lastIntDist};
+/**
+ * Created by user on 11/7/19.
+ */
+/*float sdPolygon( in vec2[N] v, in vec2 p )
+{
+    float d = dot(p-v[0],p-v[0]);
+    float s = 1.0;
+    for( int i=0, j=N; i<N; j=i, i++ )
+    {
+        vec2 e = v[j] - v[i];
+        vec2 w =    p - v[i];
+        vec2 b = w - e*clamp( dot(w,e)/dot(e,e), 0.0, 1.0 );
+        d = min( d, dot(b,b) );
+        bvec3 c = bvec3(p.y>=v[i].y,p.y<v[j].y,e.x*w.y>e.y*w.x);
+        if( all(c) || all(not(c)) ) s*=-1.0;
+    }
+    return s*sqrt(d);
+}*/
+
+var _dotProductWithSelf = function(a){
+    return  a[0]*a[0]+a[1]*a[1]+a[2]*a[2];
+};
+
+if(!Math.clamp01){
+    (function(){Math.clamp01=function(a/*,b,c*/){return Math.max(0.0,Math.min(1.0,a));}})();
+}
+
+function all3True(arr){
+    return arr[0] && arr[1] && arr[2];
+}
+
+function all3NotTrue(arr){
+    return (!arr[0]) && (!arr[1]) && (!arr[2]);
+}
+
+var lu = require('./lines-utils.js');
+
+
+var _dotProduct = function(a, b){
+    return  a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+};
+//
+//doesnt work ? //https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+//https://www.shadertoy.com/view/wdBXRW
+// function distPolygon(v, p){ //pts2d, samplePt
+//     var d = _dotProductWithSelf(lu.ptDiff(p,v[0]));console.log("--D",p,v[0]);
+//     if(isNaN(d)){throw 'ok'}
+//     var s = 1.0;
+//     var N = v.length;
+//     for( var i=0, j=N-1; i<N; j=i, i++ ){
+//         var e = lu.ptDiff(v[j], v[i]); //v[j] - v[i];
+//         var w = lu.ptDiff(p, v[i]);//vec2 w =    p - v[i];
+//
+//         if(lu.lineLength([w,[0,0,0]])<0.001){
+//             return 0;
+//         }
+//
+//         var dotQot = _dotProduct(w,e)/_dotProduct(e,e); ///dot(w,e)/dot(e,e);
+//         var b = lu.ptDiff(w,lu.scalePt(e,Math.clamp01(dotQot)));
+//
+//
+//         //vec2 b = w - e*clamp( dot(w,e)/dot(e,e), 0.0, 1.0 );
+//         d = Math.min( d, _dotProductWithSelf(b));
+//         var c = [p[1]>=v[i][1],p[1]<v[j][1],e[0]*w[1]>e[1]*w[0]];
+//         if( all3True(c) || all3NotTrue(c) ) s*=-1.0;
+//
+//         console.log("B",w,e,b,_dotProductWithSelf(b));
+//
+//         if(isNaN(d)){throw 'ok'}
+//     }
+//     return s*Math.sqrt(d);
+// }
+
+function dfGradientMag(f1, eps){
+    return function(x,y,z){
+        var dx = f1(x+eps,y  ,z  )-f1(x-eps,y  ,z  );
+        var dy = f1(x  ,y+eps,z  )-f1(x  ,y-eps,z  );
+        var dz = f1(x  ,y  ,z+eps)-f1(x  ,y  ,z-eps);
+        var dlen = Math.sqrt(dx*dx+dy*dy+dz*dz);
+        //if(dlen<0.01)return scaledRandomLine(0.10); //on a proper nonzero dfunc this shouldnt ever happen
+        return dlen;//[dx/dlen,dy/dlen,dz/dlen];
+    };
+}
+
+function lineSaddleness(line,df,eps=0.1){
+    var res = 0;
+    var dfg = dfGradientMag(df,eps);
+    for(var i=0;i<10;i++){
+        var t = i/10;
+        var gradMag = dfg(...lu.getPointAlongLine(line,t));
+        res+=gradMag*gradMag;
+    }
+    return res;
+}
+
+function lineSaddleness2d(line,df,eps=0.5){
+    var res = 1.0;
+    var steps = 5;
+    for(var i=0;i<steps;i++){
+        var t = i/steps;
+        var resPt = lu.getPointAlongLine(line,t);
+        var dirLineParent = lu.lineDirection(line);
+        var dirOrtho0 = lu.scalePt(lu.crossProduct(dirLineParent,[0,1,0]),eps);
+        //var dirOrtho1 = lu.scalePt(lu.crossProduct(dirLineParent,[0,-1,0]),eps);
+        var resLine = [lu.addPts(resPt,dirOrtho0),lu.addPts(resPt,lu.scalePt(dirOrtho0,-1))];
+
+        var gradMag = Math.abs(df(...resLine[0])-df(...resLine[1]));
+        res+=gradMag;
+    }
+    return 1.0/res;
+}
+
+function lineAverageDf(line,df,eps=0.5){
+    var res = 1.0;
+    var steps = 5;
+    for(var i=0;i<steps;i++){
+        var t = i/steps;
+        var resPt = lu.getPointAlongLine(line,t);
+        res+=df(...resPt);
+    }
+    return res/steps;
+}
+
+module.exports = {lineAverageDf, linesNearbyPtFunc, linesNearbyFunc, trianglesColorsFast, lineSaddleness2d, lineSaddleness ,dfGradientMag,/*distPolygon*/ linesDistFast, sectorsDistFast, trianglesDistFast, hardShadow, traceNormal, calcAO, fNormalUnitLinePtTurbo_old, fNormalUnitLinePtTurbo_alt, projectLineByDF, getLastIntPt,getLastIntDist, lastIntPt, lastIntV, lastIntDist};
