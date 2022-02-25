@@ -1,0 +1,17 @@
+{
+  "name": "lines-path-interpolate",
+  "version": "0.0.011",
+  "description": "linear or bezier interpolation along a path made from line segments, using binary search",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lines","line","path","interpolate","interpolation","bezier"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/lines-path-interpolate"
+}

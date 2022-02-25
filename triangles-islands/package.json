@@ -1,0 +1,23 @@
+{
+  "name": "triangles-islands",
+  "version": "0.0.01",
+  "description": "breaks up a triangle mesh into \"islands\" (connected components)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangle",
+    "islands",
+    "connected",
+    "components",
+    "geometry",
+    "mesh"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "connected-components": "^1.0.0"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangles-islands"
+}
