@@ -1,0 +1,17 @@
+{
+  "name": "marching-cubes-fast",
+  "version": "0.0.01",
+  "description": "fast sparse marching cubes implementation - runtime proportional to surface area rather than volume",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "marching","cubes","sparse","fast","isosurface","signed","distance","octree","voxels","hausdorff"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/marching-cubes-fast"
+}
