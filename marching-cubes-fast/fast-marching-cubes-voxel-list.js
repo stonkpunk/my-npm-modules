@@ -16,17 +16,6 @@
  *
  */
 
-/*
-USE:
-
-    var meshes = [];
-    var subBlocks = getSubBlocksForBlockIteratedDFunc_edgesOnly(mcSectorFull,[isFirst] true, [iterations] 6, blockDf);
-    var mcGeom = _marchingCubes(blockDf, subBlocks, true).geom;
-    var buffGeom = new THREE.BufferGeometry().fromGeometry(mcGeom);
-
- */
-
-
 var edgeTable= new Uint32Array([
     0x0  , 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c,
     0x80c, 0x905, 0xa0f, 0xb06, 0xc0a, 0xd03, 0xe09, 0xf00,

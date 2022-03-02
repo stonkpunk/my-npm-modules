@@ -10,7 +10,7 @@ This tool breaks down the space like an octree and only runs the Marching Cubes 
 
 You can also use this to create sparse voxel sets, simply skipping the Marching Cubes step. 
 
-Based on `npm isosurface` by mikolalysenko, in turn based on [Paul Bourke's original](http://local.wasp.uwa.edu.au/~pbourke/geometry/polygonise/)
+Based on [isosurface](https://www.npmjs.com/package/isosurface) by mikolalysenko, in turn based on [Paul Bourke's original](http://local.wasp.uwa.edu.au/~pbourke/geometry/polygonise/)
 
 ## Installation
 
