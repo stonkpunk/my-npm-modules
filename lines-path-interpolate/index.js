@@ -29,7 +29,12 @@ function lineMidPt(line){
     ];
 }
 
+if(!Math.clamp01){
+    (function(){Math.clamp01=function(a/*,b,c*/){return Math.max(0.0,Math.min(1.0,a));}})();
+}
+
 function getPointAlongLine(line, _t){
+    _t=Math.clamp01(_t);
     var arr = [
         line[0][0] + (line[1][0]-line[0][0])*_t,
         line[0][1] + (line[1][1]-line[0][1])*_t,
@@ -93,8 +98,16 @@ function getNearestLineIndex(lines, dist){
 }
 
 function walkXUnitsAlongLineset(_lineset, distToWalk){
+
+    var isALoop = lineLengthSquared([_lineset[0][0], _lineset[_lineset.length-1][1]]) < eps;
     var skipStartIndex = (getNearestLineIndex(_lineset, distToWalk-0.1)+_lineset.length-1) % _lineset.length;
+
     var skipStartLength = _lineset.flatStack[skipStartIndex];
+
+    // if(skipStartIndex==_lineset.length-1){
+    //     skipStartIndex=0;
+    //     skipStartLength=0;
+    // }
 
     var remainingDist = distToWalk*1.0-skipStartLength;
     var thePt = null;
@@ -106,7 +119,7 @@ function walkXUnitsAlongLineset(_lineset, distToWalk){
         var line = _lineset[index];
 
         var thisLine = line;
-        var nextLine = arr[index+1];
+        var nextLine = isALoop ? arr[(index+1)%_lineset.length] : ( index<_lineset.length-1 ? arr[index+1] : null);
         var len = lineLength(thisLine);
 
         if(remainingDist>len){
@@ -120,6 +133,9 @@ function walkXUnitsAlongLineset(_lineset, distToWalk){
                     thePt = getPointAlongLine([thisLine[1], nextLine[0]], remainingDist/len);
                     break;
                 }
+            }else{
+                thePt = thisLine[1];
+                break;
             }
         }else{
             thePt = getPointAlongLine(thisLine, remainingDist/len);

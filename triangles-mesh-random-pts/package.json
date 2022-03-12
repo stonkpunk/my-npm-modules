@@ -1,0 +1,31 @@
+{
+  "name": "triangles-mesh-random-pts",
+  "version": "0.0.001",
+  "description": "generate random points and normals evenly distributed on a triangle mesh",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangles",
+    "mesh",
+    "3d",
+    "hairs",
+    "hair",
+    "fur",
+    "surface",
+    "normals",
+    "random"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "barycentric-coordinates": "0.0.3",
+    "chance": "^1.1.8",
+    "normals": "^1.1.0",
+    "triangle-area-fast": "0.0.24",
+    "triangle-random-pts": "0.0.11",
+    "triangles-index": "0.0.3"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangles-mesh-random-pts"
+}

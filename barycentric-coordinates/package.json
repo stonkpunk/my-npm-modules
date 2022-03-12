@@ -1,13 +1,13 @@
 {
   "name": "barycentric-coordinates",
-  "version": "0.0.02",
-  "description": "get barycentric coordinates for triangle and tetrahedron, convert to/from cartesian coordinates",
+  "version": "0.0.04",
+  "description": "get barycentric coordinates for triangle and tetrahedron, convert to/from cartesian coordinates, interpolate vertex normals",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "triangle","tetrahedron","barycentric","cartesian","coordinates"
+    "triangle","tetrahedron","barycentric","cartesian","coordinates","normal","interpolation"
   ],
   "author": "stonkpunk",
   "license": "CC0-1.0",

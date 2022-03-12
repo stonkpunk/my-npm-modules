@@ -1,6 +1,6 @@
 var st = require('simplify-triangles');
 
-function generateHeightmapMeshXZ(resolution=64, boundingBox_XZ, distanceFunction=dfHillsWorld2D, yCoordinate=0.0,df_scaleXZ=100.0,df_scaleY=4.0, simplifyFactor=1){
+function generateHeightmapMeshXZ(resolution=64, boundingBox_XZ, distanceFunction=dfHillsWorld2D, yCoordinate=0.0,df_scaleXZ=100.0,df_scaleY=4.0, simplifyFactor=1, doAddSkirt=true, skirtY=0){
     var res = resolution;
     var df = distanceFunction;
     var bb = boundingBox_XZ;
@@ -32,6 +32,21 @@ function generateHeightmapMeshXZ(resolution=64, boundingBox_XZ, distanceFunction
             var p2v = df(x,sy,z+zStep,df_scaleXZ)*df_scaleY;
             var p3v = df(x+xStep,sy,z+zStep,df_scaleXZ)*df_scaleY;
 
+            if(doAddSkirt){
+                if(x==x0 || z==z0 || x>x1-xStep || z>z1-zStep){
+                    p0v=skirtY;
+                }
+                if(x+xStep==x0 || z==z0 || x+xStep>x1-xStep || z>z1-zStep){
+                    p1v=skirtY;
+                }
+                if(x==x0 || z+zStep==z0 || x>x1-xStep || z+zStep>z1-zStep){
+                    p2v=skirtY;
+                }
+                if(x+xStep==x0 || z+zStep==z0 || x+xStep>x1-xStep || z+zStep>z1-zStep){
+                    p3v=skirtY;
+                }
+            }
+
             var p0 = [x,p0v,z];
             var p1 = [x+xStep,p1v,z];
             var p2 = [x,p2v,z+zStep];
@@ -42,6 +57,28 @@ function generateHeightmapMeshXZ(resolution=64, boundingBox_XZ, distanceFunction
 
             tris.push(tri0,tri1);
         }
+    }
+
+    if(doAddSkirt){
+        //  bottom plate
+        // a - - b
+        // |  x  |
+        // c - - d
+
+        // var x0 = bb[0][0];
+        // var x1 = bb[1][0];
+        // var z0 = bb[0][2];
+        // var z1 = bb[1][2];
+
+        var a = [x0,skirtY,z1];
+        var b = [x1,skirtY,z1];
+        var c = [x0,skirtY,z0];
+        var d = [x1,skirtY,z0];
+
+        tris.push([b,a,d]);
+        tris.push([c,d,a]);
+
+        //console.log([b,a,d],[c,d,a]);
     }
 
     if(simplifyFactor<1){
@@ -94,4 +131,10 @@ var dfHillsWorld2D = function(x, y, z, _s=20.0){ //hillsworldoctaves2d
     return hills > water ? hills*2 : water+ (Math.random())*0.00001 ;//+ Math.random()*0.001;
 }
 
-module.exports = {dfHillsWorld2D, generateHeightmapMeshXZ, generateHeightmapPtsXZ}
+var dfHillsWorld2D_smooth = function(x, y, z, _s=20.0){
+    var s = _s
+    var hills = simplex.noise2D(x/s*4,z/s*4)/2.0;
+    return hills ;//> water ? hills*2 : water+ (Math.random())*0.00001 ;//+ Math.random()*0.001;
+}
+
+module.exports = {dfHillsWorld2D,dfHillsWorld2D_smooth,  generateHeightmapMeshXZ, generateHeightmapPtsXZ}

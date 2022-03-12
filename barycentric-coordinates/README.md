@@ -1,6 +1,6 @@
 # barycentric-coordinates
 
-get barycentric coordinates for triangle and tetrahedron, convert to/from cartesian coordinates
+get barycentric coordinates for triangle and tetrahedron, convert to/from cartesian coordinates, interpolate vertex normals
 
 ## Installation
 
@@ -39,6 +39,10 @@ var tetraCartesianCoords = bc.tetrahedronCartesianCoords(tetraBaryCoords, tetrah
 
 console.log("cartesian",triCartesianCoords); //[ 0.667, 0.333, 1.0]
 console.log("cartesian",tetraCartesianCoords); //[ 0.667, 0.333, 1.0]
+
+//can also use barycoords to interpolate vertex normals. each normal has same format as one of the triangle pts
+//triangleInterpolateNormals(pt, tri, normalA, normalB, normalC)
+
 ```
 
 ## See Also

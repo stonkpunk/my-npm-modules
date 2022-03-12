@@ -1,6 +1,6 @@
 {
   "name": "triangles-cross-section",
-  "version": "0.0.0274",
+  "version": "0.0.0276",
   "description": "get cross-secnptions of a 3d triangle mesh",
   "main": "index.js",
   "scripts": {

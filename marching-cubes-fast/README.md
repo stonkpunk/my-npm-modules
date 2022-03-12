@@ -6,9 +6,9 @@ Rather than scaling with volume O(N<sup>3</sup>) , this tool has runtime O(N<sup
 
 How it works:
 
-This tool breaks down the space like an octree and only runs the Marching Cubes kernal on voxels near the surface. Each octant queries the signed distance function from its center and if the result is farther than the covering radius of the octant, the octant is discarded. The process is repeated recursively.
+This tool breaks down the space like an octree and only runs the Marching Cubes kernel on voxels near the surface. Each octant queries the signed distance function from its center and if the result is farther than the covering radius of the octant, the octant is discarded. The process is repeated recursively.
 
-You can also use this to create sparse voxel sets, simply skipping the Marching Cubes step. 
+You can also use this to create sparse voxel sets (simply skipping the Marching Cubes step), or to run the Marching Cubes kernel on a list of arbitrary voxels, even if they are different sizes (for level-of-detail effects, etc).
 
 Based on [isosurface](https://www.npmjs.com/package/isosurface) by mikolalysenko, in turn based on [Paul Bourke's original](http://local.wasp.uwa.edu.au/~pbourke/geometry/polygonise/)
 
@@ -45,6 +45,8 @@ var result = mcf.marchingCubes(resolution, dfSimplex3d, scanBounds);
 
 //if you want to run marching cubes on your own list of voxels...
 //var result = mcf.marchingCubesVoxelList(dfSimplex3d, listOfVoxels); //array of voxels, where each voxel is a bounding box like scanBounds
+
+//^^^ note that the voxels can be different sizes! level-of-detail effects etc, possible
 
 console.log(result);
 

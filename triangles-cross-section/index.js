@@ -14,7 +14,7 @@ var dfu = require('./distance-function-utils.js');
 //     var potentialTris = trianglesRTree.search(sector2RTreeObj([[x,y,z],[x,y,z]],s)).map(s=>s.triangle);//(x,y,z,ndir[0],ndir[1],ndir[2],1000);//.map(o=>o.triangle);
 //
 
-function trianglesCrossSectionY(tris,y, hullMode=true, cleanUpTris=true, hullCurvature=1, cleanUpTries=1, trianglesRTree=null, skipTriangles=false){
+function trianglesCrossSectionY(tris,y, hullMode=true, cleanUpTris=true, hullCurvature=1, cleanUpTries=1, trianglesRTree=null, skipTriangles=false, doSortLines = false){
     var s = 9999;//slicingTriangleSize;
     /*
     a
@@ -57,10 +57,14 @@ function trianglesCrossSectionY(tris,y, hullMode=true, cleanUpTris=true, hullCur
         }
     }
 
+    if(doSortLines){
+        crossSegs = sl.sortLines(crossSegs);
+    }
+
     return {lineSegments: crossSegs, ptsList:pts, triangles: e2d_tris};//, index: linesIndexed};
 }
 
-function crossSectionsXZ(tris,numSlices=5, hullMode=true, cleanUpTris=true, hullCurvature=1, skipTriangles=false){
+function crossSectionsXZ(tris,numSlices=5, hullMode=true, cleanUpTris=true, hullCurvature=1, skipTriangles=false, doSortLines = false){
     var trianglesRTree = dfu.triangles2RTree(tris);
     var bb = boundingBlockOfPts([].concat(...tris));
     var resAll = [];
@@ -68,7 +72,7 @@ function crossSectionsXZ(tris,numSlices=5, hullMode=true, cleanUpTris=true, hull
     for(var i=0;i<=numSlices+eps;i++){
         var x = i==0?-eps*2:eps/2;
         var yCoord = lf.getPointAlongLine(bb,i/numSlices-x)[1];
-        var res = trianglesCrossSectionY(tris,yCoord,hullMode,cleanUpTris, hullCurvature,1,trianglesRTree,skipTriangles); //add ",false,true)" to do earcut mode instead of hull mode
+        var res = trianglesCrossSectionY(tris,yCoord,hullMode,cleanUpTris, hullCurvature,1,trianglesRTree,skipTriangles,doSortLines); //add ",false,true)" to do earcut mode instead of hull mode
         if(res){
             resAll.push(res);
         }
@@ -76,5 +80,7 @@ function crossSectionsXZ(tris,numSlices=5, hullMode=true, cleanUpTris=true, hull
     return resAll;
 }
 
+module.exports.sortLines = sl;
+module.exports.crossSectionXZ = trianglesCrossSectionY;
 module.exports.crossSectionXZ = trianglesCrossSectionY;
 module.exports.crossSectionsXZ = crossSectionsXZ;

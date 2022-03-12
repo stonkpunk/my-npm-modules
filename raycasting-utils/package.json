@@ -1,0 +1,19 @@
+{
+  "name": "raycasting-utils",
+  "version": "0.0.012",
+  "description": "Fast utilities for ray-casting against triangles or boxes or a distance function / implicit surface",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "raycasting", "marching spheres"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "bvh-tree-plus": "^1.0.2",
+    "rbush-3d": "0.0.4"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/raycasting-utils"
+}

@@ -4,17 +4,17 @@ function determinant(m00,m01,m02,m03,
                      m30,m31,m32,m33){ //http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/fourD/index.htm
 
     return  m03 * m12 * m21 * m30 - m02 * m13 * m21 * m30-
-            m03 * m11 * m22 * m30 +m01 * m13 * m22 * m30+
-            m02 * m11 * m23 * m30 -m01 * m12 * m23 * m30-
-            m03 * m12 * m20 * m31 +m02 * m13 * m20 * m31+
-            m03 * m10 * m22 * m31 -m00 * m13 * m22 * m31-
-            m02 * m10 * m23 * m31 +m00 * m12 * m23 * m31+
-            m03 * m11 * m20 * m32 -m01 * m13 * m20 * m32-
-            m03 * m10 * m21 * m32 +m00 * m13 * m21 * m32+
-            m01 * m10 * m23 * m32 -m00 * m11 * m23 * m32-
-            m02 * m11 * m20 * m33 +m01 * m12 * m20 * m33+
-            m02 * m10 * m21 * m33 -m00 * m12 * m21 * m33-
-            m01 * m10 * m22 * m33 +m00 * m11 * m22 * m33;
+        m03 * m11 * m22 * m30 +m01 * m13 * m22 * m30+
+        m02 * m11 * m23 * m30 -m01 * m12 * m23 * m30-
+        m03 * m12 * m20 * m31 +m02 * m13 * m20 * m31+
+        m03 * m10 * m22 * m31 -m00 * m13 * m22 * m31-
+        m02 * m10 * m23 * m31 +m00 * m12 * m23 * m31+
+        m03 * m11 * m20 * m32 -m01 * m13 * m20 * m32-
+        m03 * m10 * m21 * m32 +m00 * m13 * m21 * m32+
+        m01 * m10 * m23 * m32 -m00 * m11 * m23 * m32-
+        m02 * m11 * m20 * m33 +m01 * m12 * m20 * m33+
+        m02 * m10 * m21 * m33 -m00 * m12 * m21 * m33-
+        m01 * m10 * m22 * m33 +m00 * m11 * m22 * m33;
 }
 
 function tetraDeterminants(tet, pt){
@@ -129,6 +129,11 @@ function triangleBarycentricCoords(pt, tri){ //see https://people.cs.clemson.edu
     return [1.0-bv[15]-bv[16],bv[16],bv[15]];
 }
 
+function triangleInterpolateNormals(pt, tri, normalA, normalB, normalC){
+    var bc = triangleBarycentricCoords(pt,tri);
+    return triangleCartesianCoords(bc,[normalA, normalB, normalC])
+}
+
 // function generateRandomBarycoord(){
 //     var pt = [Math.random(),Math.random(),0];
 //     if(pt[0]+pt[1]>1){
@@ -169,6 +174,7 @@ function tetrahedronCartesianCoords(tetBaryCoords, tet){
     ];
 }
 
+module.exports.triangleInterpolateNormals = triangleInterpolateNormals;
 module.exports.triangleBarycentricCoords = triangleBarycentricCoords;
 module.exports.triangleCartesianCoords = triangleCartesianCoords;
 module.exports.tetrahedronBarycentricCoords = tetrahedronBarycentricCoords;

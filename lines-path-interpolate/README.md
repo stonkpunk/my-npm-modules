@@ -58,6 +58,8 @@ NOTE:
  - an array of segment lengths gets cached in `segs.flatStack` after the first query 
  - path length is cached in `segs.tlength`
  - segments are assumed to connect to each other - if they don't, the iterpolated result will "jump" from the end of one segment to the start of the next one
+ - automagically detects if the lines form a continuous loop [for bezier interpolation near start/end]
+
 
 
 

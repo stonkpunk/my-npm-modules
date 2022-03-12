@@ -1,6 +1,6 @@
 {
   "name": "generate-heightmap-mesh",
-  "version": "0.0.011",
+  "version": "0.0.014",
   "description": "generate a triangle mesh from a distance function",
   "main": "index.js",
   "scripts": {
