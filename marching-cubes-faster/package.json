@@ -1,0 +1,32 @@
+{
+  "name": "marching-cubes-faster",
+  "version": "0.0.014",
+  "description": "CSG-like version of `marching-cubes-fast`, very fast marching cubes mesher",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "marching",
+    "cubes",
+    "sparse",
+    "fast",
+    "isosurface",
+    "signed",
+    "distance",
+    "octree",
+    "voxels",
+    "hausdorff",
+    "LOD",
+    "CSG"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "rbush-3d": "0.0.4",
+    "round-cone-distance": "^1.0.11",
+    "tetrahedron-distance": "0.0.21",
+    "triangle-distance": "^1.0.11"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/marching-cubes-faster"
+}
