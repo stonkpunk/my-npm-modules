@@ -47,10 +47,17 @@ art.runScene(config);
 ```
 
 ![500](https://i.imgur.com/AAwTEpn.png)
-500 random bunny hairs
+
+^500 random bunny hairs
 
 ![5000](https://i.imgur.com/lsGbafv.png)
-5,000 random bunny hairs
+
+^5,000 random bunny hairs
 
 ![50000](https://i.imgur.com/bOq0d2P.png)
-50,000 random bunny hairs
+
+^50,000 random bunny hairs
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

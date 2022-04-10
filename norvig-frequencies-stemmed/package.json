@@ -1,6 +1,6 @@
 {
   "name": "norvig-frequencies-stemmed",
-  "version": "0.0.122",
+  "version": "0.0.123",
   "description": "frequencies of stemmed words based on norvig dataset",
   "main": "norvig-frequencies-stemmed.js",
   "scripts": {

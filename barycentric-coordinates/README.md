@@ -40,14 +40,17 @@ var tetraCartesianCoords = bc.tetrahedronCartesianCoords(tetraBaryCoords, tetrah
 console.log("cartesian",triCartesianCoords); //[ 0.667, 0.333, 1.0]
 console.log("cartesian",tetraCartesianCoords); //[ 0.667, 0.333, 1.0]
 
-//can also use barycoords to interpolate vertex normals. each normal has same format as one of the triangle pts
+//can also use barycoords to interpolate vertex normals or UVs. each normal has same format as one of the triangle pts. UVs are similar but dont have a third coordinate.
 //triangleInterpolateNormals(pt, tri, normalA, normalB, normalC)
-
+//triangleInterpolateUVs((pt, tri, uvA, uvB, uvC)
 ```
 
 ## See Also
 
 - [tetrahedron-distance](https://www.npmjs.com/package/tetrahedron-distance) - distance to tetrahedron
 
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
 
 

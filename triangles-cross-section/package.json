@@ -1,7 +1,7 @@
 {
   "name": "triangles-cross-section",
-  "version": "0.0.0276",
-  "description": "get cross-secnptions of a 3d triangle mesh",
+  "version": "0.0.0278",
+  "description": "get cross-sections of a 3d triangle mesh",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

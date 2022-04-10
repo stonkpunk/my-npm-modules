@@ -1,6 +1,6 @@
 {
   "name": "line-of-closest-approach",
-  "version": "0.0.001",
+  "version": "0.0.002",
   "description": "get the shortest connecting line segment / point of closest approach between a pair of line segments",
   "main": "index.js",
   "scripts": {

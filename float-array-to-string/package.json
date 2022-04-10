@@ -1,6 +1,6 @@
 {
   "name": "float-array-to-string",
-  "version": "1.0.01",
+  "version": "1.0.04",
   "description": "convert/encode a float array as a hex string and back again.",
   "main": "index.js",
   "scripts": {

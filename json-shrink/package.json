@@ -1,6 +1,6 @@
 {
   "name": "json-shrink",
-  "version": "0.0.121",
+  "version": "0.0.122",
   "description": "shrink json objects with LZMA (7-zip) compression + jsonpack",
   "main": "index.js",
   "scripts": {

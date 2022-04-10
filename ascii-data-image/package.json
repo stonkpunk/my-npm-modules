@@ -1,6 +1,6 @@
 {
   "name": "ascii-data-image",
-  "version": "1.0.783",
+  "version": "1.0.784",
   "description": "produces ascii images/animations from 2D datasets [2d float arrays] - eg raw pixel data, histograms, signed distance functions etc - for use in CLI / terminal / console applications",
   "main": "index.js",
   "scripts": {

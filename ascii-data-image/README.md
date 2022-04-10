@@ -136,3 +136,8 @@ btc: `bc1qr2taxcwnyr28f7xnqv4r86zjrcv83qg5grhu48`
 - [glsl-imager](https://www.npmjs.com/package/glsl-imager) - uses `ascii-data-image` for rendering to terminal
 
 
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+

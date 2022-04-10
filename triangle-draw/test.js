@@ -1,6 +1,8 @@
 var sdl = require('@kmamal/sdl');
 var td = require('./index.js');
 var drawTriangleColored = td.drawTriangleColored;
+var drawTriangleColored_flat = td.drawTriangleColored_flat;
+var drawTriangleTextured_flat = td.drawTriangleTextured_flat;
 
 var window = sdl.video.createWindow({ resizable: true })
 var { width, height } = window
@@ -23,6 +25,8 @@ function renderTriangles(){
         var colorC = [0,0,255];
         var colors = [colorA, colorB, colorC];
         drawTriangleColored(triangle, colors, buffer, width, height, true);
+        drawTriangleColored_flat([].concat(...triangle).concat(...triangle), 1, colors, buffer, width, height, true);
+        //drawTriangleColored_flat([].concat(...triangle).concat(...triangle), 1, colors, buffer, width, height, true);
     }
     window.render(width, height, stride, 'rgba32', buffer)
 }

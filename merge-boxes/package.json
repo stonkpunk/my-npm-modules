@@ -1,6 +1,6 @@
 {
   "name": "merge-boxes",
-  "version": "0.0.011",
+  "version": "0.0.012",
   "description": "recursively merge 3d axis-aligned bounding boxes / cuboids.",
   "main": "index.js",
   "scripts": {

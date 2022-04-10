@@ -1,6 +1,6 @@
 {
   "name": "list-of-cars",
-  "version": "0.0.141",
+  "version": "0.0.142",
   "description": "list of car / automobile makes and models 1992-2020",
   "main": "index.js",
   "scripts": {

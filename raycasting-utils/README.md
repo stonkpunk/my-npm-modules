@@ -56,3 +56,8 @@ var rcu = require('raycasting-utils');
 // rcu.sectorsTraceFast
 // rcu.sectorsTraceFast_useLine
 ```
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+

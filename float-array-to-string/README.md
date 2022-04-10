@@ -34,3 +34,11 @@ console.log(floatArray2Str.decodeFloatArr(str));
 //     ]
 ```
 
+## See Also
+
+- [int-compress-string](https://www.npmjs.com/package/int-compress-string) - (de)compresses integer list to string
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+
+

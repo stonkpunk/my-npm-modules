@@ -1,6 +1,6 @@
 {
   "name": "list-of-brands",
-  "version": "1.0.031",
+  "version": "1.0.032",
   "description": "List of 40,000 brands based on amazon product listings",
   "main": "index.js",
   "scripts": {

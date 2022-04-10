@@ -41,3 +41,7 @@ img.saveAs(`./output.png`);
 - [image-blur-gaussian](https://www.npmjs.com/package/image-blur-gaussian) - fast gaussian blur  
 - [image-dilate](https://www.npmjs.com/package/image-dilate) - dilate image pixels by color
 
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+
+

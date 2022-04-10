@@ -39,3 +39,8 @@ var salt = "12345";
 console.log(require('name-my-computer').getName(salt)); 
 //returns "Eula Tucci"
 ```
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+

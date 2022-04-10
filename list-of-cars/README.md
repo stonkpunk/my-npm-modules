@@ -91,3 +91,6 @@ categories -- note some cars span multiple categories
  */
 
 ```
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

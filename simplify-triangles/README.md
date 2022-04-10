@@ -50,5 +50,7 @@ require('ascii-raytracer').runScene(config);
 - [mesh-simplify](https://www.npmjs.com/package/mesh-simplify)
 - [ascii-raytracer](https://www.npmjs.com/package/ascii-raytracer)
 
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
 
 

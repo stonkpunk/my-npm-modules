@@ -1,6 +1,6 @@
 {
   "name": "triangles-distance-fast",
-  "version": "1.0.03",
+  "version": "1.0.07",
   "description": "signed or unsigned distance function for triangles using r-tree and/or bvh",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,7 @@
   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangles-distance-fast",
   "dependencies": {
     "bvh-tree-plus": "^1.0.2",
-    "rbush-3d": "0.0.4"
+    "rbush-3d": "0.0.4",
+    "underscore": "^1.13.2"
   }
 }

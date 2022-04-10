@@ -1,6 +1,6 @@
 {
   "name": "wordlist-with-phrases",
-  "version": "1.0.02",
+  "version": "1.0.03",
   "description": "list of 182,447 words and phrases from OpenThesaurus",
   "main": "index.js",
   "scripts": {

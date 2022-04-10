@@ -69,3 +69,6 @@ Result:
 
 - [norvig-frequencies](https://www.npmjs.com/package/norvig-frequencies) - list of top 100K words [words only, no frequencies]
 - [word-salience](https://www.npmjs.com/package/word-salience) - uses norvig-frequencies-stemmed
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

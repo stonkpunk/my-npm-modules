@@ -39,3 +39,7 @@ rmm.rank(modulesList, function(res){
     [ 7, 'spatial-db-ngt', 49 ]
 ]*/
 ```
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

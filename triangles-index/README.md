@@ -17,3 +17,7 @@ add `_meshView` to the function names to get the same format as meshview and oth
 //indexTriangles_meshView(triangles) => {cells: cells, positions: positions}
 //deindexTriangles_meshView(indexResult) => array of triangles
 ```
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

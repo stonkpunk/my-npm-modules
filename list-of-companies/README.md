@@ -30,3 +30,6 @@ console.log(require('list-of-companies'));
 - [list-of-brands](https://www.npmjs.com/package/list-of-brands) - List of 40,000 brands listed on Amazon
 - [companies-list](https://www.npmjs.com/package/companies-list) - Fortune 1000
 - [big-companies](https://www.npmjs.com/package/big-companies) - Large companies
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

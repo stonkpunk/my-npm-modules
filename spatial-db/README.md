@@ -129,4 +129,6 @@ If you named your database `"mytest"`, then mddf data is stored in a file called
 - **[spatial-db-ngt](https://www.npmjs.com/package/spatial-db-ngt)** - uses [NGT]((https://github.com/yahoojapan/NGT/blob/master/README.md)) instead of mddf
 - [ngt-tool](https://www.npmjs.com/package/ngt-tool) 
 
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
 

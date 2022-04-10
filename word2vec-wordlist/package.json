@@ -1,6 +1,6 @@
 {
   "name": "word2vec-wordlist",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "word2vec embeddings for the top 15,000 english words [300 dimensional]",
   "main": "index.js",
   "scripts": {

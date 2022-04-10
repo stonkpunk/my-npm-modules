@@ -46,8 +46,11 @@ art.runScene(config);
 
 ![1](https://i.imgur.com/bDnQpBD.png)
 
-resulting heightmap mesh
+^ resulting heightmap mesh
 
 ![2](https://i.imgur.com/drKLLh7.png)
 
-result with skirt added [here skirtY=-10]
+^ result with skirt added [here skirtY=-10]
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

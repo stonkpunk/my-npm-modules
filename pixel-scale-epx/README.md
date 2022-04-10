@@ -2,6 +2,8 @@
 
 [EPX / Scale2x / AdvMAME2x](https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms#EPX/Scale2%C3%97/AdvMAME2%C3%97) pixel art scaling algorithm (Eric's Pixel Expansion) 
 
+Can also do fast [faux] anti-aliasing by applying EPX then downsampling back to the orignal size. 
+
 Also includes the 3x version, aka [Scale3x / AdvMAME3x](https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms#Scale3%C3%97/AdvMAME3%C3%97_and_ScaleFX). 
 
 Scale pixel art 2x, 3x, 4x, 6x, 8x. 
@@ -17,17 +19,37 @@ var D4x = upscale.upscaleRgba4x(pixelsData,width,height,use8BitColors); //4x big
 var D6x = upscale.upscaleRgba6x(pixelsData,width,height,use8BitColors); //6x bigger [applies 2x op then 3x op]
 var D8x = upscale.upscaleRgba8x(pixelsData,width,height,use8BitColors); //8x bigger [applies 2x op thrice]
 
+//expand 2x + anti-alias -- eg, expand 4x then downsample 2x -- result is 2x bigger than input 
+var D2xAA = upscale.expandAndAntiAliasRgba2x(pixelsData,width,height,use8BitColors);
+
+//if you want ONLY anti-alias without any size change:
+var DAA1x = upscale.antiAliasRgba2x_inPlace(pixelsData,width,height,use8BitColors); //works IN PLACE -- size of image not affected
+
+//^in-place anti aliasing via applying EPX 2x then downscaling 2x after
+
+//4x anti aliasing also available, but results look virtually identical
+var DAA4x = upscale.antiAliasRgba4x_inPlace(pixelsData,width,height,use8BitColors); //works IN PLACE -- size of image not affected
+
+//can also do "blocky" / naive nearest-neighbor upscale
+var blocky2x = upscale.upscaleRgba2x_blocky(pixelsData,width,height);
+var blocky4x = upscale.upscaleRgba4x_blocky(pixelsData,width,height);
+var blocky8x = upscale.upscaleRgba8x_blocky(pixelsData,width,height);
+
 //format of output is same as input [r,g,b,a ...]
 ```
 
 ![original](https://i.imgur.com/9F811kc.png)
-*pixel art enlarged 4x with nearest neighbors*
+
+*^ pixel art enlarged 4x with nearest neighbors*
 
 
 ![4x](https://i.imgur.com/iu2TzbD.png)
-*pixel art enlarged 4x with EPX* 
 
+*^ pixel art enlarged 4x with EPX* 
 
+![aa2x](https://i.imgur.com/GejVyRp.png)
+
+*^ anti-aliasing via EPX - epx2x + 2x scale down [resulting image scaled 4x to show pixels]*
 
 ## Installation
 
@@ -62,7 +84,13 @@ readimage(filedata, function (err, image) {
 ![8x](https://i.imgur.com/82z25wd.png)
 *enlarged 8x*
 
+
 ## See Also
 
 - [ascii-raytracer](https://www.npmjs.com/package/ascii-raytracer) - uses `pixel-scale-epx`
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+
 

@@ -1,6 +1,6 @@
 {
   "name": "list-of-companies",
-  "version": "1.0.031",
+  "version": "1.0.032",
   "description": "list of 10,000 companies based on mentions in LinkedIn (up to 2015)",
   "main": "index.js",
   "scripts": {

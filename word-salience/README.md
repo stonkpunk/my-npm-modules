@@ -116,3 +116,6 @@ getSalientWordsObjectFromWordCount(wordCountResult, doReturnUnstemmed, unstemmed
 ## See Also
 
 - [norvig-frequencies-stemmed](https://www.npmjs.com/package/norvig-frequencies-stemmed)
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

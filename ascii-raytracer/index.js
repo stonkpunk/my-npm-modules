@@ -25,8 +25,7 @@ var dataBw_depth = adi.generateRandomImgData({x:raycasting_width,y:raycasting_he
 var dataBw_ao = adi.generateRandomImgData({x:raycasting_width,y:raycasting_height});
 var dataBw_shadow = adi.generateRandomImgData({x:raycasting_width,y:raycasting_height});
 
-function pts2Boxes(pts){
-    var S = 0.5;
+function pts2Boxes(pts,S=0.5){
     return pts.map(function(pt){
         return [[pt[0]-S,pt[1]-S,pt[2]-S],[pt[0]+S,pt[1]+S,pt[2]+S]];
     });
@@ -488,7 +487,7 @@ module.exports.runScene = function(config){
         config.distanceFunction = dfu.trianglesDistFast(tris, 0.10)
         config.raytraceFunction = ru.trianglesTraceFast(tris, 10.0);
     }else if(config.boxes || config.bricks || config.blocks || config.pts || config.points){
-        var boxes = config.boxes || config.bricks || config.blocks || pts2Boxes(config.pts || config.points);
+        var boxes = config.boxes || config.bricks || config.blocks || pts2Boxes(config.pts || config.points, config.ptSize);
         config.distanceFunction = dfu.sectorsDistFast(boxes,10.00);
         config.raytraceFunction = ru.sectorsTraceFast(boxes,10.00);
     }else if(config.stl){

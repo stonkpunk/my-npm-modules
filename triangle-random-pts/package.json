@@ -1,6 +1,6 @@
 {
   "name": "triangle-random-pts",
-  "version": "0.0.011",
+  "version": "0.0.013",
   "description": "generate uniformly distributed random points in a 3d triangle",
   "main": "index.js",
   "scripts": {

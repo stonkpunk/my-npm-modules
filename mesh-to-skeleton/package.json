@@ -1,0 +1,24 @@
+{
+  "name": "mesh-to-skeleton",
+  "version": "0.0.005",
+  "description": "convert a triangle mesh into a list of \"skeletal points\" - points of maximum distance from the surface",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangles",
+    "mesh",
+    "skeleton",
+    "fireshed",
+    "equidistant",
+    "midpoints"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "raycasting-utils": "0.0.18",
+    "triangles-mesh-random-pts": "0.0.2"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/mesh-to-skeleton"
+}

@@ -1,6 +1,6 @@
 {
   "name": "lines-self-chop",
-  "version": "0.0.012",
+  "version": "0.0.013",
   "description": "given an array of 3d line segments, chop the lines at all points of intersection, returning non-intersecting sub-segments",
   "main": "index.js",
   "scripts": {

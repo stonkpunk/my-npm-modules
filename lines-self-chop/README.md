@@ -39,3 +39,7 @@ var result = chopLines([line1, line2], minDist);
 //     [ [ 2.5, 0, 2.5 ], [ 5, 0, 0 ] ]
 // ]
 ```
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

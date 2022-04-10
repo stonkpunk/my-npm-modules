@@ -119,4 +119,19 @@ function trianglesIntersectingAABB(tris, aabb, rtree){
     return potentialTris;
 }
 
-module.exports = {trianglesIntersectingAABB, trianglesDistance, trianglesDistance_signed, triangles2RTree, triangles2BvhTree, trianglesFlatten};
+var _ = require('underscore');
+function trianglesDistanceStable(pt, triangles, trisRTree, eps=0.1, S=1000){
+    var r_x = trianglesIntersectingAABB(triangles, [[pt[0]-S,pt[1]-eps,pt[2]-eps],[pt[0]+S,pt[1]+eps,pt[2]+eps]], trisRTree);
+    var r_y = trianglesIntersectingAABB(triangles, [[pt[0]-eps,pt[1]-S,pt[2]-eps],[pt[0]+eps,pt[1]+S,pt[2]+eps]], trisRTree);
+    var r_z = trianglesIntersectingAABB(triangles, [[pt[0]-eps,pt[1]-eps,pt[2]-S],[pt[0]+eps,pt[1]+eps,pt[2]+S]], trisRTree);
+    var trisUniq = _.uniq([].concat(r_x,r_y,r_z));
+    var trisDists = trisUniq.map(tri=>triangleDistance(pt,tri));
+    return Math.min(...trisDists);
+}
+
+function trianglesDistanceBruteForce(pt, triangles){
+    return Math.min(...triangles.map(tri=>triangleDistance(pt,tri)));
+}
+
+
+module.exports = {trianglesDistanceBruteForce, trianglesDistanceStable, trianglesIntersectingAABB, trianglesDistance, trianglesDistance_signed, triangles2RTree, triangles2BvhTree, trianglesFlatten};

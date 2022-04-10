@@ -1,0 +1,23 @@
+{
+  "name": "image-to-triangles",
+  "version": "0.0.03",
+  "description": "convert an image into triangles with vertex colors - compress image data using mesh compression! poor man's vector tracing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "image",
+    "trace",
+    "vector",
+    "triangles",
+    "quadratic",
+    "mesh",
+    "decimation"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/image-to-triangles"
+}

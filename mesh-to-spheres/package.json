@@ -1,0 +1,22 @@
+{
+  "name": "mesh-to-spheres",
+  "version": "0.0.02",
+  "description": "convert a triangle mesh into a set of spheres that occupy approximately the same volume as the mesh",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangle",
+    "mesh",
+    "spheres",
+    "implicit surface",
+    "distance function"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "mesh-to-skeleton": "0.0.5"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/mesh-to-spheres"
+}

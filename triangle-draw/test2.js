@@ -3,6 +3,13 @@ var sdl = require('@kmamal/sdl')
 var td = require('./index.js');
 var drawTriangle = td.drawTriangle;
 var drawTriangleColored = td.drawTriangleColored;
+var drawTriangleTextured = td.drawTriangleTextured;
+var drawTriangleTextured_flat = td.drawTriangleTextured_flat;
+
+var imageSync = require('image-sync');
+//read the image data
+var textureData = imageSync.read('./uv-test-tile.png'); //{width, height, data, saveAs}
+
 
 const window = sdl.video.createWindow({ resizable: true })
 var { width, height } = window
@@ -34,35 +41,31 @@ var frames=0;
 function renderOne(){
     frames++;
 
-    // let offset = 0
-    // for (let i = 0; i < height; i++) {
-    //     for (let j = 0; j < width; j++) {
-    //         buffer[offset++] = Math.floor(256 * i / height) // R
-    //         buffer[offset++] = Math.floor(256 * j / width)  // G
-    //         buffer[offset++] = 0                            // B
-    //         buffer[offset++] = 255                          // A
-    //     }
-    // }
-
-    //1 tri - 90fps - 550fps
-    //10 tri - 90fps - 264fps
-    //100 tri - 40fps - 40fps
-
-    var numTris = 1;
+    var numTris = 25;
     for(var i=0;i<numTris;i++){
         var triangle = [rndPt2d(),rndPt2d(),rndPt2d()];
         var color = [255,0,0]//[Math.random()*255,Math.random()*255,Math.random()*255];
         var color2 = [0,255,0]//[Math.random()*255,Math.random()*255,Math.random()*255];
         var color3 = [0,0,255]//[Math.random()*255,Math.random()*255,Math.random()*255];
         var colors = [color, color2, color3];
+
+        var uvs = [[0,0,0],[0,1,0],[1,1,0]]; //z coord is ignored
+
         //drawTriangle(triangle, color, buffer, width, height);
-        drawTriangleColored(triangle, colors, buffer, width, height);
+        //drawTriangleColored(triangle, colors, buffer, width, height);
+        //drawTriangleTextured(triangle, uvs, buffer, width, height, textureData.data, textureData.width, textureData.height);
+        //drawTriangleTextured_flat([].concat(...triangle),0, uvs, buffer, width, height, textureData.data, textureData.width, textureData.height);
+
+        //module.exports.drawTriangleTextured_flatB = function(triArrFlat, triangleIndex, triVertUVs, screenBuffer, screenWidth, screenHeight, texBuffer, texWidth, texHeight, edgesOnly = false){
+
+        drawTriangleTextured_flat([].concat(...triangle),0, uvs, buffer, width, height, textureData.data, textureData.width, textureData.height);
+
     }
 
     window.render(width, height, stride, 'rgba32', buffer)
 
     //renderOne();
-    setTimeout(renderOne,1000);
+    setTimeout(renderOne,1);
 }
 
 renderOne();

@@ -58,4 +58,6 @@ console.log("uncompressed buffer - no jsonpack", unshrink(compressed_buffer_nopa
 
 - [jsonfile-compressed](https://www.npmjs.com/package/jsonfile-compressed) - uses `json-shrink`
 
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
 

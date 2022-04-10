@@ -1,6 +1,6 @@
 {
   "name": "name-my-computer",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "give your computer a human name based on its mac address",
   "main": "index.js",
   "scripts": {

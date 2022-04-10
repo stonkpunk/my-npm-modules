@@ -1,6 +1,6 @@
 {
   "name": "tetrahedron-distance",
-  "version": "0.0.021",
+  "version": "0.0.022",
   "description": "Signed distance function for arbitrary tetrahedron, suitable for marching cubes etc. Includes fast function to check if tetrahedron contains point.",
   "main": "index.js",
   "scripts": {

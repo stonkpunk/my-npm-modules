@@ -92,4 +92,7 @@ If you named your database `"mytest"`, then ngt data goes to a folder named `./m
 
 ## See Also
 
-- [spatial-db-ngt](https://www.npmjs.com/package/spatial-db-ngt) - use ngt to store JSON documents 
+- [spatial-db-ngt](https://www.npmjs.com/package/spatial-db-ngt) - use ngt to store JSON documents
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

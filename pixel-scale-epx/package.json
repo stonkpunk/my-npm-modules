@@ -1,13 +1,13 @@
 {
   "name": "pixel-scale-epx",
-  "version": "0.0.118",
-  "description": "EPX / Scale2x / AdvMAME2x / 3x pixel art scaling algorithms (Eric's Pixel Expansion). 2x, 3x, 4x, 6x, 8x. Works on flat RGBA data.",
+  "version": "0.0.129",
+  "description": "EPX / Scale2x / AdvMAME2x / 3x pixel art scaling algorithms (Eric's Pixel Expansion). 2x, 3x, 4x, 6x, 8x. Anti-aliasing. Works on flat RGBA data.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "pixel","scaling","scale","epx","mame","scale2x","advmame2x","scale3x","advmame3x","2x","3x","6x","4x","8x","expansion"
+    "pixel","scaling","scale","epx","mame","scale2x","advmame2x","scale3x","advmame3x","2x","3x","6x","4x","8x","expansion","anti aliasing"
   ],
   "author": "stonkpunk",
   "license": "MIT",

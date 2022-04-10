@@ -40,3 +40,7 @@ var onComplete = function(listOfErrors, listOfResults){
 dl.downloadListOfUrls(list, onComplete, onDownloadedEach_noJquery, limitParallel) //download list of urls, process raw html with callback 
 dl.downloadListOfUrlsJquery(list, onComplete, onDownloadedEach_withJquery, limitParallel) //same, but load html result into jquery object
 ```
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

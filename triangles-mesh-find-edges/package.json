@@ -1,6 +1,6 @@
 {
   "name": "triangles-mesh-find-edges",
-  "version": "0.0.01",
+  "version": "0.0.02",
   "description": "convert list of triangles into list of edges where curvature is above threshold",
   "main": "index.js",
   "scripts": {

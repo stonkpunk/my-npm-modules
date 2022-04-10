@@ -11,10 +11,7 @@ function rgbToHex8bit(_r, _g, _b) {
 }
 
 function placePixel(rgba_arr,w,h,x,y,rgb){
-    rgba_arr[(x+y*w)*4] = rgb[0];
-    rgba_arr[(x+y*w)*4+1] = rgb[1];
-    rgba_arr[(x+y*w)*4+2] = rgb[2];
-    rgba_arr[(x+y*w)*4+3] = 255;
+    var o = (x+y*w)<<2;rgba_arr[o] = rgb[0];rgba_arr[++o] = rgb[1];rgba_arr[++o] = rgb[2];rgba_arr[++o] = 255;
 }
 
 function upscaleRgba8x(rgba_arr, w, h, use8Bit=false){
@@ -35,7 +32,10 @@ function upscaleRgba4x(rgba_arr, w, h, use8Bit=false){
 }
 
 //https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms#EPX/Scale2%C3%97/AdvMAME2%C3%97
-function upscaleRgba2x(rgba_arr, w, h, use8Bit=false){
+function upscaleRgba2x(rgba_arr, w, h, use8Bit=false, _existingExpandedArray=null){
+
+    var w2 = w<<1;
+    var h2 = h<<1;
 
     var pickingFunc = rgbToHex8bit;
 
@@ -43,7 +43,7 @@ function upscaleRgba2x(rgba_arr, w, h, use8Bit=false){
         pickingFunc = rgbToHex;
     }
 
-    var expandedArr = new Uint8Array(w*h*4*4);
+    var expandedArr = _existingExpandedArray || new Uint8Array(w*h*4*4);
 
     for(var x=0; x<w; x++){
         var prevX = Math.max(x-1,0);
@@ -52,11 +52,11 @@ function upscaleRgba2x(rgba_arr, w, h, use8Bit=false){
             var prevY = Math.max(y-1,0);
             var nextY = Math.min(y+1,h-1);
 
-            var oA = (x+prevY*w)*4;
-            var oB = (nextX+y*w)*4;
-            var oC = (prevX+y*w)*4;
-            var oD = (x+nextY*w)*4;
-            var oP = (x+y*w)*4;
+            var oA = (x+prevY*w)<<2;
+            var oB = (nextX+y*w)<<2;
+            var oC = (prevX+y*w)<<2;
+            var oD = (x+nextY*w)<<2;
+            var oP = (x+y*w)<<2;
 
             //colors, 8bit rgb as hex longs
             //var P = rgbToHex8bit(rgba_arr[oP],rgba_arr[oP+1],rgba_arr[oP+2]); //colorRgb_P
@@ -77,25 +77,60 @@ function upscaleRgba2x(rgba_arr, w, h, use8Bit=false){
             if(D==C && D!=B && C!=A){r3=_C;}
             if(B==D && B!=A && D!=C){r4=_D;}
 
-            placePixel(expandedArr,w*2,h*2,x*2,y*2, r1);
-            placePixel(expandedArr,w*2,h*2,x*2+1,y*2, r2);
-            placePixel(expandedArr,w*2,h*2,x*2,y*2+1, r3);
-            placePixel(expandedArr,w*2,h*2,x*2+1,y*2+1, r4);
+            var x2 = x<<1;
+            var y2 = y<<1;
+
+            placePixel(expandedArr,w2,h2,x2,y2, r1);
+            placePixel(expandedArr,w2,h2,x2+1,y2, r2);
+            placePixel(expandedArr,w2,h2,x2,y2+1, r3);
+            placePixel(expandedArr,w2,h2,x2+1,y2+1, r4);
         }
     }
 
     return expandedArr;
 };
 
-function upscaleRgba3x(rgba_arr, w, h, use8Bit=false){
+function upscaleRgba2x_blocky(rgba_arr, w, h, _existingExpandedArray=null){
+    var w2 = w<<1;
+    var h2 = h<<1;
 
+    var expandedArr = _existingExpandedArray || new Uint8Array(w*h*4*4);
+
+    for(var x=0; x<w; x++){
+        for(var y=0; y<h; y++){
+            var oP = (x+y*w)<<2;
+            var c = [rgba_arr[oP],rgba_arr[oP+1],rgba_arr[oP+2]];
+            var x2 = x<<1;
+            var y2 = y<<1;
+            placePixel(expandedArr,w2,h2,x2,y2, c);
+            placePixel(expandedArr,w2,h2,x2+1,y2, c);
+            placePixel(expandedArr,w2,h2,x2,y2+1, c);
+            placePixel(expandedArr,w2,h2,x2+1,y2+1, c);
+        }
+    }
+
+    return expandedArr;
+};
+
+function upscaleRgba4x_blocky(rgba_arr, w, h){
+    return upscaleRgba2x_blocky(upscaleRgba2x_blocky(rgba_arr,w,h), w*2, h*2);
+}
+
+function upscaleRgba8x_blocky(rgba_arr, w, h){
+    return upscaleRgba2x_blocky(upscaleRgba2x_blocky(upscaleRgba2x_blocky(rgba_arr,w,h), w*2, h*2),w*4,h*4);
+}
+
+function upscaleRgba3x(rgba_arr, w, h, use8Bit=false, _existingExpandedArray=null){
+
+    var w3 = w*3;
+    var h3 = h*3;
     var pickingFunc = rgbToHex8bit;
 
     if(!use8Bit){
         pickingFunc = rgbToHex;
     }
 
-    var expandedArr = new Uint8Array(w*h*4*9);
+    var expandedArr = _existingExpandedArray || new Uint8Array(w*h*4*9);
 
     for(var x=0; x<w; x++){
         var prevX = Math.max(x-1,0);
@@ -104,15 +139,15 @@ function upscaleRgba3x(rgba_arr, w, h, use8Bit=false){
             var prevY = Math.max(y-1,0);
             var nextY = Math.min(y+1,h-1);
 
-            var oA = (prevX+prevY*w)*4;
-            var oB = (x+prevY*w)*4;
-            var oC = (nextX+nextY*w)*4;
-            var oD = (prevX+y*w)*4;
-            var oE = (x+y*w)*4;
-            var oF = (nextX+y*w)*4;
-            var oG = (prevX+nextY*w)*4;
-            var oH = (x+nextY*w)*4;
-            var oI = (nextX+nextY*w)*4;
+            var oA = (prevX+prevY*w)<<2;
+            var oB = (x+prevY*w)<<2;
+            var oC = (nextX+nextY*w)<<2;
+            var oD = (prevX+y*w)<<2;
+            var oE = (x+y*w)<<2;
+            var oF = (nextX+y*w)<<2;
+            var oG = (prevX+nextY*w)<<2;
+            var oH = (x+nextY*w)<<2;
+            var oI = (nextX+nextY*w)<<2;
 
             var A = pickingFunc(rgba_arr[oA],rgba_arr[oA+1],rgba_arr[oA+2]);
             var B = pickingFunc(rgba_arr[oB],rgba_arr[oB+1],rgba_arr[oB+2]);
@@ -145,23 +180,40 @@ function upscaleRgba3x(rgba_arr, w, h, use8Bit=false){
             if((F==H &&  F!=B &&  H!=D &&  E!=G) || (H==D &&  H!=F &&  D!=B &&  E!=I)){r[7]=_H;}
             if(F==H &&  F!=B &&  H!=D                                                ){r[8]=_F;}
 
-            placePixel(expandedArr,w*3,h*3,x*3-1,y*3-1, r[0]);
-            placePixel(expandedArr,w*3,h*3,x*3,y*3-1, r[1]);
-            placePixel(expandedArr,w*3,h*3,x*3+1,y*3-1, r[2]);
+            var x3 = x*3;
+            var y3 = y*3;
 
-            placePixel(expandedArr,w*3,h*3,x*3-1,y*3, r[3]);
-            placePixel(expandedArr,w*3,h*3,x*3,y*3, r[4]);
-            placePixel(expandedArr,w*3,h*3,x*3+1,y*3, r[5]);
-
-            placePixel(expandedArr,w*3,h*3,x*3-1,y*3+1, r[6]);
-            placePixel(expandedArr,w*3,h*3,x*3,y*3+1, r[7]);
-            placePixel(expandedArr,w*3,h*3,x*3+1,y*3+1, r[8]);
+            placePixel(expandedArr,w3,h3,x3-1,y3-1, r[0]);
+            placePixel(expandedArr,w3,h3,x3,y3-1, r[1]);
+            placePixel(expandedArr,w3,h3,x3+1,y3-1, r[2]);
+            placePixel(expandedArr,w3,h3,x3-1,y3, r[3]);
+            placePixel(expandedArr,w3,h3,x3,y*3, r[4]);
+            placePixel(expandedArr,w3,h3,x3+1,y3, r[5]);
+            placePixel(expandedArr,w3,h3,x3-1,y3+1, r[6]);
+            placePixel(expandedArr,w3,h3,x3,y3+1, r[7]);
+            placePixel(expandedArr,w3,h3,x3+1,y3+1, r[8]);
         }
     }
 
     return expandedArr;
 };
 
+var scaleHalf = require('./scale-img-by-half.js');
+function antiAliasRgba2x_inPlace(rgba_arr, w, h, use8Bit=false, _existingExpandedArray=null) {
+    var expandedByEpx = upscaleRgba2x(rgba_arr, w, h, use8Bit, _existingExpandedArray);
+    return scaleHalf.scaleHalf(rgba_arr, expandedByEpx, w, h);
+}
 
+function antiAliasRgba4x_inPlace(rgba_arr, w, h, use8Bit=false) {
+    var expandedArr = expandAndAntiAliasRgba2x(rgba_arr, w, h, use8Bit);
+    return scaleHalf.scaleHalf(rgba_arr, expandedArr, w, h);
+}
 
-module.exports = {upscaleRgba2x, upscaleRgba3x, upscaleRgba4x, upscaleRgba6x, upscaleRgba8x};
+function expandAndAntiAliasRgba2x(rgba_arr, w, h, use8Bit=false) {
+    var expandedByEpx4x = upscaleRgba4x(rgba_arr, w, h, use8Bit);
+
+    var expandedArr2x = new Uint8Array(w*h*4*4).fill(255);
+    return scaleHalf.scaleHalf(expandedArr2x, expandedByEpx4x, w*2, h*2)
+}
+
+module.exports = {upscaleRgba8x_blocky,upscaleRgba4x_blocky,upscaleRgba2x_blocky, scaleByHalf: scaleHalf.scaleHalf, expandAndAntiAliasRgba2x, antiAliasRgba4x_inPlace, antiAliasRgba2x_inPlace, upscaleRgba2x, upscaleRgba3x, upscaleRgba4x, upscaleRgba6x, upscaleRgba8x};

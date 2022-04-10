@@ -57,4 +57,8 @@ art.runScene(config); //press c to change camera mode
 
 ![3](https://i.imgur.com/l4voiaV.png)
 
-^ 5 slices, line segments only 
+^ 5 slices, line segments only
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

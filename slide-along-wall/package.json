@@ -1,0 +1,24 @@
+{
+  "name": "slide-along-wall",
+  "version": "0.0.03",
+  "description": "slide a point along a wall / surface / triangle mesh [eg for games, slide camera along wall upon collision]",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mesh",
+    "triangles",
+    "slide",
+    "wall",
+    "collision",
+    "implicit surface",
+    "distance function"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "raycasting-utils": "0.0.16"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/slide-along-wall"
+}

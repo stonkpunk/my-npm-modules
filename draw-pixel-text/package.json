@@ -1,0 +1,22 @@
+{
+  "name": "draw-pixel-text",
+  "version": "0.0.15",
+  "description": "print basic text directly onto a flat pixel buffer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "text",
+    "bitmap",
+    "pixels",
+    "rgba",
+    "string",
+    "monospace"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "simple-bitmap-font": "0.0.122"
+  }
+}

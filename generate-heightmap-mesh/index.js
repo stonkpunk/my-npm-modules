@@ -1,6 +1,6 @@
 var st = require('simplify-triangles');
 
-function generateHeightmapMeshXZ(resolution=64, boundingBox_XZ, distanceFunction=dfHillsWorld2D, yCoordinate=0.0,df_scaleXZ=100.0,df_scaleY=4.0, simplifyFactor=1, doAddSkirt=true, skirtY=0){
+function generateHeightmapMeshXZ(resolution=64, boundingBox_XZ=[[0,0,0],[resolution,resolution,resolution]], distanceFunction=dfHillsWorld2D, yCoordinate=0.0,df_scaleXZ=100.0,df_scaleY=4.0, simplifyFactor=1, doAddSkirt=true, skirtY=0){
     var res = resolution;
     var df = distanceFunction;
     var bb = boundingBox_XZ;

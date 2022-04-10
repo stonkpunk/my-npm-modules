@@ -38,3 +38,6 @@ function onDecompressed(){
 }
 ```
 
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

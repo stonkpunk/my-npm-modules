@@ -1,6 +1,6 @@
 {
   "name": "triangles-islands",
-  "version": "0.0.01",
+  "version": "0.0.02",
   "description": "breaks up a triangle mesh into \"islands\" (connected components)",
   "main": "index.js",
   "scripts": {

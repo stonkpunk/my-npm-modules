@@ -1,6 +1,6 @@
 {
   "name": "barycentric-coordinates",
-  "version": "0.0.04",
+  "version": "0.0.07",
   "description": "get barycentric coordinates for triangle and tetrahedron, convert to/from cartesian coordinates, interpolate vertex normals",
   "main": "index.js",
   "scripts": {

@@ -50,5 +50,7 @@ Results [enlarged 2x]
 - [image-blur-gaussian](https://www.npmjs.com/package/image-blur-gaussian) - fast gaussian blur  
 - [image-sync](https://www.npmjs.com/package/image-sync) - synchronous image reader/writer
 
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
 
 

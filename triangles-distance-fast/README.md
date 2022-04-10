@@ -16,6 +16,8 @@ npm i triangles-distance-fast
 
 // trianglesDistance(tris, radius, rtree?) // unsigned distance function(x,y,z) sampling over radius, use optional cached rtree - returns >9999 if no triangles within radius
 // trianglesDistance_signed(tris, radius, rtree?, bvh?) // signed distance function(x,y,z) sampling over radius, use optional cached rtree and bvh tree - returns abs() > 9999 if no triangles within radius
+// trianglesDistanceStable(pt, triangles, trisRTree, eps=0.1, S=1000) unsigned, sampling over 3 narrow bounding boxes along the XYZ axis 
+// trianglesDistanceBruteForce(pt, triangles) //brute force / naive approach, testing each triangle
 // trianglesIntersectingAABB(tris, aabb, rtree?) // get set of triangles whose bounding boxes intersect the aabb
 // triangles2RTree(tris) //get rtree for triangles 
 // triangles2BvhTree(tris) //get bvh for triangles 
@@ -38,4 +40,7 @@ console.log(dist); //5.114792068071368
 
 //returns >9999 if nothing found within the radius [or < -9999 if using signed distance inside mesh]
 ```
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
 

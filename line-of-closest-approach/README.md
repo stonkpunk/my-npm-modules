@@ -34,3 +34,6 @@ console.log(res);
 //         t1
 //     ];
 ```
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

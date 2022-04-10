@@ -6,7 +6,9 @@ function dilateColors_loop(dt,h,w,bgColor,rad){
 }
 
 //on its own, this func produces results which "lean" to one side, better to use looped version above
-function dilateColors(dt,h,w, _bgColor, _rad){ //replace bgColor with nearest color
+function dilateColors(dt,_h,_w, _bgColor, _rad){ //replace bgColor with nearest color
+    var h = _w;
+    var w = _h; //h, w were swapped in the loops by accident, whoops , here we swap them back
     var bgColor = _bgColor || [0,255,0];
     var rad = _rad||1;
     var data = dt;

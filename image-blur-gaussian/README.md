@@ -46,4 +46,7 @@ img.saveAs(`./output.png`);
 - [image-dilate](https://www.npmjs.com/package/image-dilate) - dilate image pixels by color
 - [image-sync](https://www.npmjs.com/package/image-sync) - synchronous image reader/writer
 
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+
 

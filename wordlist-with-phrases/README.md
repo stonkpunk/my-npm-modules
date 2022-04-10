@@ -34,3 +34,7 @@ for(var i=0;i<10;i++){
 ## See Also
 
 - [thesaurus](https://www.npmjs.com/package/thesaurus) - used to produce this list
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

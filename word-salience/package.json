@@ -1,6 +1,6 @@
 {
   "name": "word-salience",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "measure the salience / importance of words in a text document -- based on the frequency of the words in the document, versus their frequency in English",
   "main": "index.js",
   "scripts": {

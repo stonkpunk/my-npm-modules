@@ -1,0 +1,28 @@
+{
+  "name": "uv-map-xatlas",
+  "version": "0.0.002",
+  "description": "automatic uv mapping / uv unwrapping / mesh parameterization / texture mapping -- simple interface for xatlas.js",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^10.2.4",
+    "xatlas-web": "git+https://github.com/palashbansal96/xatlas.git#build_v1",
+    "bunny": "^1.0.1",
+    "deasync": "^0.1.24",
+    "fast-png": "^6.1.0",
+    "image-sync": "0.0.11",
+    "readimage": "^1.1.1",
+    "triangles-mesh-renderer": "0.0.19"
+  },
+  "keywords": [
+    "uv", "unwrap", "mesh", "parameterization", "texture", "map", "xatlas", "3d", "flatten"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "triangles-index": "0.0.3"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/uv-map-xatlas"
+}

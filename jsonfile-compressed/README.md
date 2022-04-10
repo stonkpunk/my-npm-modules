@@ -70,4 +70,7 @@ jfc.writeFile("test3.json", obj, jsonPackEnabled,function(err,res){
 - [jsonfile](https://www.npmjs.com/package/jsonfile)
 
 
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+
 

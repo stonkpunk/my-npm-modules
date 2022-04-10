@@ -1,6 +1,6 @@
 {
   "name": "triangles-mesh-random-pts",
-  "version": "0.0.001",
+  "version": "0.0.002",
   "description": "generate random points and normals evenly distributed on a triangle mesh",
   "main": "index.js",
   "scripts": {

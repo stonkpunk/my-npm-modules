@@ -43,3 +43,6 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 - [list-of-companies](https://www.npmjs.com/package/list-of-companies) - Companies based on LinkedIn mentions
 - [companies-list](https://www.npmjs.com/package/companies-list) - Fortune 1000
 - [big-companies](https://www.npmjs.com/package/big-companies) - Large companies
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

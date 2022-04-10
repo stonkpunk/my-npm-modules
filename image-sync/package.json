@@ -1,17 +1,27 @@
 {
   "name": "image-sync",
-  "version": "0.0.011",
+  "version": "0.0.013",
   "description": "synchronously read, modify, and save PNG and JPG image data.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "image","pixels","rgba","png","jpg","jpeg","sync"
+    "image",
+    "pixels",
+    "rgba",
+    "png",
+    "jpg",
+    "jpeg",
+    "sync"
   ],
   "author": "stonkpunk",
   "license": "MIT",
   "dependencies": {
+    "deasync": "^0.1.24",
+    "fast-png": "^6.1.0",
+    "jpeg-js": "^0.4.3",
+    "readimage": "^1.1.1"
   },
   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/image-sync"
 }

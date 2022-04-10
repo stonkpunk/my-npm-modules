@@ -86,3 +86,6 @@ art.runScene(config);
 ## See Also
 
 - [isosurface](https://www.npmjs.com/package/isosurface) 
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

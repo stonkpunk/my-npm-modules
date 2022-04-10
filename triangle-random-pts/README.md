@@ -44,9 +44,14 @@ console.log(pointsQuasiRandom);
 
 ## See Also
 
+
+- [triangles-mesh-random-pts](https://www.npmjs.com/package/triangles-mesh-random-pts) 
 - [triangle-triangle-intersection](https://www.npmjs.com/package/triangle-triangle-intersection) - intersection between 2 triangles
 - [triangle-distance](https://www.npmjs.com/package/triangle-distance) - distance to triangle
 - [triangle-area-fast](https://www.npmjs.com/package/triangle-area-fast) - triangle area via cross-product
 
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
 
 

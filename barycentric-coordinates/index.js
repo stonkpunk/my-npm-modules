@@ -134,6 +134,90 @@ function triangleInterpolateNormals(pt, tri, normalA, normalB, normalC){
     return triangleCartesianCoords(bc,[normalA, normalB, normalC])
 }
 
+//this version inlined version of the above code, with identical results. much faster.
+function triangleInterpolateNormalsB(pt, tri, normalA, normalB, normalC) {
+    var a = tri[0];
+    var b = tri[1];
+    var c = tri[2];
+
+    var bax = b[0] - a[0];
+    var cax = c[0] - a[0];
+    var pax = pt[0] - a[0];
+
+    var bay = b[1] - a[1];
+    var cay = c[1] - a[1];
+    var pay = pt[1] - a[1];
+
+    var baz = b[2] - a[2];
+    var caz = c[2] - a[2];
+    var paz = pt[2] - a[2];
+
+    var v9 = bax * bax + bay * bay + baz * baz; //9
+    var v10 = bax * cax + bay * cay + baz * caz; //10
+
+    var v11 = cax * cax + cay * cay + caz * caz; //11
+    var v12 = pax * bax + pay * bay + paz * baz; //12
+
+    var v13 = pax * cax + pay * cay + paz * caz; //13
+
+    var v14 = v9 * v11 - v10 * v10; //14
+
+    var v15 = (v11 * v12 - v10 * v13) / v14; //15
+    var v16 = (v9 * v13 - v10 * v12) / v14; //16
+
+    var tbcA = 1.0 - v15 - v16;
+    var tbcB = v16;
+    var tbcC = v15;
+
+    return [
+        normalA[0] * tbcA + normalB[0] * tbcB + normalC[0] * tbcC,
+        normalA[1] * tbcA + normalB[1] * tbcB + normalC[1] * tbcC,
+        normalA[2] * tbcA + normalB[2] * tbcB + normalC[2] * tbcC,
+    ];
+}
+
+function triangleInterpolateUVs(pt, tri, uvA, uvB, uvC) {
+    var a = tri[0];
+    var b = tri[1];
+    var c = tri[2];
+
+    var bax = b[0] - a[0];
+    var cax = c[0] - a[0];
+    var pax = pt[0] - a[0];
+
+    var bay = b[1] - a[1];
+    var cay = c[1] - a[1];
+    var pay = pt[1] - a[1];
+
+    var baz = b[2] - a[2];
+    var caz = c[2] - a[2];
+    var paz = pt[2] - a[2];
+
+    var v9 = bax * bax + bay * bay + baz * baz; //9
+    var v10 = bax * cax + bay * cay + baz * caz; //10
+
+    var v11 = cax * cax + cay * cay + caz * caz; //11
+    var v12 = pax * bax + pay * bay + paz * baz; //12
+
+    var v13 = pax * cax + pay * cay + paz * caz; //13
+
+    var v14 = v9 * v11 - v10 * v10; //14
+
+    var v15 = (v11 * v12 - v10 * v13) / v14; //15
+    var v16 = (v9 * v13 - v10 * v12) / v14; //16
+
+    var tbcA = 1.0 - v15 - v16;
+    var tbcB = v16;
+    var tbcC = v15;
+
+    return [
+        uvA[0] * tbcA + uvB[0] * tbcB + uvC[0] * tbcC,
+        uvA[1] * tbcA + uvB[1] * tbcB + uvC[1] * tbcC,
+        //uvA[2] * tbcA + uvB[2] * tbcB + uvC[2] * tbcC,
+    ];
+}
+
+
 // function generateRandomBarycoord(){
 //     var pt = [Math.random(),Math.random(),0];
 //     if(pt[0]+pt[1]>1){
@@ -145,10 +229,13 @@ function triangleInterpolateNormals(pt, tri, normalA, normalB, normalC){
 // }
 
 function triangleCartesianCoords(triBaryCoords, tri){
+    var a = tri[0];
+    var b = tri[1];
+    var c = tri[2];
     return [
-        tri[0][0]*triBaryCoords[0] + tri[1][0]*triBaryCoords[1] + tri[2][0]*triBaryCoords[2],
-        tri[0][1]*triBaryCoords[0] + tri[1][1]*triBaryCoords[1] + tri[2][1]*triBaryCoords[2],
-        tri[0][2]*triBaryCoords[0] + tri[1][2]*triBaryCoords[1] + tri[2][2]*triBaryCoords[2],
+        a[0]*triBaryCoords[0] + b[0]*triBaryCoords[1] + c[0]*triBaryCoords[2],
+        a[1]*triBaryCoords[0] + b[1]*triBaryCoords[1] + c[1]*triBaryCoords[2],
+        a[2]*triBaryCoords[0] + b[2]*triBaryCoords[1] + c[2]*triBaryCoords[2],
     ];
 }
 
@@ -174,7 +261,11 @@ function tetrahedronCartesianCoords(tetBaryCoords, tet){
     ];
 }
 
-module.exports.triangleInterpolateNormals = triangleInterpolateNormals;
+module.exports.triangleInterpolateNormals = triangleInterpolateNormalsB;
+module.exports.triangleInterpolateNormals_old = triangleInterpolateNormals;
+
+module.exports.triangleInterpolateUVs = triangleInterpolateUVs;
+
 module.exports.triangleBarycentricCoords = triangleBarycentricCoords;
 module.exports.triangleCartesianCoords = triangleCartesianCoords;
 module.exports.tetrahedronBarycentricCoords = tetrahedronBarycentricCoords;

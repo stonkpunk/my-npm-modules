@@ -1,0 +1,28 @@
+{
+  "author": {
+    "name": "stonkpunk"
+  },
+  "dependencies": {
+    "barycentric-coordinates": "0.0.4",
+    "bresenham": "0.0.4"
+  },
+  "deprecated": false,
+  "description": "draw a filled triangle directly onto a pixel buffer, with textures or interpolated vertex colors",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangle-draw",
+  "keywords": [
+    "triangle",
+    "fill",
+    "draw",
+    "2d",
+    "cpu",
+    "interpolated",
+    "vertex"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "triangle-draw",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.19"
+}

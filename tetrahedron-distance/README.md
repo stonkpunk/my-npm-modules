@@ -46,4 +46,8 @@ console.log(td.tetrahedronContainsPt(ptInside,tet)); //true
 
 - [triangle-distance](https://www.npmjs.com/package/triangle-distance) - distance to triangle
 
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+
+
 

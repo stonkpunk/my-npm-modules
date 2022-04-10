@@ -1,6 +1,6 @@
 {
   "name": "triangles-index",
-  "version": "0.0.003",
+  "version": "0.0.004",
   "description": "index a set of triangles into a set of positions/pts and cells. merge vertices fast.",
   "main": "index.js",
   "scripts": {

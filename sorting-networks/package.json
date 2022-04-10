@@ -1,0 +1,17 @@
+{
+  "name": "sorting-networks",
+  "version": "0.0.07",
+  "description": "sorting networks for up to 64 inputs. the fastest way to sort small lists.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sort","network","fast"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/sorting-networks"
+}

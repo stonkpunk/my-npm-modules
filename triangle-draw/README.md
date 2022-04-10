@@ -1,6 +1,6 @@
 # triangle-draw
 
-quickly draw a filled triangle directly onto a RGBA pixel buffer, filled with interpolated vertex colors.
+quickly draw a filled triangle directly onto a RGBA pixel buffer, filled with interpolated vertex colors, or textures.
 
 uses a modified version of `npm points-in-triangle` to efficiently enumerate points in the triangle.
 
@@ -22,11 +22,25 @@ var td = require('triangle-draw');
 //color = [255,255,255] for white etc
 //buffer = RGBA pixel int array[width*height*4] 
 
+
 //draw solid color triangle
-td.drawTriangle(triangle, color, buffer, width, height, edgesOnly=false); 
+td.drawTriangle(triangle, color, buffer, width, height, edgesOnly=false);
 
 //draw triangle with vertex colors [fill colors are interpolated via barycentric coordinates]
 td.drawTriangleColored(triangle, colors, buffer, width, height, edgesOnly=false);
+
+//draw triangle with texture 
+td.drawTriangleTextured(triangle, uvs, buffer, width, height, textureBuffer, texWidth, texHeight, edgesOnly=false);
+
+
+//if you have a flattened arr of 2d triangles...
+//trianglesArr = [x,y, x,y, x,y,  x,y, x,y, x,y ... ]
+td.drawTriangle_flat(trianglesArr, triangleIndex, color, buffer, width, height, edgesOnly=false);
+td.drawTriangleColored_flat(trianglesArr, triangleIndex, colors, buffer, width, height, edgesOnly=false);
+td.drawTriangleTextured_flat(trianglesArr, triangleIndex, uvs, buffer, width, height, textureBuffer, texWidth, texHeight, edgesOnly=false);
+
+//using a depth buffer... 
+//drawTriangleColored_flat_depth(triArrFlat, triangleIndex, triangleDepths, triangleVertexColors, bufferDepth, w, h, callback, edgesOnly=false)
 
 //set edgesOnly=true to render wireframes...
 ```
@@ -69,8 +83,30 @@ result
 
 ![result](https://i.imgur.com/TBxJSVa.png)
 
+Drawing triangles with textures
+
+```javascript
+var imageSync = require('image-sync');
+//read the image data
+var textureData = imageSync.read('./earth.png'); //{width, height, data, saveAs}
+
+//textureData is flat pixels buffer [r,g,b,a, r,g,b,a ...] 
+
+var uvs = [[0,0],[0,1],[1,1]];
+td.drawTriangleTextured(triangle, uvs, buffer, width, height, textureData.data, textureData.width, textureData.height);
+```
+
+Result
+![textured triangles](https://i.imgur.com/jY8aVQq.png)
+
+Texture
+![earth texture](https://i.imgur.com/Ebw0kUl.png)
+
 ## See Also
 
 - [points-in-triangle](https://www.npmjs.com/package/points-in-triangle) 
 
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
 

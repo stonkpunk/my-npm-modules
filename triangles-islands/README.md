@@ -67,3 +67,8 @@ var islands = ti.trianglesBreakIntoIslands(mergedList);
 //properties .vertices and .faces like from older versions of
 //three.JS
 ```
+
+
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+
+

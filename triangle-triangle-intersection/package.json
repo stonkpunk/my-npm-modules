@@ -1,6 +1,6 @@
 {
   "name": "triangle-triangle-intersection",
-  "version": "0.0.021",
+  "version": "0.0.022",
   "description": "return line segment representing the intersection between a pair of 3D triangles. based on Thomas Möller's algorithm.",
   "main": "index.js",
   "scripts": {

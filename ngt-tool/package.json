@@ -1,6 +1,6 @@
 {
   "name": "ngt-tool",
-  "version": "0.0.582",
+  "version": "0.0.583",
   "description": "Unofficial tool for interacting with Yahoo Japan's NGT Neighborhood Graph and Tree for Indexing High-dimensional Data",
   "main": "index.js",
   "scripts": {
