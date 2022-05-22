@@ -1,0 +1,34 @@
+{
+  "name": "pixel-draw",
+  "version": "0.0.0011",
+  "description": "draw stuff directly onto a pixel buffer similar to a canvas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pixel",
+    "draw",
+    "shapes",
+    "triangle",
+    "rectangle",
+    "circle",
+    "line",
+    "text",
+    "gradient",
+    "canvas",
+    "art",
+    "buffer",
+    "sync",
+    "getpixel",
+    "putpixel"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "draw-pixel-text": "0.0.15",
+    "image-sync": "0.0.15",
+    "triangle-draw": "0.0.28"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/pixel-canvas"
+}

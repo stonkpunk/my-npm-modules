@@ -1,0 +1,24 @@
+{
+  "name": "jsonfile-compressed-brotli",
+  "version": "0.0.117",
+  "description": "similar to jsonfile-compressed, but uses brotli compression instead of LZMA (7-zip)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "compression",
+    "compress",
+    "jsonpack",
+    "jsonfile",
+    "json",
+    "shrink",
+    "brotli"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "json-shrink": "0.0.124"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/jsonfile-compressed-brotli"
+}

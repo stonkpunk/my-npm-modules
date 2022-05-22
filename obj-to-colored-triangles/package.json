@@ -1,0 +1,24 @@
+{
+  "name": "obj-to-colored-triangles",
+  "version": "0.0.032",
+  "description": "convert a textured 3d mesh [Wavefront .obj] into a list of colored triangles. eg, color the mesh with per-face or per-vertex colors that approximate the original texture",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "obj",
+    "texture",
+    "colors",
+    "triangles"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "deasync": "^0.1.26",
+    "obj-file-parser": "^0.5.3",
+    "readimage": "^1.1.1",
+    "triangles-index": "0.0.4"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/obj-to-colored-triangles"
+}
