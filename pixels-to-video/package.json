@@ -1,0 +1,23 @@
+{
+  "name": "pixels-to-video",
+  "version": "0.0.012",
+  "description": "convert raw pixel data into GIFs or MP4s by piping to ffmpeg",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "raw",
+    "pixels",
+    "gif",
+    "video",
+    "pipe",
+    "ffmpeg"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "deasync": "^0.1.26"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/pixels-to-video"
+}
