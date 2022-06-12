@@ -65,7 +65,7 @@ jfc.writeFile("test3.json", obj, jsonPackEnabled,function(err,res){
 ```
 
 ## See Also
-
+- [jsonfile-compressed-brotli](https://www.npmjs.com/package/jsonfile-compressed-brotli) - similar but uses brotli compression instead of LZMA
 - [json-shrink](https://www.npmjs.com/package/json-shrink) 
 - [jsonfile](https://www.npmjs.com/package/jsonfile)
 

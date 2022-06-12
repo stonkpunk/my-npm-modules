@@ -28,7 +28,10 @@ img.saveAs(`./output.jpg`, 80); //save with 80% quality [default is 95%]
 //or, save the result as png...
 img.saveAs(`./output.png`);
 
-
+//create blank image...
+//blank(width,height,colorRGB=[255,255,255])
+var blankImg = imageSync.blank(512,512);
+blankImg.saveAs("./blank.png");
 ```
 
 ![original](https://i.imgur.com/6swcKzf.png) *cat.png*

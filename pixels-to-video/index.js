@@ -18,7 +18,16 @@ function FramesStream(frames, w=128,h=128,opts) {
     }
 }
 
+function FramesStream_stream(getNextFrame, w=128,h=128,opts) {
+    Readable.call(this, opts);
+    this.n = 0;
+    this.width = w;
+    this.height = h;
+    this.getNextFrame = getNextFrame;
+}
+
 util.inherits(FramesStream, Readable);
+util.inherits(FramesStream_stream, Readable);
 
 FramesStream.prototype._read = function() {
     var ready = true;
@@ -43,6 +52,31 @@ FramesStream.prototype._read = function() {
     return true;
 };
 
+FramesStream_stream.prototype._read = function() {
+    var ready = true;
+    while (ready) {
+        var numPixels = this.width * this.height;
+        var rawImage = new Buffer(this.width * this.height * 3);
+        var currentFrame = this.getNextFrame();
+
+        if(!currentFrame){
+            this.push(null);
+            return false;
+        }
+
+        for(var i=0;i<numPixels;i++){
+            var frameO = i*4;
+            var rawO = i*3;
+            rawImage[rawO] = currentFrame[frameO];
+            rawImage[rawO+1] = currentFrame[frameO+1];
+            rawImage[rawO+2] = currentFrame[frameO+2];
+        }
+        ready = this.push(rawImage);
+    }
+    return true;
+};
+
+
 function runFfmpegCmd(arr, cb){
     var doPrint = !quietMode;
     var ps = spawn('ffmpeg', arr);
@@ -52,6 +86,15 @@ function runFfmpegCmd(arr, cb){
     return ps;
 }
 
+function makeMp4Streamed(outputFilename="output.mp4",getNextFrame,w,h,fps=1,cb){
+    //fps param is in 2 places to avoid err described here https://stackoverflow.com/questions/21059976/ffmpeg-compress-with-wrong-frame-rate-while-sending-raw-pixel-data-from-java-app
+    var arr = ['-r', fps,'-y', '-f', 'rawvideo', '-s', `${w}x${h}`, '-pix_fmt', 'rgb24', '-i', '-', '-vcodec', 'libx264', '-f', 'mp4', '-r', fps, outputFilename];
+    var ps = runFfmpegCmd(arr, cb)
+    new FramesStream_stream(getNextFrame, w,h,null).pipe(ps.stdin);
+}
+
+var makeMp4StreamedSync = deasync(makeMp4Streamed);
+
 function makeMp4(outputFilename="output.mp4",frames,w,h,fps=1,cb){
     //fps param is in 2 places to avoid err described here https://stackoverflow.com/questions/21059976/ffmpeg-compress-with-wrong-frame-rate-while-sending-raw-pixel-data-from-java-app
     var arr = ['-r', fps,'-y', '-f', 'rawvideo', '-s', `${w}x${h}`, '-pix_fmt', 'rgb24', '-i', '-', '-vcodec', 'libx264', '-f', 'mp4', '-r', fps, outputFilename];
@@ -60,6 +103,15 @@ function makeMp4(outputFilename="output.mp4",frames,w,h,fps=1,cb){
 }
 
 var makeMp4Sync = deasync(makeMp4);
+
+function makeGifStreamed(outputFilename="output.gif",getNextFrame,w,h,fps=1,cb){
+    //fps param is in 2 places to avoid err described here https://stackoverflow.com/questions/21059976/ffmpeg-compress-with-wrong-frame-rate-while-sending-raw-pixel-data-from-java-app
+    var arr = ['-r', fps,'-y', '-f', 'rawvideo', '-s', `${w}x${h}`, '-pix_fmt', 'rgb24', '-i', '-', '-f', 'gif', '-r', fps, outputFilename];
+    var ps = runFfmpegCmd(arr, cb)
+    new FramesStream_stream(getNextFrame, w,h,null).pipe(ps.stdin);
+}
+
+var makeGifStreamedSync = deasync(makeGifStreamed);
 
 function makeGif(outputFilename="output.gif",frames,w,h,fps=1,cb){
     //fps param is in 2 places to avoid err described here https://stackoverflow.com/questions/21059976/ffmpeg-compress-with-wrong-frame-rate-while-sending-raw-pixel-data-from-java-app
@@ -77,5 +129,7 @@ function makeQuiet(quiet=true){
 module.exports = {
     makeQuiet,
     makeMp4, makeGif,
-    makeMp4Sync, makeGifSync
+    makeMp4Sync, makeGifSync,
+    makeMp4Streamed,makeMp4StreamedSync,
+    makeGifStreamed,makeGifStreamedSync
 }

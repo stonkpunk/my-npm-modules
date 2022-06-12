@@ -1,6 +1,6 @@
 {
   "name": "image-sync",
-  "version": "0.0.013",
+  "version": "0.0.015",
   "description": "synchronously read, modify, and save PNG and JPG image data.",
   "main": "index.js",
   "scripts": {

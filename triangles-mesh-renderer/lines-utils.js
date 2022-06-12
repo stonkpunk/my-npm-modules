@@ -159,6 +159,10 @@ var addPts = function(p0, p1){
     return [p0[0]+p1[0],p0[1]+p1[1],p0[2]+p1[2]];
 };
 
+var addPtsXY = function(p0, p1){
+    return [p0[0]+p1[0],p0[1]+p1[1]];
+};
+
 
 function randomColorF(){
     return [Math.random(),Math.random(),Math.random()];
@@ -1228,4 +1232,4 @@ function angleBetweenLines_degrees(line0, line1){
     return angleBetweenLines_radians(line0, line1)/Math.PI*180.0;
 }
 
-module.exports = {averagePts3, dotProduct: _dotProduct, ptLength, lineClosestTForPt, lineDistanceSquared, lineLengthSquared, angleBetweenLines_degrees,angleBetweenLines_radians,lineDistance,scaleLine, linesLength, pts2Lines, simplifyLines2d,lineIntersectsShape,linesetFlipAlongZ, sector2LinesEdges, remapTrisToSector, boundingBlockOfTriangles, boundingBlockOfPts, boundingBlockOfLines, boundingBlockOfBlocks, lines2PrismTris, lines2ConesTriangles, jitterColorF, shiftLine, shiftLines,lines2PtsWithNeighbors, removeDuplicateLines, lineLineClosestPtsLine, averageOfPts, pt2XLines,ptInsideShape, orthoLines2d, orthoDirs2d, brightenColor,crossProductLines,dotProductLines,crossProduct, lineDirection,reverseLines, ptDiff,addExtraPt, lineDFHighPt, lineDFLowPt, normalizePt, scalePt,triangleNormalLines, lineLength, lineMidPt, centerOfLine, randomPtFromSetOfLines, normalizeLine,addPts, createStarLinesXZ, lineInsideShape, caliLines2d, caliPts2d, ptsXZInPolygonXZ, ptsXZInPolygonXY, getPointAlongLine_dist, lines2Triangles, createCircleLinesXZ, getPointAlongLine, randomOrthoLineFromSetOfLines, jitterPt, jitterPt3d, normalizeAndCenterLine};
+module.exports = {addPtsXY, averagePts3, dotProduct: _dotProduct, ptLength, lineClosestTForPt, lineDistanceSquared, lineLengthSquared, angleBetweenLines_degrees,angleBetweenLines_radians,lineDistance,scaleLine, linesLength, pts2Lines, simplifyLines2d,lineIntersectsShape,linesetFlipAlongZ, sector2LinesEdges, remapTrisToSector, boundingBlockOfTriangles, boundingBlockOfPts, boundingBlockOfLines, boundingBlockOfBlocks, lines2PrismTris, lines2ConesTriangles, jitterColorF, shiftLine, shiftLines,lines2PtsWithNeighbors, removeDuplicateLines, lineLineClosestPtsLine, averageOfPts, pt2XLines,ptInsideShape, orthoLines2d, orthoDirs2d, brightenColor,crossProductLines,dotProductLines,crossProduct, lineDirection,reverseLines, ptDiff,addExtraPt, lineDFHighPt, lineDFLowPt, normalizePt, scalePt,triangleNormalLines, lineLength, lineMidPt, centerOfLine, randomPtFromSetOfLines, normalizeLine,addPts, createStarLinesXZ, lineInsideShape, caliLines2d, caliPts2d, ptsXZInPolygonXZ, ptsXZInPolygonXY, getPointAlongLine_dist, lines2Triangles, createCircleLinesXZ, getPointAlongLine, randomOrthoLineFromSetOfLines, jitterPt, jitterPt3d, normalizeAndCenterLine};

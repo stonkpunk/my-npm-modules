@@ -4,7 +4,11 @@ module.exports.processMouseMove = function processMouseMove(sdl, window, cameraE
         x: sdl.mouse.position.x-window.x, y: sdl.mouse.position.y-window.y
     }
 
-    sdl.mouse.showCursor(!mouseIsCaptured);
+    var evtCentered = {
+        x: sdl.mouse.position.x-window.x-window.width/2, y: sdl.mouse.position.y-window.y-window.height/2
+    }
+
+    sdl.mouse.showCursor(false);//!mouseIsCaptured);
 
     if(mouseIsCaptured){
         cameraTheta+=(evt.x-window.width/2)/window.width;//,
@@ -15,6 +19,9 @@ module.exports.processMouseMove = function processMouseMove(sdl, window, cameraE
     }
 
     var res = updateCamera(cameraEye, cameraTheta, cameraPhi, camera_lookDir, camera_lookDir2, cameraLookTarget, pvMatrix);
+
+    res.evt = evt;
+    res.evtCentered = evtCentered;
 
     res.cameraTheta = cameraTheta;
     res.cameraPhi = cameraPhi;

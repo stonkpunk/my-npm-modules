@@ -1,6 +1,6 @@
 {
   "name": "marching-cubes-faster",
-  "version": "0.0.014",
+  "version": "0.0.015",
   "description": "CSG-like version of `marching-cubes-fast`, very fast marching cubes mesher",
   "main": "index.js",
   "scripts": {

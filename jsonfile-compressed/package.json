@@ -1,6 +1,6 @@
 {
   "name": "jsonfile-compressed",
-  "version": "0.0.112",
+  "version": "0.0.113",
   "description": "similar to jsonfile, but with automatic jsonpack + lzma (7zip) compression+decompression",
   "main": "index.js",
   "scripts": {

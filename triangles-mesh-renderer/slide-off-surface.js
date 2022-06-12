@@ -47,7 +47,11 @@ function cameraSlideOffNormals(cameraEye, oldCameraEye, tris, _traceFunc){
                 FALLSPEED+=0.01*gravDelta;
             }
         }else{
-            forceReset=true;
+            var traceDown2 = _traceFunc([lu.addPts(cameraEye,[0,1,0]),lu.addPts(cameraEye,[0,-1,0])]);
+
+            if(traceDown2.dist < MAX_FALL_DIST){
+                forceReset=true;
+            }
         }
     }
 
@@ -61,7 +65,7 @@ function cameraSlideOffNormals(cameraEye, oldCameraEye, tris, _traceFunc){
     if(forceReset || (keepAboveDfZero && mostRecentPtNonNeg && TDF(...cameraEye)<0)){
         //console.log('reset camera!');
 
-        mostRecentPtNonNeg = lu.addPts(mostRecentPtNonNeg, [0,0.01,0]);
+        mostRecentPtNonNeg = lu.addPts(mostRecentPtNonNeg, [0,0.1,0]);
 
         cameraEye[0] += (mostRecentPtNonNeg[0]-cameraEye[0]);
         cameraEye[1] += (mostRecentPtNonNeg[1]-cameraEye[1]);

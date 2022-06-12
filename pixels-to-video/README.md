@@ -40,6 +40,10 @@ function randomColorsBuffer(w,h){
     return arr;
 }
 
+//////////////////////////////////////////////
+//you can load an array of pre-rendered frames
+//////////////////////////////////////////////
+
 var frames = [];
 for(var i=0;i<numFrames;i++){
     var frame = randomColorsBuffer(width,height);
@@ -51,9 +55,29 @@ for(var i=0;i<numFrames;i++){
 p2v.makeMp4Sync('./output.mp4',frames,width,height,fps)
 p2v.makeGifSync('./output.gif',frames,width,height,fps)
 
-//async functions
+//async versions of these functions
 //p2v.makeMp4('./output.mp4',frames,width,height,fps,cb)
 //p2v.makeGif('./output.gif',frames,width,height,fps,cb)
+
+///////////////////////////////////////////////
+//or you can "stream" the frames in 1 at a time
+///////////////////////////////////////////////
+
+var framesSoFar = 0;
+function getNextFrame(){
+    framesSoFar++;
+    if(framesSoFar>10){return null;} //return null to end the stream
+    return randomColorsBuffer(width,height);//return 
+}
+
+p2v.makeMp4StreamedSync('./output2.mp4',getNextFrame,width,height,fps)
+
+framesSoFar = 0;
+p2v.makeGifStreamedSync('./output2.gif',getNextFrame,width,height,fps)
+
+// async versions of these functions
+// p2v.makeMp4Streamed('./output2.mp4',getNextFrame,width,height,fps,cb)
+// p2v.makeGifStreamed('./output2.gif',getNextFrame,width,height,fps,cb)
 ```
 
 The resulting GIF:

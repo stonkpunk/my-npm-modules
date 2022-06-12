@@ -1,0 +1,22 @@
+{
+  "name": "palette-simple",
+  "version": "0.0.011",
+  "description": "generate reduced color palettes for images",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "colors",
+    "rgba",
+    "palette",
+    "posterize",
+    "image"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "skmeans": "^0.11.3"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/palette-simple"
+}

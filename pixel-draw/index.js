@@ -6,8 +6,32 @@ function pixelCanvas(w=512,h=512,bg=[255,255,255]){
     var img = is.blank(w,h,bg);
 
     this.image = img;
+    var _this = this;
+
+    function getCropped(x,y,_w,_h, bgColor=bg){ //crop canvas, return new canvas, bigger or smaller
+        var newCanvas = new pixelCanvas(_w,_h,bgColor);
+        for(var _x=0; _x<_w; _x++){
+            for(var _y=0; _y<_h; _y++){
+                var ix = x + _x;
+                var iy = y + _y;
+                if(ix>=0 && ix<w && iy>=0 && iy<h){
+                    newCanvas._putPixel(_x,_y,_getPixel(ix,iy));
+                }else{
+                    newCanvas._putPixel(_x,_y,bgColor);
+                }
+            }
+        }
+        return newCanvas;
+    }
+
+    this.getCropped = getCropped;
+    this.crop = function(x,y,_w,_h, bgColor=bg){
+        _this = getCropped(x,y,_w,_h, bgColor);
+        return this;
+    }
 
     function drawText(text, offset, color=[0,0,0], doExpandText=true, maxLineLen=50){
+        //note offset must be integers
         dpt(text, offset,color,img.data,w,h,doExpandText,maxLineLen);
     }
     this.drawText=drawText;
@@ -139,6 +163,12 @@ function pixelCanvas(w=512,h=512,bg=[255,255,255]){
         }
         return [0,0,0];
     }
+
+    function clear(color){
+        drawRectangle(0,0,w,h,color || [255,255,255])
+    }
+
+    this.clear = clear;
 
     this.getPixel = getPixel;
     this._getPixel = _getPixel;

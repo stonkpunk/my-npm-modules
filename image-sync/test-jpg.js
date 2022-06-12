@@ -14,5 +14,8 @@ img.saveAs(`./test_out_rad${rad}.jpg`, 80); //save with 80% quality [default is 
 //save the result as png...
 img.saveAs(`./test_out_rad${rad}.png`);
 
+var blankImg = pds.blank(512,512, [255,0,0]);
+blankImg.saveAs("./blank.png");
+
 
 

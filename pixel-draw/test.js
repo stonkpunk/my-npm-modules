@@ -2,7 +2,7 @@ var pixelDrawing = require('./index.js');
 
 var width = 512;
 var height = 512;
-var pd = pixelDrawing(width,height);
+var pd = new pixelDrawing(width,height);
 
 var thicknessStartEnd = [2,32]
 var lineEndCaps = true; //circular endCaps, otheriwse square endCaps
@@ -35,5 +35,11 @@ console.log(pd.getPixel(256,256)); //[1,2,3]
 //use ._getPixel and ._putPixel to skip bounds check
 
 //pc.image = {data = [r,g,b,a,r,g,b,a... int8s], width, height, saveAs} like from require('image-sync')
+
+//resize/crop/"uncrop" the canvas (x,y,w,h,bgColor)
+//pd.crop(-20,-20,640,640,[255,0,0]);
+
+//get cropped version of canvas without changing the original canvas
+//var cropped = pd.getCropped(-20,-20,640,640,[255,0,0])
 
 pd.saveAs('./test.png');

@@ -1,6 +1,6 @@
 {
   "name": "mesh-to-spheres",
-  "version": "0.0.02",
+  "version": "0.0.03",
   "description": "convert a triangle mesh into a set of spheres that occupy approximately the same volume as the mesh",
   "main": "index.js",
   "scripts": {

@@ -1,4 +1,6 @@
 var bresenham = require('bresenham');
+var lu = require('./lines-utils.js');
+
 function drawLine(line,imgData,color,width){
     bresenham(line[0][0], line[0][1], line[1][0], line[1][1], function(x,y){
         imgData[(x+y*width)*4] = color[0];
@@ -15,14 +17,15 @@ function drawLine_inv(line,imgData,width){
     })
 }
 
-function drawCrossHairs(width,height,_imgData){
+function drawCrossHairs(width,height,_imgData, offset = [0,0]){
     var black = [0,0,0];
     var white = [255,255,255];
-    _drawCrossHairs(width,height,_imgData, black, [0,-1])
-    _drawCrossHairs(width,height,_imgData, black, [0,+1])
-    _drawCrossHairs(width,height,_imgData, black, [-1,0])
-    _drawCrossHairs(width,height,_imgData, black, [+1,0])
-    _drawCrossHairs(width,height,_imgData, white, [0,0])
+    //console.log("CENTERPOS",lu.addPtsXY([0,-1],offset));
+    _drawCrossHairs(width,height,_imgData, black, lu.addPtsXY([0,-1],offset))
+    _drawCrossHairs(width,height,_imgData, black, lu.addPtsXY([0,+1],offset))
+    _drawCrossHairs(width,height,_imgData, black, lu.addPtsXY([-1,0],offset))
+    _drawCrossHairs(width,height,_imgData, black, lu.addPtsXY([+1,0],offset))
+    _drawCrossHairs(width,height,_imgData, white, lu.addPtsXY([0,0],offset))
 }
 
 function drawCrossHairs_Inv(width,height,_imgData, offset=[0,0]){

@@ -1,0 +1,17 @@
+{
+  "name": "infinite-clamp",
+  "version": "0.0.01",
+  "description": "remap any number between +/-infinity into the range 0...1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "infinite","clamp","remap","infite","normalize","neural net"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/infinite-clamp"
+}

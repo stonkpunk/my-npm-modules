@@ -1,7 +1,7 @@
 {
   "name": "json-shrink",
-  "version": "0.0.122",
-  "description": "shrink json objects with LZMA (7-zip) compression + jsonpack",
+  "version": "0.0.124",
+  "description": "shrink json objects with LZMA (7-zip) or Brotli compression + jsonpack",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,11 +12,13 @@
     "jsonpack",
     "lzma",
     "7zip",
-    "shrink"
+    "shrink",
+    "brotli"
   ],
   "author": "stonkpunk",
   "license": "MIT",
   "dependencies": {
+    "brotli": "^1.3.2",
     "jsonpack": "^1.1.5",
     "lzma": "^2.3.2"
   },

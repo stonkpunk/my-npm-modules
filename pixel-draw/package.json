@@ -1,6 +1,6 @@
 {
   "name": "pixel-draw",
-  "version": "0.0.0011",
+  "version": "0.0.00125",
   "description": "draw stuff directly onto a pixel buffer similar to a canvas",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,8 @@
     "buffer",
     "sync",
     "getpixel",
-    "putpixel"
+    "putpixel",
+    "crop"
   ],
   "author": "stonkpunk",
   "license": "MIT",
@@ -30,5 +31,5 @@
     "image-sync": "0.0.15",
     "triangle-draw": "0.0.28"
   },
-  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/pixel-canvas"
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/pixel-draw"
 }

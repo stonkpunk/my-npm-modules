@@ -85,6 +85,7 @@ art.runScene(config);
 
 ## See Also
 
+- [marching-cubes-faster](https://www.npmjs.com/package/marching-cubes-faster) - faster, CSG-like version of this tool
 - [isosurface](https://www.npmjs.com/package/isosurface) 
 
 [![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)

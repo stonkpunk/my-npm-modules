@@ -1,5 +1,6 @@
 var rt = require('./index.js');
 
+var _ = require('underscore');
 var id = require('image-dilate');
 
 var renderLoadingScreen = require('./loading-screen.js').renderLoadingScreen;
@@ -80,8 +81,7 @@ var icoRad = 2048;
 var isoTrisInner = flipTris(getSphereTriangles(icoRad,[0,0,0], icoDetail));
 var isoTrisOuter = (getSphereTriangles(icoRad+100,[0,0,0], icoDetail));
 
-triangles=triangles.concat(isoTrisInner, isoTrisOuter);
-bunny = ti.indexTriangles_meshView(triangles);
+
 
 
 
@@ -101,7 +101,48 @@ bunny = ti.indexTriangles_meshView(triangles);
 // triangles = stl.toObject(fs.readFileSync('/Users/user/Documents/tokyo/bonsaifuture/stl/bigstl/nikes-hq.stl')).facets.map(function(f){return f.verts});
 // bunny = ti.indexTriangles_meshView(triangles);
 
+//mfc
 
+//todo test w entire heightmap ? take list of tris ?
+function MFC_TEST(){
+    console.log("build mesh... mfc");
+    var mfc = require('marching-cubes-faster');
+    var mb = mfc.meshBuilder;
+    var dfb = mfc.dfBuilder;
+    var m2t = require('mesh-to-tetrahedra');
+    var m2s = require('mesh-to-spheres');
+    bunny = require('bunny'); //{cells, positions}
+    triangles = ti.deindexTriangles_meshView(bunny); //list of raw triangles, each one [[x,y,z],[x,y,z],[x,y,z]]
+    console.log("build mesh... mfc2");
+    var tets = m2t.meshIndexed2Tetrahedra(bunny,1.0);//,null,1.0)
+    var spheres = m2s.meshIndexed2Spheres(bunny,0.950, 1.0, false,true,25000);//,null,1.0)
+    console.log("build mesh... mfc3", spheres);
+    var mfcList = [];
+
+    spheres.forEach(function(sphereObj){
+        dfb.addLine(mfcList,[sphereObj.pt,lu.jitterPt(sphereObj.pt,0.001)],sphereObj.dist);
+    });
+
+    tets.forEach(function(tet){
+        //dfb.addTetra(mfcList,tet,0.1);
+    });
+
+    console.log("build mesh... mfc4");
+    var resMesh = mb.buildForList(mfcList, 4);
+    console.log("build mesh... mfc5");
+    triangles = ti.deindexTriangles_meshView(resMesh)
+//console.log(resMesh);
+    console.log("build mesh... mfc6");
+}
+
+//MFC_TEST();
+
+
+triangles=triangles.concat(isoTrisInner, isoTrisOuter);
+bunny = ti.indexTriangles_meshView(triangles);
+
+//bunny=resMesh;
+//triangles = ti.deindexTriangles_meshView(bunny);
 
 function numberWithCommas(x,c=",") { //https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, c);
@@ -184,11 +225,14 @@ function updateLoop(){
         // var _cameraEye = lu.jitterPt(cameraEye,5.0);
         // var _pvMatrix = rt.buildPVMatrix(_cameraEye, _cameraLookTarget, [0,1,0]);// || autoRes.pvMatrix; //find projected view matrix for camera
 
-        rtat.postUpdate(pvMatrix,cameraEye, function(numberTriangles){
-            TRIANGLE_CASTING_TIME=Date.now()-t0
-            NUMBER_OF_TRIANGLES_VISIBLE = numberTriangles;
-            updateLoop();
-        });
+        if(doRaycastingFilter){
+            rtat.postUpdate(pvMatrix,cameraEye, function(numberTriangles){
+                TRIANGLE_CASTING_TIME=Date.now()-t0
+                NUMBER_OF_TRIANGLES_VISIBLE = numberTriangles;
+                updateLoop();
+            });
+        }
+
     },rayCastMinimumInterval/2);
 }
 
@@ -206,12 +250,17 @@ rtat.updateTriangles(bunny, function(){
     });
 })
 
+var FULL_BB = require('./bb-tris.js')(triangles);
+
 //var raycastGridAtTriangles = require('./raycast-grid-at-triangles.js').raycastGridAtTriangles;
 var raycastGridAtTriangles2 = require('./raycast-grid-at-triangles.js').raycastGridAtTriangles_andNeighbors;
 var rcu = require('raycasting-utils');
 
 
 var traceFunc = rcu.trianglesTraceFast_returnIndex_useLine(triangles);
+
+var trianglesWithinAabb = require('./distance-function-utils.js').trianglesWithinAabbFunc(triangles);
+var theBvh = rcu.getBvh();
 
 //TODO instead of neighbors, try rtree ? or try "patches"?
 //var NEIGHBORS_DEGREE = 3; //for raycasting, hit neighbors to the nth degree [neighbors of neighbors of neighbors etc]
@@ -225,9 +274,18 @@ renderLoadingScreen("LOADING TRIANGLE GRAPH...", pixelBuffer, width, height, str
 renderLoadingScreen("DONE!", pixelBuffer, width, height, stride, window);
 
 var dch = require('./draw-crosshairs.js');
+var fb = require('./frustum-boxes.js');
+var mb = require('merge-boxes');
 
 var frameNo = 0;
 var TRIS = [];
+
+var bbp = require('./bb-pts.js');
+const {cullTriangles} = require("./cull-triangles");
+const mfc = require("marching-cubes-faster");
+const m2t = require("mesh-to-tetrahedra");
+
+var FRUSTUM_MODE=false;
 function renderOne(){
     frameNo++;
     fps++;
@@ -236,6 +294,47 @@ function renderOne(){
     var centerRay = getOutwardCameraRay(_pvMatrix, 0.5,0.5)
     var traceRes = traceFunc(centerRay);
     var cameraDist = traceRes.dist; //traceRes.raw cont
+
+    if(FRUSTUM_MODE){
+        var _t0 = Date.now();
+
+        var frustumBb = bbp(getPvMatrixFrustrumCorners(_pvMatrix));
+
+        var frustumBoxes = fb.frustumBoxes(pvMatrix,frustumBb,3);
+        var before = frustumBoxes.length;
+        var fbm = mb.mergeBoxes(frustumBoxes);
+        console.log(before + " before", frustumBoxes.length + " after", Date.now()-_t0 + "ms");
+
+        _t0 = Date.now();
+        var res = [];
+        frustumBoxes.forEach(function(sector){
+            res.push(...trianglesWithinAabb(sector))
+            //res.push(...theBvh.intersectBox({min:sector[0],max:sector[1]}).map(r=>triangles[r.triangleIndex]));
+        });
+
+        console.log("queries took",(Date.now()-_t0));
+        //4iters: 6ms ... 4-5ms if no merge (?)
+        //5iters: 7ms ... same if no merge
+
+        //res=_.uniq(res);
+
+        console.log(res.length,"tris");
+
+        _t0 = Date.now();
+        TRIS = cullTriangles(true,false,cameraEye,centerRay,res).trisFiltered
+
+        console.log(TRIS.length,"tris after cull, cull took ", Date.now()-_t0,"ms");
+
+        //TODO cast out to all of these and sift them by whether they get hit or not...
+        //TODO ^^ reuse neighbors logic [skip raycast for neighbors...]
+
+        //28 before 6 after 0ms for 3 iters -- camera FAR 1000
+        //66 before 9 after 1ms for 3 iters -- camera FAR 4000
+        //70 before 19 after 0ms for 4 iters -- camera FAR 1000
+        //342 before 30 after 3ms for 4 iters -- camera FAR 4000
+        //287 before 31 after 3ms for 5 iters -- camera FAR = 1000
+        //1873 before 73 after 44ms for 5 iters -- camera FAR = 4000
+    }
 
     if(TRIS.length==0){
         TRIS=triangles;
@@ -248,8 +347,7 @@ function renderOne(){
         });
     }
 
-    //TODO try mode w just rtree no raycast?
-    if(doRaycastingFilter && (Date.now()-lastRaycastUpdate>rayCastMinimumInterval) /*&& NUMBER_OF_TRIANGLES_VISIBLE>0*/){
+    if(!FRUSTUM_MODE && doRaycastingFilter && (Date.now()-lastRaycastUpdate>rayCastMinimumInterval) /*&& NUMBER_OF_TRIANGLES_VISIBLE>0*/){
 
         var _t0=Date.now()
         // for(var i=0;i<NUMBER_OF_TRIANGLES_VISIBLE;i++){ //takes 2,16,2,16,2,16 for some reason (garbage collection?)
@@ -270,9 +368,9 @@ function renderOne(){
     //TODO unknown err here ? TypeError: Cannot read property 'index_orig' of undefined [attempted fix -- .filter(i=>i) above - can also do -1 triangle but i dont like that]
     var colors = flatShading ? TRIS.map(tri=>triangleColorsFlat[tri.index_orig]) : TRIS.map(tri=>triangleColorsVerts[tri.index_orig]);
 
-    // if(frameNo%2==0){
-    //     rt.clearBuffer(pixelBuffer); //reset the buffer to black
-    // }
+    if(FRUSTUM_MODE && frameNo%2==0){
+        rt.clearBuffer(pixelBuffer); //reset the buffer to black
+    }
 
     //console.log(triCastResult.trianglesHit);
     //var TRIS = triCastResult.trianglesHit;//triangles;
@@ -325,7 +423,6 @@ function renderOne(){
     drawTextToBuffer(status, textOffset2,textColor2,imgData,width,height, doExpandText, maxLineLen);
     drawTextToBuffer(status, textOffset,textColor,imgData,width,height, doExpandText, maxLineLen);
 
-    dch.drawCrossHairs(width, height, imgData);
 
     // var blur = require('image-blur-gaussian');
     // var radius = 16;
@@ -333,8 +430,6 @@ function renderOne(){
 
 
 
-    //render result with SDL
-    window.render(width, height, stride, 'rgba32', Buffer.from(imgData)) //note - if using an array for the pixel data instead of a buffer, you need to convert to a buffer with Buffer.from(imgData)
 
     var res = processKeys(sdl, cameraEye, cameraTheta, cameraPhi, camera_lookDir, camera_lookDir2, cameraLookTarget, pvMatrix, traceFunc, triangles);
 
@@ -344,6 +439,16 @@ function renderOne(){
     pvMatrix = res.pvMatrix;
 
     var res2 = processMouseMove(sdl, window, cameraEye, cameraTheta, cameraPhi, camera_lookDir, camera_lookDir2, cameraLookTarget, pvMatrix, MOUSE_IS_CAPTURED);
+
+    //var coords = res2.evt; //{x,y} in window pixels
+
+    dch.drawCrossHairs(width, height, imgData, MOUSE_IS_CAPTURED ? [0,0] : [res2.evtCentered.x,res2.evtCentered.y]);
+    sdl.mouse.setCursor('crosshair');
+
+
+    //render result with SDL
+    window.render(width, height, stride, 'rgba32', Buffer.from(imgData)) //note - if using an array for the pixel data instead of a buffer, you need to convert to a buffer with Buffer.from(imgData)
+
 
     camera_lookDir = res2.camera_lookDir;
     camera_lookDir2 = res2.camera_lookDir2;

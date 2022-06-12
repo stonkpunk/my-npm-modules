@@ -26,5 +26,19 @@ for(var i=0;i<numFrames;i++){
 
 //p2v.makeQuiet(true); //disable logging
 
-console.log(p2v.makeMp4Sync('./output.mp4',frames,width,height,fps))
-console.log(p2v.makeGifSync('./output.gif',frames,width,height,fps))
+p2v.makeMp4Sync('./output.mp4',frames,width,height,fps)
+p2v.makeGifSync('./output.gif',frames,width,height,fps)
+
+var framesSoFar = 0;
+function getNextFrame(){
+    framesSoFar++;
+    if(framesSoFar>10){return null;} //return null to end the stream
+    return randomColorsBuffer(width,height);//return
+}
+
+p2v.makeMp4StreamedSync('./output2.mp4',getNextFrame,width,height,fps)
+framesSoFar = 0;
+p2v.makeGifStreamedSync('./output2.gif',getNextFrame,width,height,fps)
+
+
+//console.log(p2v.makeGifStreamedSync('./output2.gif',getNextFrame,width,height,fps))

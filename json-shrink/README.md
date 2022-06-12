@@ -1,10 +1,10 @@
 # json-shrink
 
-shrink objects/json with LZMA (7-zip) compression + optional [jsonpack](https://www.npmjs.com/package/jsonpack)
+shrink objects/json with LZMA (7-zip) or Brotli compression + optional [jsonpack](https://www.npmjs.com/package/jsonpack)
 
 ```javascript
-var shrunken = shrink(obj, outputAsString = false, doPack = true);
-var unshrunk = unshrink(shrunken, doUnPack = true);
+var shrunken = shrink(obj, outputAsString = false, doPack = true, doUseBrotli = false);
+var unshrunk = unshrink(shrunken, doUnPack = true, doUseBrotli = false);
 ```
 
 ## Installation
@@ -24,13 +24,14 @@ var shrink = jsh.shrink;
 var unshrink = jsh.unshrink;
 
 //compressing json into buffer or string:
-//shrink(obj, outputAsString = false, doPack = true)
+//shrink(obj, outputAsString = false, doPack = true, doUseBrotli=false)
 var original_obj = {ok:"here is some text"};
 var compressed_into_buffer = shrink(original_obj); //output as buffer
 var compressed_into_string = shrink(original_obj, true); // output as base64 string
 
 //uncompressing
-//unshrink(shrunken, doUnPack = true);
+//note - params used for uncompressing must align with the params used for compressing!
+//unshrink(shrunken, doUnPack = true, doUseBrotli=false);
 console.log("uncompressed str", unshrink(compressed_into_string));
 console.log("uncompressed buffer", unshrink(compressed_into_buffer));
 

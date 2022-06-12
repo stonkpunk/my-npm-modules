@@ -1,6 +1,6 @@
 {
   "name": "pixels-to-video",
-  "version": "0.0.012",
+  "version": "0.0.0122",
   "description": "convert raw pixel data into GIFs or MP4s by piping to ffmpeg",
   "main": "index.js",
   "scripts": {

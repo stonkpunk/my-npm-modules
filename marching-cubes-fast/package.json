@@ -1,6 +1,6 @@
 {
   "name": "marching-cubes-fast",
-  "version": "0.0.016",
+  "version": "0.0.017",
   "description": "fast sparse marching cubes implementation - runtime proportional to surface area rather than volume",
   "main": "index.js",
   "scripts": {
