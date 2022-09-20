@@ -1,0 +1,17 @@
+{
+  "name": "highs-and-lows",
+  "version": "0.0.0111",
+  "description": "Extract indices of high/low points in a 1D array with a moving window",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "high","low","keypoints","time series","1d","stocks"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/highs-and-lows"
+}

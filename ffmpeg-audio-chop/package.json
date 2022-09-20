@@ -1,0 +1,21 @@
+{
+  "name": "ffmpeg-audio-chop",
+  "version": "0.0.011",
+  "description": "extract pcm audio data from a video based on start/end time, including spectrum and pitch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "audio","video","pitch","spectrum"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "detect-pitch": "^1.1.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "fourier-transform": "^1.1.2",
+    "pcm": "^1.0.3"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/ffmpeg-audio-chop"
+}

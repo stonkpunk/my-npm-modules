@@ -1,0 +1,22 @@
+{
+  "name": "mesh-to-voxels",
+  "version": "0.0.0111",
+  "description": "convert a triangle mesh into a set of voxels / axis-aligned bounding boxes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mesh",
+    "voxels",
+    "minecraft",
+    "aabb"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "bvh-tree-plus": "^1.0.2",
+    "merge-boxes": "0.0.12"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/mesh-to-voxels"
+}

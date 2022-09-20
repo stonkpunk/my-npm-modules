@@ -1,0 +1,29 @@
+{
+  "name": "bayes-tokens",
+  "version": "0.0.172",
+  "description": "get word counts / frequencies on a per-speaker or per-category basis, or as an aggregate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wordcount",
+    "frequency",
+    "speakers",
+    "tokenize",
+    "stem",
+    "category",
+    "nlp",
+    "bayes",
+    "predict",
+    "tokens"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "match-words": "^1.0.0",
+    "stemmer": "^1.0.5",
+    "word-count-frequency": "0.0.1"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/bayes-tokens"
+}

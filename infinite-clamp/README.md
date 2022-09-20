@@ -22,8 +22,11 @@ var ic = require('infinite-clamp');
 
 var numbers = [0,1000,-9999,12345];
 
-//remap(number,scaleDown=1,POW=2); //scaleDown inversely scales number, POW increases power in formula
-//unremap(number,scaleDown=1,POW=2); 
+//remap(number,scaleDown=1,POW=2,unsigned=false); //scaleDown inversely scales number, POW increases power in formula
+//unremap(number,scaleDown=1,POW=2,unsigned=false); 
+
+//remapUnsigned(number,scaleDown=1,POW=2);
+//unremapUnsigned(number,scaleDown=1,POW=2); 
 
 var remapped = numbers.map(n=>ic.remap(n));
 var unremapped = remapped.map(n=>ic.unremap(n));

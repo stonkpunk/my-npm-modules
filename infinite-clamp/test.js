@@ -2,8 +2,8 @@ var ic = require('./index.js');
 
 var numbers = [0,1000,-9999,12345];
 
-var remapped = numbers.map(n=>ic.remap(n));
-var unremapped = remapped.map(n=>ic.unremap(n));
+var remapped = numbers.map(n=>ic.remap(n,5));
+var unremapped = remapped.map(n=>ic.unremap(n,5));
 
 console.log({numbers, remapped, unremapped});
 

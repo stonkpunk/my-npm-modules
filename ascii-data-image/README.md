@@ -34,6 +34,8 @@ var imgStr = asciiDataImage.data2Img(data);
 //image is automatically normalized for data
 
 console.log(imgStr);
+
+//also try .buffer2Img(data,w,h) if your data is flat [r,g,b,a] unit8's
 ```
 
 **Result**

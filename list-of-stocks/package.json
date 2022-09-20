@@ -1,0 +1,17 @@
+{
+  "name": "list-of-stocks",
+  "version": "0.0.012",
+  "description": "pre-baked list of NYSE, NASDAQ tickers/symbols from August 2022",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "stocks","tickers","symbols","list"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0-1.0",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/list-of-stocks"
+}

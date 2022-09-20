@@ -1,0 +1,25 @@
+{
+  "name": "scatter-chart-simple",
+  "version": "0.0.01",
+  "description": "very simple 2d scatter chart with colored dots for nodejs. render scatter charts on the server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "scatter",
+    "2d",
+    "xy",
+    "charts",
+    "plot",
+    "headless"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^3.8.0",
+    "chartjs-node-canvas": "^4.1.6",
+    "shuffle-array": "^1.0.1"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/scatter-chart-simple"
+}

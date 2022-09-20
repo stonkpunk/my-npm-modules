@@ -32,13 +32,13 @@ const tobf = require("./triangle-outside-bounds-flat.js");
 // }, edgesOnly);
 
 function sampleTexture_updateBuffer(screenBuffer, screenWidth, screenX,screenY, texBuffer,texHeight,texWidth,u,v){
-    var _x = u*texWidth << 0 ;
-    var _y = v*texHeight << 0 ;
-    var o = (texWidth*_y+_x) << 2;
+    // var _x = u*texWidth << 0 ;
+    // var _y = v*texHeight << 0 ;
+    var o = (texWidth*(v*texHeight << 0)+(u*texWidth << 0)) << 2;
     var _o = (screenWidth*screenY+screenX) << 2;
-    screenBuffer[_o] =    texBuffer[o];
-    screenBuffer[++_o] =  texBuffer[++o];
-    screenBuffer[++_o] =  texBuffer[++o];
+    screenBuffer[_o++] = texBuffer[o++];
+    screenBuffer[_o++] = texBuffer[o++];
+    screenBuffer[_o] =  texBuffer[o];
 }
 
 function compare(a,b){
@@ -100,15 +100,19 @@ module.exports = (triArrFlat, triangleIndex, triangleVertexUVs, w, h, edgesOnly=
         for(var i=0;i<pl;i++) {
             var point = points[i];
             let next = points[i+1];
+            var thePt = [point.x,0,point.y];
+            var thePt0 = [point.x+0,0,point.y];
+
             if (next && point.y === next.y) {
                 //var color = point.color;
                 for(let x=point.x; x<next.x; x++) { //here we draw the volume
-                    var color = bc.triangleInterpolateUVs([x,0,point.y],tri3d, triangleVertexUVs[0],triangleVertexUVs[1],triangleVertexUVs[2])
+                    var color = bc.triangleInterpolateUVs(thePt0,tri3d, triangleVertexUVs[0],triangleVertexUVs[1],triangleVertexUVs[2])
                     sampleTexture_updateBuffer(screenBuffer, screenWidth, x,point.y, texBuffer,texHeight,texWidth,color[0],color[1])
+                    thePt0[0]++;
                 }
             } else {
                 //here we draw the edges
-                var color = bc.triangleInterpolateUVs([point.x,0,point.y],tri3d, triangleVertexUVs[0],triangleVertexUVs[1],triangleVertexUVs[2])
+                var color = bc.triangleInterpolateUVs(thePt,tri3d, triangleVertexUVs[0],triangleVertexUVs[1],triangleVertexUVs[2])
                 sampleTexture_updateBuffer(screenBuffer, screenWidth, point.x, point.y, texBuffer,texHeight,texWidth,color[0],color[1])
             }
         }

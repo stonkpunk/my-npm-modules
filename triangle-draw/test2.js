@@ -58,7 +58,7 @@ function renderOne(){
 
         //module.exports.drawTriangleTextured_flatB = function(triArrFlat, triangleIndex, triVertUVs, screenBuffer, screenWidth, screenHeight, texBuffer, texWidth, texHeight, edgesOnly = false){
 
-        drawTriangleTextured_flat([].concat(...triangle),0, uvs, buffer, width, height, textureData.data, textureData.width, textureData.height);
+        drawTriangleTextured_flat([].concat(...triangle),0, uvs, buffer, width, height, textureData.data, textureData.width, textureData.height, false);
 
     }
 

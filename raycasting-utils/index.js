@@ -208,6 +208,7 @@ function sectors2RTree(sos) {
         return sector2RTreeObj(sector, 0.0001);
     });
     theTree.load(sectorBoxes);
+    RECENT_RTREE=theTree;
     return theTree;
 
     //rtree.js
@@ -233,7 +234,7 @@ function sector2RTreeObj(sector,_rad){
 
 function sectorsTraceFast(sectors){
     var sectorsRTree = sectors2RTree(sectors);
-    RECENT_RTREE=sectorsRTree;
+    //RECENT_RTREE=sectorsRTree;
     return function(ray){
         //raycast(ox: number, oy: number, oz: number, dx: number, dy: number, dz: number, maxLen?: number): DistNode;
         var o = ray.point;
@@ -248,7 +249,7 @@ function sectorsTraceFast(sectors){
 
 function sectorsTraceFast_returnIndex(sectors){
     var sectorsRTree = sectors2RTree(sectors);
-    RECENT_RTREE=sectorsRTree;
+    //RECENT_RTREE=sectorsRTree;
     return function(ray){
         //raycast(ox: number, oy: number, oz: number, dx: number, dy: number, dz: number, maxLen?: number): DistNode;
         var o = ray.point;
@@ -322,6 +323,10 @@ function sectorsTraceBVH(sectors){ //similar to sectorsTraceFast but using BHV i
     return trianglesTraceFast(tris);
 }
 
+function searchRTreeForSectors(theTree, aabb){
+    return theTree.search(sector2RTreeObj(aabb)).map(box => box.sector);
+}
+
 //aliases for sane ppl who call aabbs "aabbs"
 //i like to incorrectly call them sectors, for unknown reason, out of habit
 var aabbsTraceFast = sectorsTraceFast;
@@ -329,5 +334,7 @@ var aabbsTraceFast_useLine = sectorsTraceFast_useLine;
 var aabbsTraceBVH = sectorsTraceBVH;
 var aabbsTraceBVH_useLine = sectorsTraceBVH_useLine;
 var aabb2Triangles = sector2Triangles;
+var aabbs2RTree = sectors2RTree;
+var searchRTreeForAabbs = searchRTreeForSectors;
 
-module.exports = {traceDf_useLine,traceDf,getBvh, getRTree, aabbsTraceFast, aabbsTraceFast_useLine, aabbsTraceBVH, aabbsTraceBVH_useLine, aabb2Triangles, sector2Triangles, sectorsTraceBVH, sectorsTraceBVH_useLine, sectorsTraceFast, sectorsTraceFast_useLine, trianglesTraceFast, trianglesTraceFast_useLine, trianglesTraceFast_returnIndex, trianglesTraceFast_returnIndex_useLine, trianglesTraceFast_colored_useLine, trianglesTraceFast_colored};
+module.exports = {searchRTreeForAabbs, searchRTreeForSectors, aabbs2RTree, sectors2RTree, traceDf_useLine,traceDf,getBvh, getRTree, aabbsTraceFast, aabbsTraceFast_useLine, aabbsTraceBVH, aabbsTraceBVH_useLine, aabb2Triangles, sector2Triangles, sectorsTraceBVH, sectorsTraceBVH_useLine, sectorsTraceFast, sectorsTraceFast_useLine, trianglesTraceFast, trianglesTraceFast_useLine, trianglesTraceFast_returnIndex, trianglesTraceFast_returnIndex_useLine, trianglesTraceFast_colored_useLine, trianglesTraceFast_colored};

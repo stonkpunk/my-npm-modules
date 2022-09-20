@@ -1,0 +1,26 @@
+{
+  "name": "self-reinforcing-paths",
+  "version": "0.0.001",
+  "description": "shortest paths that become 'more popular' with repeated use. simulate forest trail formation, infrastructure network growth, plant root growth, mold growth, other analogous phenomena, etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ants",
+    "mold",
+    "trails",
+    "paths",
+    "biological",
+    "reinforcement",
+    "shortest",
+    "roads"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "ngraph.path": "^1.4.0",
+    "pts-to-graph": "0.0.253"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/self-reinforcing-paths"
+}

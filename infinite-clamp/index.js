@@ -1,41 +1,53 @@
 //https://math.stackexchange.com/questions/3116137/convert-numbers-between-0-and-infinity-to-numbers-between-0-0-and-1-0
 
 //infinite clamp
-function remapTo5Space(x, scaleDown=1.0, POW=2){
+function remapTo5Space(x, scaleDown=1.0, POW=2, unsigned = false){
     var _x=0;
-    var xScaleDown = 1.0; //larger number ==> infinity squashed into edges more , space looks more scaled down, larger movements needed
+    //scaleDown //larger number ==> infinity squashed into edges more , space looks more scaled down, larger movements needed
     var pow = POW;
-    if(x>0){
-        _x=Math.pow(x/xScaleDown,pow)/(Math.pow(x/xScaleDown,pow)+1); //x=[0...inf] ==> y=[0...1]
-        _x=0.5+_x/2.0*scaleDown; //0.5...1
+
+    if(unsigned){
+        _x=Math.pow(x/scaleDown,pow)/(Math.pow(x/scaleDown,pow)+1); //x=[0...inf] ==> y=[0...1]
     }else{
-        _x*=-1;
-        _x=Math.pow(x/xScaleDown,pow)/(Math.pow(x/xScaleDown,pow)+1); //x=[0...inf] ==> y=[0...1]
-        _x=0.5-_x/2.0*scaleDown; //0...0.5
+        if(x>0){
+            _x=Math.pow(x/scaleDown,pow)/(Math.pow(x/scaleDown,pow)+1); //x=[0...inf] ==> y=[0...1]
+            _x=0.5+_x/2.0; //0.5...1
+        }else{
+            _x*=-1;
+            _x=Math.pow(x/scaleDown,pow)/(Math.pow(x/scaleDown,pow)+1); //x=[0...inf] ==> y=[0...1]
+            _x=0.5-_x/2.0; //0...0.5
+        }
     }
+
     return _x;
 }
 
-function unremapTo5Space(x, scaleDown=1.0, POW=2){ //0 ... -inf ... inf
+function unremapTo5Space(x, scaleDown=1.0, POW=2, unsigned=false){ //0 ... -inf ... inf
     //x = ((1-y)/y)^(-1/n) //0...1 => 0... inf
     //y = x^n/(x^n+1) //0 ... inf => 0...1
-    var _x = x-0.5;
-    _x*=2.0;
-    _x/=scaleDown;
+    var _x ;
+    var y = 0;
+
+    if(unsigned){
+        y = Math.pow(-((_x-1)/_x), (-1/POW));
+    }else{
+        _x=x-0.5;
+        _x*=2.0;
+
+        if(_x>0){
+            y = Math.pow(-((_x-1)/_x), (-1/POW));
+        }else{
+            _x*=-1;
+            y = Math.pow(-((_x-1)/_x), (-1/POW));
+            y*=-1;
+        }
+    }
 
     if(_x==0){
         return 0;
     }
 
-    var y;
-    if(_x>0){
-        y = Math.pow(-((_x-1)/_x), (-1/POW));
-    }else{
-        _x*=-1;
-        y = Math.pow(-((_x-1)/_x), (-1/POW));
-        y*=-1;
-    }
-    return y;
+    return y * scaleDown;
     // var _x=0;
     // var xScaleDown = 1.0; //larger number ==> infinity squashed into edges more , space looks more scaled down, larger movements needed
     // var pow = POW;
@@ -66,7 +78,15 @@ function unremapTo5Space(x, scaleDown=1.0, POW=2){ //0 ... -inf ... inf
 //     return _x;
 // }
 
-module.exports = {remap: remapTo5Space, unremap: unremapTo5Space}
+function remapUnsigned(x, scaleDown=1.0, POW=2, unsigned = false){
+    return remapTo5Space(x, scaleDown, POW,true)
+}
+
+function unremapUnsigned(x, scaleDown=1.0, POW=2, unsigned = false){
+    return unremapTo5Space(x, scaleDown, POW,true)
+}
+
+module.exports = {remap: remapTo5Space, unremap: unremapTo5Space, remapUnsigned, unremapUnsigned}
 //
 // function remapPts_5space3(sop,scaleDown){ //https://math.stackexchange.com/questions/3116137/convert-numbers-between-0-and-infinity-to-numbers-between-0-0-and-1-0
 //     return sop.map(function(row, i){

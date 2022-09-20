@@ -2,18 +2,21 @@ var request = require('request');
 var async = require('async');
 var cheerio = require('cheerio');
 
-function downloadListOfUrls(list,cbDone,cbEach,limitParallel=1){
+function downloadListOfUrls(list,cbDone,cbEach,limitParallel=1, delayMs=100){
     async.parallelLimit(list.map(function(url){
         return function(callback){
-            request(url, (error, response, body) => {
-                if (!error && response.statusCode == 200) {
-                    var result = body;
-                    cbEach(url,body);
-                    callback(null, result);
-                } else {
-                    callback(error, null);
-                }
-            });
+            setTimeout(function(){
+                request(url, (error, response, body) => {
+                    if (!error && response.statusCode == 200) {
+                        var result = body;
+                        cbEach(url,body);
+                        callback(null, result);
+                    } else {
+                        callback(error, null);
+                    }
+                });
+            }, delayMs);
+
         }
     }),limitParallel,function(err,res){
         cbDone(err,res);

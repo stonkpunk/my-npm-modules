@@ -1,0 +1,23 @@
+{
+  "name": "zip-file-search",
+  "version": "0.0.0112",
+  "description": "search for files by name inside .zip files within a folder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "search",
+    "files",
+    "zip"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^3.2.4",
+    "deasync": "^0.1.26",
+    "fast-glob": "^3.2.11",
+    "read-file-from-zip": "0.0.1"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/zip-file-search"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "stock-market-clock",
+  "version": "0.0.0115",
+  "description": "Util for American stock market timing. Calculate the next minute that the NYSE will be open.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "stock",
+    "market",
+    "clock",
+    "est",
+    "nyse",
+    "nasdaq"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "@date/holidays-us": "^0.4.0",
+    "fincal": "^1.0.6",
+    "moment-business-days": "^1.2.0"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/stock-market-clock"
+}

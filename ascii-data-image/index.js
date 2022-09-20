@@ -127,6 +127,30 @@ function writeSelfOverwrite(str){ //print and replace
     process.stdout.moveCursor(0, -str.split('\n').length+1);
 }
 
+function chunkArray (arr, len) { //see https://stackoverflow.com/questions/8495687/split-array-into-chunks
+    var chunks = [], i = 0, n = arr.length;
+    while (i < n) {chunks.push(arr.slice(i, i += len));}
+    return chunks;
+}
+
+function unchunkArray (arrChunks) {
+    var res = [];
+    arrChunks.forEach(function(chunk){res.push(...chunk);});
+    return res;
+}
+
+function buffer2Data(buff,w,h){
+    var pixels = chunkArray(buff,4).map(function(pixel){
+        return [pixel[0]/255,pixel[1]/255,pixel[2]/255,pixel[3]];
+    });
+    var pixelRows = chunkArray(pixels,w);
+    return pixelRows;
+}
+
+function buffer2Img(buff,w,h){
+    return data2Img_rgb(buffer2Data(buff,w,h))
+}
+
 module.exports.generateRandomImgData = generateRandomImgData;
 module.exports.generateRandomAnimationData = generateRandomAnimationData;
 
@@ -139,6 +163,8 @@ module.exports.stopAnimation = stopAnimation;
 module.exports.writeSelfOverwrite = writeSelfOverwrite;
 module.exports.data2Img = data2Img;
 module.exports.data2Animation = data2Animation;
+
+module.exports.buffer2Img = buffer2Img;
 
 module.exports.data2Img_rgb = data2Img_rgb;
 module.exports.data2Animation_rgb = data2Animation_rgb;

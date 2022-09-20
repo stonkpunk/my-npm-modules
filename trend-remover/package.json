@@ -1,0 +1,17 @@
+{
+  "name": "trend-remover",
+  "version": "0.0.01",
+  "description": "remove trends from OHLC candles and 1D data series",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ohlc","trend","series","technical analysis"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/trend-remover"
+}

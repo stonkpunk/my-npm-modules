@@ -175,8 +175,8 @@ function interpAlongLines_bezier(_lineset, fraction, interpDist=4.0, _traversedL
 
     var t0,t1;
     if(!isALoop){
-        t0 = Math.min(0,(totalLen+dist-interpDist/2.0));
-        t1 = Math.max((totalLen+dist+interpDist/2.0),totalLen);
+        t0 = Math.max(0,(dist-interpDist/2.0));
+        t1 = Math.min(dist+interpDist/2.0,totalLen);
     }else{
         t0 = (totalLen+dist-interpDist/2.0)%totalLen;
         t1 = (totalLen+dist+interpDist/2.0)%totalLen;

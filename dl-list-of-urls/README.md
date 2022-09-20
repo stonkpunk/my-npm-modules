@@ -37,6 +37,7 @@ var onComplete = function(listOfErrors, listOfResults){
     console.log('all done');
 }
 
+//downloadListOfUrls(list, onComplete, onDownloadedEach_noJquery, limitParallel?=1, delayMs?=100)
 dl.downloadListOfUrls(list, onComplete, onDownloadedEach_noJquery, limitParallel) //download list of urls, process raw html with callback 
 dl.downloadListOfUrlsJquery(list, onComplete, onDownloadedEach_withJquery, limitParallel) //same, but load html result into jquery object
 ```

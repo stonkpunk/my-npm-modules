@@ -1,6 +1,6 @@
 {
   "name": "ascii-raytracer",
-  "version": "0.0.151",
+  "version": "0.0.152",
   "description": "Explore infinite 3d worlds from the comfort of your terminal",
   "main": "index.js",
   "scripts": {
@@ -48,6 +48,7 @@
     "sdf-polygon-2d": "^2.0.0",
     "simplex-noise": "^3.0.0",
     "simplify-path": "^1.1.0",
+    "slide-along-wall": "0.0.3",
     "stl": "^1.1.1",
     "three": "^0.111.0",
     "three-fbx-loader": "^1.0.3",

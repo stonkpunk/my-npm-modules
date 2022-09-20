@@ -1,6 +1,6 @@
 {
   "name": "pts-to-graph",
-  "version": "0.0.02",
+  "version": "0.0.0253",
   "description": "generate nearest neighbors for a set of 3d points. convert triangle mesh to graph. convert set of 3d points into an graph / ngraph.",
   "main": "index.js",
   "scripts": {

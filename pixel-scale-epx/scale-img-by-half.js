@@ -23,3 +23,8 @@ module.exports.scaleHalf = function(bufferOut, bufferExpanded, wOut, hOut){
     }
     return bufferOut;
 }
+
+// module.exports.scaleHalfInPlace = function(data,dataWidth){
+//     var arr = new Array(data.length)
+//     return scaleHalf()
+// }

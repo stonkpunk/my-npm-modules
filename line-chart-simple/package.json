@@ -1,0 +1,22 @@
+{
+  "name": "line-chart-simple",
+  "version": "0.0.0112",
+  "description": "very simple line chart / time series chart with colored dots for nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "line",
+    "charts",
+    "time series"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^3.8.0",
+    "chartjs-node-canvas": "^4.1.6",
+    "shuffle-array": "^1.0.1"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/line-chart-simple"
+}

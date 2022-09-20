@@ -24,3 +24,5 @@ console.log(Date.now()-t0);
 //listOfPts[0].neighbors -- array of points nearby [by reference]
 //listOfPts.octree -- octree from require('yaot')
 //listOfPts.rtree -- rtree from require('rbush-3d')
+
+

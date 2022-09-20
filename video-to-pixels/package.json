@@ -1,0 +1,22 @@
+{
+  "name": "video-to-pixels",
+  "version": "0.0.01",
+  "description": "stream raw pixel data from a video, frame by frame",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "stream","pixels","ffmpeg","video","frames","rgba"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "deasync": "^0.1.26",
+    "ffmpeg-stream": "^0.7.0",
+    "get-video-dimensions": "^1.0.0",
+    "image-decode": "^1.2.2",
+    "stream": "0.0.2"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/video-to-pixels"
+}

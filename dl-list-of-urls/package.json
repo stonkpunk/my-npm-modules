@@ -1,6 +1,6 @@
 {
   "name": "dl-list-of-urls",
-  "version": "0.0.23",
+  "version": "0.0.232",
   "description": "request a list of urls, optionally load each result into jquery object",
   "main": "index.js",
   "scripts": {

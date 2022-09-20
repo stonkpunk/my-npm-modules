@@ -83,3 +83,12 @@ p2v.makeGifStreamedSync('./output2.gif',getNextFrame,width,height,fps)
 The resulting GIF:
 
 ![result](https://i.imgur.com/n1NOrhi.gif)
+
+## See Also
+
+- [video-to-pixels](https://www.npmjs.com/package/video-to-pixels) - the opposite of this tool, converts videos into raw pixels
+
+
+<br/><br/>
+[![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
+

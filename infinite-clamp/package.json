@@ -1,6 +1,6 @@
 {
   "name": "infinite-clamp",
-  "version": "0.0.01",
+  "version": "0.0.111",
   "description": "remap any number between +/-infinity into the range 0...1",
   "main": "index.js",
   "scripts": {
