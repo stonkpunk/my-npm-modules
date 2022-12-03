@@ -1,6 +1,6 @@
 {
   "name": "raycasting-utils",
-  "version": "0.0.0211",
+  "version": "0.0.0213",
   "description": "Fast utilities for ray-casting against triangles or boxes or a distance function / implicit surface",
   "main": "index.js",
   "scripts": {

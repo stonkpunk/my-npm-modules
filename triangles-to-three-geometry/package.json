@@ -1,0 +1,19 @@
+{
+  "name": "triangles-to-three-geometry",
+  "version": "0.0.011",
+  "description": "convert raw triangles or complexes to/from three.js geometries",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangles",
+    "three"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "three": "^0.146.0"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangles-to-three-geometry"
+}

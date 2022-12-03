@@ -1,0 +1,17 @@
+{
+  "name": "vwap-fast",
+  "version": "0.0.0114",
+  "description": "Quickly calculate moving volume-weighted average prices [aka VWAP or MVWAP] from a stream of OHLCV candles. Uses prefix sums and static 'rolling' arrays for efficiency.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vwap","mvwap","candlesticks","candles","ohlcv"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/vwap-fast"
+}

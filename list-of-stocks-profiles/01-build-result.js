@@ -16,7 +16,19 @@ listOfFiles.forEach(function(fileName){
         industry: res.industry,
         sector: res.sector,
         longBusinessSummary: res.longBusinessSummary,
-        marketCap: res.marketCap ? res.marketCap.raw : -1
+        marketCap: res.marketCap ? res.marketCap.raw : -1,
+        price: res.regularMarketPrice.raw,
+        fiftyDayAverage: res.fiftyDayAverage ? res.fiftyDayAverage.raw : -1,
+        twoHundredDayAverage: res.twoHundredDayAverage ? res.twoHundredDayAverage.raw : -1,
+        beta: res.beta ? res.beta.raw : null,
+        pe: res.trailingPE ? res.trailingPE.raw : null,
+        volume: res.volume ? res.volume.raw : -1,
+        averageDailyVolume10Day: res.averageDailyVolume10Day ? res.averageDailyVolume10Day.raw : -1,
+        bid: res.bid ? res.bid.raw : -1,
+        ask: res.ask ? res.ask.raw : -1,
+        bidSize: res.bidSize ? res.bidSize.raw : -1,
+        askSize: res.askSize ? res.askSize.raw : -1,
+        dividendYield: res.dividendYield ? res.dividendYield.raw : -1
     };
 });
 

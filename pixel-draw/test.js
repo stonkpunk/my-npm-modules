@@ -28,6 +28,33 @@ pd.drawCircle(300,300, 64, [255,0,0],false, 2.0) //draw circle with thickness 2,
 //put pixel
 pd.putPixel(256,256, [1,2,3]);
 
+var transparentColor = [255,255,255]; //default [255,255,255]
+var enableTransparency = true; //default true
+pd.drawCanvas(256,256, pd, transparentColor, enableTransparency);
+
+
+pd.drawCanvas(256,256, pd, transparentColor, enableTransparency);
+
+
+//drawing using functions:
+
+function invertColorsFunction(x,y,existingColor){
+    var invertedColor = [255-existingColor[0],255-existingColor[1],255-existingColor[2]];
+    return invertedColor;
+}
+
+function replaceWhiteWithNoiseFunction(x,y,existingColor){
+    var noise = [1,2,3].map(n=>Math.floor(Math.random()*255))
+    var colorIsWhite = existingColor[0]==255 && existingColor[1]==255 && existingColor[2]==255;
+    if(colorIsWhite){return noise;}
+    return existingColor;
+}
+
+//draw filled rectangle with color per-pixel defined by function color(x,y,existingColorRGB_uInt8s) => [R,G,B] uInt8's
+pd.drawFunction(5,50,140,40, invertColorsFunction);
+pd.drawFunction(5,150,140,40, replaceWhiteWithNoiseFunction);
+
+
 //get pixel
 console.log(pd.getPixel(256,256)); //[1,2,3]
 

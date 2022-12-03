@@ -1,0 +1,21 @@
+{
+  "name": "text-to-triangles",
+  "version": "0.0.01",
+  "description": "convert text string to triangles, for nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "triangles",
+    "text"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "svg-mesh-3d": "^1.1.0",
+    "svg-path-properties": "^1.0.13",
+    "text-to-svg": "^3.1.5"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/text-to-triangles"
+}

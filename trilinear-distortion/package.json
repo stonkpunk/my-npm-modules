@@ -1,0 +1,17 @@
+{
+  "name": "trilinear-distortion",
+  "version": "0.0.011",
+  "description": "distort 3d meshes / points within a bounding box by warping the corners of the box",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "trilinear","distort","warp","space", "lut"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/trilinear-distortion"
+}

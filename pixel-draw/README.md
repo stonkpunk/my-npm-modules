@@ -54,6 +54,8 @@ pd.putPixel(256,256, [1,2,3]);
 var c = pd.getPixel(256,256);
 console.log(c); //[1,2,3]
 
+pd.saveAs('./test1.png');
+
 //faster pixel puts and gets:
 //use ._getPixel and ._putPixel to skip bounds check
 
@@ -65,13 +67,46 @@ console.log(c); //[1,2,3]
 //get cropped version of canvas without changing the original canvas
 //var cropped = pd.getCropped(-20,-20,640,640,[255,0,0])
 
-pd.saveAs('./test.png');
-
 //clear the image
 //pd.clear(color=[255,255,255]);
+
+//draw the contents of another canvas [or the same canvas] onto this canvas, including optional transparent/background color
+var transparentColor = [255,255,255]; //default [255,255,255]
+var enableTransparency = true; //default true
+pd.drawCanvas(256,256, pd, transparentColor, enableTransparency);
+
+pd.saveAs('./test2.png');
+
+//drawing using functions:
+
+function invertColorsFunction(x,y,existingColor){
+    var invertedColor = [255-existingColor[0],255-existingColor[1],255-existingColor[2]];
+    return invertedColor;
+}
+
+function replaceWhiteWithNoiseFunction(x,y,existingColor){
+    var noise = [1,2,3].map(n=>Math.floor(Math.random()*255))
+    var colorIsWhite = existingColor[0]==255 && existingColor[1]==255 && existingColor[2]==255;
+    if(colorIsWhite){return noise;}
+    return existingColor;
+}
+
+//draw filled rectangle with color per-pixel defined by function color(x,y,existingColorRGB_uInt8s) => [R,G,B] uInt8's
+pd.drawFunction(5,50,140,40, invertColorsFunction);
+pd.drawFunction(5,150,140,40, replaceWhiteWithNoiseFunction);
+
+pd.saveAs('./test3.png');
 ```
 
-![test.png](https://i.imgur.com/oVmTVQQ.png)
+![test1.png](https://i.imgur.com/oVmTVQQ.png)
+test1 output 
+
+![test2.png](https://i.imgur.com/ccvs99y.png)
+test2 output
+
+![test3.png](https://i.imgur.com/RHIv3Tp.png)
+test3 output
+
 
 
 

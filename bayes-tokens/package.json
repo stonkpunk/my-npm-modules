@@ -1,6 +1,6 @@
 {
   "name": "bayes-tokens",
-  "version": "0.0.172",
+  "version": "0.0.1721",
   "description": "get word counts / frequencies on a per-speaker or per-category basis, or as an aggregate",
   "main": "index.js",
   "scripts": {

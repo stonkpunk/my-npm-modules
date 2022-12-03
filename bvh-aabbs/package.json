@@ -1,0 +1,17 @@
+{
+  "name": "bvh-aabbs",
+  "version": "0.0.011",
+  "description": "bounding volume hierarchy for axis-aligned bounding boxes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bvh","bounding box","aabb","raycasting","raytracing"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/bvh-aabbs"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "histogram-simple",
+  "version": "0.0.0112",
+  "description": "simple 1d histogram util",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "histogram", "pdf"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/histogram-simple"
+}

@@ -10,7 +10,7 @@ symbols = symbols.filter(function(s){
     }
     return !doSkip;
 });
-var urls = symbols.sort().map(s=>`https://query1.finance.yahoo.com/v10/finance/quoteSummary/${s}?modules=assetProfile%2Cprice`)
+var urls = symbols.sort().map(s=>`https://query1.finance.yahoo.com/v10/finance/quoteSummary/${s}?modules=assetProfile%2CsummaryProfile%2CsummaryDetail%2Cprice`)
 
 var onDownloadedEach = function(url, result){
     try{
@@ -19,10 +19,11 @@ var onDownloadedEach = function(url, result){
         var obj = JSON.parse(result);
         var assetProfile = obj.quoteSummary.result[0].assetProfile;
         var price = obj.quoteSummary.result[0].price;
-        var res = {...price, ...assetProfile};
+        var sd = obj.quoteSummary.result[0].summaryDetail;
+        var res = {...price, ...assetProfile, ...sd};
         jf.writeFileSync(`./results-cache/${sym}.json`, res);
 
-        console.log(sym);//`${url} -- ${result}`);
+        console.log(sym);//, res);//`${url} -- ${result}`);
     }catch(e){
 
     }

@@ -6,7 +6,7 @@ This is a pre-baked list of NYSE and NASDAQ tickers/symbols.
 
 3114 NYSE tickers 
 
-Last updated August 2022
+Last updated December 1st, 2022
 
 ## Installation
 

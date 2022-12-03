@@ -1,0 +1,76 @@
+{
+  "_from": "regl-primitive@^1.0.1",
+  "_id": "regl-primitive@1.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-ZnBD0rtklF1k6wVb+yB4vjXYZIM8Fwnn80DAl+u4Wr05Zg94qitlGD7HvcUQaFAmzAyGxz1q0uy5Edr17Tm4FQ==",
+  "_location": "/regl-primitive",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "regl-primitive@^1.0.1",
+    "name": "regl-primitive",
+    "escapedName": "regl-primitive",
+    "rawSpec": "^1.0.1",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.1"
+  },
+  "_requiredBy": [
+    "/triangles-mesh-viewer-sdl-regl"
+  ],
+  "_resolved": "https://registry.npmjs.org/regl-primitive/-/regl-primitive-1.0.1.tgz",
+  "_shasum": "ef7abc37732f4ba60728dc85439f173308afce7d",
+  "_spec": "regl-primitive@^1.0.1",
+  "_where": "/Users/user/Documents/tokyo/MY_NPM_MODULES/node_modules/triangles-mesh-viewer-sdl-regl",
+  "author": {
+    "name": "Joseph Werle",
+    "email": "werle@littlstar.com"
+  },
+  "bugs": {
+    "url": "https://github.com/jwerle/regl-primitive/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "angle-normals": "^1.0.0"
+  },
+  "deprecated": false,
+  "description": "Create a regl draw command from a simplicial complex",
+  "devDependencies": {
+    "angle-normals": "^1.0.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babelify": "^7.3.0",
+    "budo": "^9.2.1",
+    "bunny": "^1.0.1",
+    "clamp": "^1.0.1",
+    "multi-regl": "^1.1.1",
+    "primitive-capsule": "^2.0.2",
+    "primitive-cube": "^2.0.0",
+    "primitive-icosphere": "^1.0.2",
+    "primitive-quad": "^1.0.1",
+    "primitive-sphere": "^2.0.0",
+    "primitive-torus": "^1.0.4",
+    "regl-camera": "^1.1.0",
+    "teapot": "^1.0.0"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "homepage": "https://github.com/jwerle/regl-primitive#readme",
+  "keywords": [
+    "regl",
+    "primitive",
+    "gl"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "regl-primitive",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwerle/regl-primitive.git"
+  },
+  "scripts": {
+    "test": ":"
+  },
+  "version": "1.0.1"
+}

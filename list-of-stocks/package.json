@@ -1,7 +1,7 @@
 {
   "name": "list-of-stocks",
-  "version": "0.0.012",
-  "description": "pre-baked list of NYSE, NASDAQ tickers/symbols from August 2022",
+  "version": "0.0.120122",
+  "description": "pre-baked list of NYSE, NASDAQ tickers/symbols from December 1st, 2022",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

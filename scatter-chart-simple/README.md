@@ -11,7 +11,7 @@ npm i scatter-chart-simple
 ## Usage 
 
 ```javascript
-var scs = require('./index.js');
+var scs = require('scatter-chart-simple');
 
 //scs.plotSingleDataChart(
 // filename?="chart.png",

@@ -144,9 +144,11 @@ function trianglesTraceFast_returnIndex(tris, backfaceCulling=true){
         var v = ray.vector;
         //var backfaceCulling = true;
         var intersectionResult = bvhSkull.intersectRay(o, v, backfaceCulling);
-
+        console.log("RES",intersectionResult);
         var dist = 9999+Math.random();
         var minIndex = -1;
+        var minTriangle = null;
+        var minPt = null;
         for(var i=0;i<intersectionResult.length;i++){
             //var t = intersectionResult[i].triangle;
             var _o = intersectionResult[i].intersectionPoint;
@@ -154,11 +156,13 @@ function trianglesTraceFast_returnIndex(tris, backfaceCulling=true){
             //dist = Math.min(dist,D);
             if(D<dist){
                 dist=D;
-                minIndex = intersectionResult.triangleIndex;
+                minIndex = intersectionResult[i].triangleIndex;
+                minTriangle = intersectionResult[i].triangle;
+                minPt = _o;
             }
         }
 
-        return {dist: dist, index: minIndex};
+        return {dist: dist, index: minIndex, triangle: minTriangle, pt: minPt};
     }
 }
 

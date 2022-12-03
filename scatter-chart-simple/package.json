@@ -1,6 +1,6 @@
 {
   "name": "scatter-chart-simple",
-  "version": "0.0.01",
+  "version": "0.0.011",
   "description": "very simple 2d scatter chart with colored dots for nodejs. render scatter charts on the server.",
   "main": "index.js",
   "scripts": {

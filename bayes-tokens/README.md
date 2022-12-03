@@ -29,7 +29,7 @@ npm i bayes-tokens
 ## Usage
 
 ```javascript
-var wcc = require('word-counts-categorical');
+var wcc = require('bayes-tokens');
 
 var stuffBobSays = "my name is bob. i like pizza.";
 var stuffJaneSays = "my name is jane. i like snowboarding.";

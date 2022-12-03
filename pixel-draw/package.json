@@ -1,6 +1,6 @@
 {
   "name": "pixel-draw",
-  "version": "0.0.00125",
+  "version": "0.0.001273",
   "description": "draw stuff directly onto a pixel buffer similar to a canvas",
   "main": "index.js",
   "scripts": {
