@@ -1,6 +1,6 @@
 {
   "name": "triangles-to-three-geometry",
-  "version": "0.0.011",
+  "version": "0.0.0111",
   "description": "convert raw triangles or complexes to/from three.js geometries",
   "main": "index.js",
   "scripts": {

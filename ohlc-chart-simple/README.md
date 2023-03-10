@@ -49,10 +49,19 @@ candles = candles.map(function(candle){
 var config = {
     w: 1024,
     h: 700,
+    rects: [], //rectangles {minPrice,maxPrice,startIndex,endIndex,color,filled,thickness} -- example {minPrice: 140, maxPrice: 145, startIndex:5, endIndex: 15, color: [255,0,0], filled: true, thickness:0}
+    lines: [], //draw lines on the chart {startPrice, endPrice, startIndex, endIndex, color: [0,0,0], thickness:0}
     profileBucketsTotal: 32,
-    profileBucketsWidth: 64,
+    profileBucketsWidth: 64, //set to zero to skip VP render 
     volumeBarsHeight: 32,
     bgColor: [255,255,255],
+
+    //alternative to volume profile: arbitrary kernel density histogram
+    //uncommenting these will replace VP with KDE graph of the same width
+    // kdePrices: candles.map(c=>[c.low, 1]),
+    // kdeBandwidthDollars: 0.05,
+    // kdeIsGaussian: true, //false == kernel is triangular 
+    
     skipDrawOhlcBars: false,
     skipDrawIndicators: false,
     skipDrawLegend: false,
@@ -84,6 +93,9 @@ smaller example
 
 simpler example
 
+![chart4](https://i.imgur.com/EFlg2bL.png)
+
+example including rectangle, line, KDE graph [see `test.js`]
 
 ## See Also
 

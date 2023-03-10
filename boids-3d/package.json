@@ -1,0 +1,16 @@
+{
+  "name": "boids-3d",
+  "version": "0.0.01",
+  "description": "simple 3d boids class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "boids","3d","flocking"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {},
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/boids-3d"
+}

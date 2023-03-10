@@ -1,6 +1,6 @@
 {
   "name": "ohlc-candles-rolling",
-  "version": "0.0.01",
+  "version": "0.0.011",
   "description": "constant-memory rolling data structure for OHLCV candles",
   "main": "index.js",
   "scripts": {

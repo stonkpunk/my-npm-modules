@@ -40,12 +40,25 @@ candles = candles.map(function(candle){
 
 //config optional; default params shown
 var config = {
-    w: Math.floor(1024/4),
-    h: Math.floor(700/4),
+    rects: [
+        {minPrice: 140, maxPrice: 145, startIndex:5, endIndex: 15, color: [255,255,0], filled: true, thickness:0}
+    ],
+    lines: [
+        {startPrice: 145, endPrice: 146, startIndex:1, endIndex: 100, color: [0,0,0], thickness:0}
+    ],
+    w: Math.floor(1024/2),
+    h: Math.floor(700/2),
     profileBucketsTotal: 64,
     profileBucketsWidth: 16,
     volumeBarsHeight: 16,
     bgColor: [255,255,255],
+
+    //alternative to volume profile: arbitrary kernel density histogram
+    kdePrices: candles.map(c=>[c.low, 1]), //[value, weight]
+    kdeBandwidthDollars: 0.01,
+    kdeIsGaussian: true, //false == kernel is triangular
+    kdeColor: [0,0,255],
+
     skipDrawOhlcBars: false,
     skipDrawIndicators: false,
     skipDrawLegend: false,
@@ -54,7 +67,7 @@ var config = {
     expandPrice: false,
     skipDrawDate: true,
     skipDrawPrice: false,
-    skipDrawPriceBars: true,
+    skipDrawPriceBars: false,
     title: "AAPL",
     filename: "./candlestick-chart.png",
 }

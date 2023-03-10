@@ -65,13 +65,7 @@ function createREGLPrimitive(regl, complex, configuration) {
     complex.normals = normals(complex.cells, complex.positions)
   }
 
-  if(complex.vertexColors){
-      complex.normals = complex.vertexColors;
-  }
 
-    if(complex.faceColors){
-        complex.normals = complex.positions.map(function(c,i){return complex.faceColors[Math.floor(i/3.0)]});
-    }
 
   // attribute setter helper
   function attribute(k, x) {
@@ -81,9 +75,9 @@ function createREGLPrimitive(regl, complex, configuration) {
   //var rndNormalList =  complex.normals.map((n,i)=>[Math.random(),Math.random(),Math.random()]);
 
   // sets regl draw command attributes
-  attribute('position', complex.positions)
-  attribute('normal', complex.normals)
-  attribute('uv', complex.uvs || complex.positions.map((v) => ([v[0], v[1]])))
+  //attribute('position', complex.positions)
+  //attribute('normal', complex.normals)
+  //attribute('uv', complex.uvs || complex.positions.map((v) => ([v[0], v[1]])))
 
   if (complex.cells && complex.cells.length) {
     state.elements = complex.cells

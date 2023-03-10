@@ -6,11 +6,24 @@ const pd = require('pixel-draw');
 var config = {
     w: 1024,
     h: 700,
+    rects: [],
+    lines: [],
+
     candlePaddingVerticalDollars: 0.01,
     profileBucketsTotal: 32,
     profileBucketsWidth: 64,
+    kdePrices: null, //arr of prices to graph as histogram instead of defualt volume profile
+    kdeBandwidth: 2, //bandwidth for option kde
+    kdeIsGaussian: true, //false = kde is triangular
     volumeBarsHeight: 32,
     bgColor: [255,255,255],
+
+    //alternative to volume profile: arbitrary kernel density histogram
+    kdePrices: null,//candles.map(c=>[c.low, 1]),
+    kdeBandwidthDollars: 0.05,
+    kdeIsGaussian: true, //false == kernel is triangular
+    kdeColor: [0,0,0],
+
     skipDrawOhlcBars: false,
     skipDrawIndicators: false,
     skipDrawLegend: false,
@@ -43,7 +56,22 @@ function drawChartForCandles(candles, _config = {}){
     var bottomPartSize = _config.volumeBarsHeight;//32; //__h var from draw-candles
 
     if(profileBucketsWidth>0){
-        canvas = dvp.drawProfileBuckets(profile,profileBuckets,w+profileBucketsWidth,h/*-bottomPartSize*/, canvas, profileBucketsWidth);
+        if(_config.kdePrices){
+            var priceRange = [
+                Math.min(...candles.map(c=>c.low)),
+                Math.max(...candles.map(c=>c.high))
+            ];
+            //prices, priceRange, w=512,h=512, _canvas, renderWidth = 32
+            canvas = dvp.drawKde(priceRange, _config, canvas);
+        }else{
+            canvas = dvp.drawProfileBuckets(
+                profile,
+                profileBuckets,
+                w+profileBucketsWidth,
+                h/*-bottomPartSize*/,
+                canvas,
+                _config);
+        }
     }
 
     //blue line is poc, green line is vwap

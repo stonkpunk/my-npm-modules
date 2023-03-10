@@ -1,0 +1,17 @@
+{
+  "name": "kde-simple",
+  "version": "0.0.012",
+  "description": "simple 1D kernel density estimation (KDE) with gaussian and triangular kernels",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kde","kernel","density","estimation","estimate"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0-1.0",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/kde-simple"
+}

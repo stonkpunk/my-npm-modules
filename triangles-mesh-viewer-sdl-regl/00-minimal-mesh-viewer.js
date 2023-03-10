@@ -22,6 +22,7 @@ var width, height, native;//window
 var gl = null;//createContext(width, height, { window: native, preserveDrawingBuffer:true })
 var ext = null;//gl.getExtension('STACKGL_resize_drawingbuffer')
 var ext2 = null;//gl.getExtension('oes_texture_float')
+var ext3 = null;
 
 var regl = null;//createRegl({ gl })
 var model = null;//require('regl-model')(regl)
@@ -36,8 +37,11 @@ function createWindow(){
     gl = createContext(width, height, { window: native, preserveDrawingBuffer:true })
     ext = gl.getExtension('STACKGL_resize_drawingbuffer')
     ext2 = gl.getExtension('oes_texture_float')
+    ext3 = gl.getExtension('oes_element_index_uint')
+    // options.extensions = ['oes_element_index_uint']
 
-    regl = createRegl({ gl })
+    regl = createRegl({ gl , extensions: ['oes_element_index_uint']})
+
     model = require('regl-model')(regl);
 }
 //
@@ -50,27 +54,41 @@ var rgp = require('./my-regl-primitive/src/index.js');
 var ti = require('triangles-index');
 
 var deMergeMeshTriangles = ti.demergeMeshTriangles_meshView;
+var BUNNY = require('bunny');
+var tn = require('./fps-control/triangle-normal.js');
+module.exports.modelViewer = function(_bunny=BUNNY){
 
-module.exports.modelViewer = function(){
+
+
+
     createWindow();
-    var bunny = deMergeMeshTriangles(require('bunny'));
+    var bunny = (_bunny.faceColors) ? deMergeMeshTriangles(_bunny) : _bunny;
+    //var bunnyTris = ti.deindexTriangles_meshView(bunny);
     //var colorList = bunny.positions.map(p=>[Math.random(),Math.random(),Math.random()]);
 
     //bunny.vertexColors = bunny.positions.map((p,i)=>[Math.random(),Math.random(),Math.random()]);
-    bunny.faceColors = bunny.cells.map((p,i)=>[Math.random(),Math.random(),Math.random()]);
+    //bunny.faceColors = bunny.cells.map((p,i)=>[Math.random(),Math.random(),Math.random()]);
+
+    if(_bunny.vertexColors){
+        bunny.vertexColors = _bunny.vertexColors;
+    }
+
+    if(_bunny.faceColors){
+        bunny.faceColors = _bunny.faceColors;
+    }
 
     var triangles = require('triangles-index').deindexTriangles_meshView(bunny); //list of raw triangles, each one [[x,y,z],[x,y,z],[x,y,z]]
     var traceFunc = require('raycasting-utils').trianglesTraceFast_returnIndex_useLine(triangles);
 
     var cameraData = {
-       cameraEye : [-3,12,16],
-       cameraTheta : 4.7,
-       cameraPhi : 2,
-       camera_lookDir : null,
-       camera_lookDir2 : null,
-       cameraLookTarget : [0,0,0],
-       pvMatrix: null,
-       up: [0,1,0]
+        cameraEye : [-3,12,16],
+        cameraTheta : 4.7,
+        cameraPhi : 2,
+        camera_lookDir : null,
+        camera_lookDir2 : null,
+        cameraLookTarget : [0,0,0],
+        pvMatrix: null,
+        up: [0,1,0]
     }
 
     cameraData.pvMatrix = buildPVMatrix(cameraData.cameraEye, cameraData.cameraLookTarget, cameraData.up)// || autoRes.pvMatrix; //find projected view matrix for camera
@@ -99,6 +117,32 @@ module.exports.modelViewer = function(){
     var fbo = null
     var bunnyRegl = null;
 
+
+
+    const maxCount = bunny.positions.length;
+
+
+    console.log("MAX COUNT",maxCount);
+    const positionBuffer = regl.buffer({
+        length: maxCount * 3 * 4,
+        type: 'float',
+        usage: 'dynamic'
+    })
+
+    const normalBuffer = regl.buffer({
+        length: maxCount * 3 * 4,
+        type: 'float',
+        usage: 'dynamic'
+    })
+
+    const cellsBuffer = regl.elements({
+        length: (maxCount * 3 * 3) * 3 * 2,
+        count: (maxCount * 3 * 3),
+        type: 'uint32',
+        usage: 'dynamic',
+        primitive: 'triangles'
+    })
+
     if(DO_USE_FBO){
         fbo = regl.framebuffer({
             color: typedArrayTexture,
@@ -106,23 +150,50 @@ module.exports.modelViewer = function(){
             stencil: true,
         })
 
-        bunnyRegl = rgp(regl, bunny, {framebuffer: () => fbo});
+        //bunnyRegl = rgp(regl, bunny, {framebuffer: () => fbo});
+        bunnyRegl = rgp(regl, bunny, {
+            framebuffer: () => fbo,
+            attributes: {
+                position: {
+                    buffer: positionBuffer
+                },
+                normal: {
+                    buffer: normalBuffer
+                }
+            },  elements: cellsBuffer});
     }else{
-        bunnyRegl = rgp(regl, bunny); //generateTriangleSoup
+        bunnyRegl = rgp(regl, bunny, {attributes: {
+                position: {
+                    buffer: positionBuffer
+                },
+                normal: {
+                    buffer: normalBuffer
+                }
+            },  elements: cellsBuffer}); //generateTriangleSoup
     }
 
-    var drawFullScreenTextureCommand = require('./regls/regl-draw-full-screen-texture.js').drawFullScreenTextureCommand(regl);
+    var drawFullScreenTextureCommand = require('./regls/regl-draw-full-screen-texture.js').drawFullScreenTextureCommand(regl, DO_USE_FBO, fbo, typedArrayTexture);
     var material = require('./regls/regl-normal-material.js').materalCmd(regl);
 
-    var modelWasChanged = false;
+    var modelWasChanged = true;
     function updateModel(_newModel){
         bunny = _newModel || generateTriangleSoup();
         modelWasChanged=true;
     }
 
+    function _updateModel(){
+        modelWasChanged=true;
+    }
+
+    // setInterval(function(){
+    //     bunny.positions[Math.floor(bunny.cells.length*Math.random())][0] = Math.random();//Math.floor(theModel.cells.length*Math.random());
+    //     _updateModel();
+    // },1);
+
     var fps = 0;
     var start = Date.now();
     var fpsUpdate= Date.now();
+    const normals = require('angle-normals')
 
     function runReglStuff(regl){
         if(DO_USE_FBO){
@@ -142,10 +213,30 @@ module.exports.modelViewer = function(){
         model({rotation}, () => {
             material(() => {
                 var theModel = bunny;
-                if(modelWasChanged){
-                    bunnyRegl = rgp(regl, theModel, DO_USE_FBO ? {framebuffer: () => fbo} : null);
+
+                if(modelWasChanged) {
+                    if (theModel.vertexColors) {
+                        theModel.normals = theModel.vertexColors;
+                    }
+                    if (theModel.faceColors) {
+                        theModel.normals = theModel.positions.map(function (c, i) {
+                            return theModel.faceColors[Math.floor(i / 3.0)]
+                        });
+                    }
+                    positionBuffer({data: theModel.positions})
+                    cellsBuffer({data: theModel.cells})
+                    normalBuffer({data: theModel.normals /*normals(theModel.cells, theModel.positions)*/})
+
+                    //bunnyRegl = rgp(regl, theModel, DO_USE_FBO ? {framebuffer: () => fbo} : null);
+
                     modelWasChanged=false;
                 }
+                // if(modelWasChanged){
+                //     bunnyRegl = rgp(regl, theModel, DO_USE_FBO ? {framebuffer: () => fbo} : null);
+                //     modelWasChanged=false;
+                // }
+
+
                 bunnyRegl();
                 // example of updating portion of screen w pixels...
                 // typedArrayTexture.subimage({
@@ -172,6 +263,18 @@ module.exports.modelViewer = function(){
 
         processKeys(sdl, cameraData, traceFunc, triangles);
         processMouseMove(sdl, window, cameraData, MOUSE_IS_CAPTURED);
+
+        if(!MOUSE_IS_CAPTURED){
+            var traceRes = traceFunc(cameraData.outwardMouseRay);
+
+            if(traceRes.triangle){
+                traceRes.normal = tn.triangleFlatNormal(traceRes.triangle);
+            }
+
+            //todo update model to include cursor? [clone bunny then add cursor cells...]
+
+            console.log(traceRes);
+        }
 
         setupCamera({
             pvMatrix: _pvMatrix,

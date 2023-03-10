@@ -20,10 +20,12 @@ var bunnyTriangles = require('triangles-index').deindexTriangles_meshView(bunny)
 
 //indexed triangles --> indexed three geom
 var threeBunny = tttg.trianglesIndexed2ThreeGeom(bunny);
+//also trianglesIndexed2ThreeGeom_dummyUvsNormals -- adds dummy uv and normals attributes 
 
 //raw triangles --> three geom [optionally, indexed]
 var doIndex = true; //default true
 var threeBunny2 = tttg.triangles2ThreeGeom(bunnyTriangles, doIndex);
+//also triangles2ThreeGeom_dummyUvsNormals -- adds dummy uv and normals attributes 
 
 //three geom --> tris [or indexed tris]
 //threeGeomToTriangles(threeGeom, doIndex=false);

@@ -50,10 +50,10 @@ var randomBox3d = function(){
 
 var randomBoxes = [];
 var t0=Date.now();
-for(var i=0; i<100000; i++){ //100k no problem; 1M still works, little laggy
+for(var i=0; i<100; i++){ //100k no problem; 1M still works, little laggy
     randomBoxes.push(randomBox3d());
 }
-console.log(`generate ${randomBoxes.length} boxes took ${Date.now()-t0}`);
+//console.log(`generate ${randomBoxes.length} boxes took ${Date.now()-t0}`);
 
 //todo make 'bunny' cubes
 // var m2v = require('mesh-to-voxels');
@@ -78,7 +78,7 @@ var ba = require('bvh-aabbs');
 var fastBVHMode = true; //fast mode vs SAH mode (surface area heuristic)
 t0=Date.now();
 var bvhArray = ba.aabbsToBvhArray(randomBoxes, fastBVHMode) //bvh data structure, flat array
-console.log(`generate BVH took ${Date.now()-t0}`); //@1M boxes takes 10637 or 2738 for fast mode=true, @100k boxes, takes 1608 or 424 for fast mode=true
+//console.log(`generate BVH took ${Date.now()-t0}`); //@1M boxes takes 10637 or 2738 for fast mode=true, @100k boxes, takes 1608 or 424 for fast mode=true
 
 //console.log(bvhArray)
 

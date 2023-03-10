@@ -1,10 +1,14 @@
 const updateCamera = require("./fps-update-camera.js");
-module.exports.processMouseMove = function processMouseMove(sdl, window, cameraData, /*cameraEye, cameraTheta, cameraPhi, camera_lookDir, camera_lookDir2, cameraLookTarget, pvMatrix,*/ mouseIsCaptured=true){
+var matrixFrustrumCorners = require('./matrix-frustrum-corners.js');
+module.exports.processMouseMove = function processMouseMove(sdl, window, cameraData, mouseIsCaptured=true){
     var {cameraEye, cameraTheta, cameraPhi, camera_lookDir, camera_lookDir2, cameraLookTarget, pvMatrix} = cameraData;
-    //var {cameraEye, cameraTheta, cameraPhi, camera_lookDir, camera_lookDir2, cameraLookTarget, pvMatrix} = {...cameraData};
 
     var evt = {
         x: sdl.mouse.position.x-window.x, y: sdl.mouse.position.y-window.y
+    }
+
+    var evtNormalized = {
+        x: (sdl.mouse.position.x-window.x)/window.width, y: (sdl.mouse.position.y-window.y)/window.height
     }
 
     var evtCentered = {
@@ -25,9 +29,14 @@ module.exports.processMouseMove = function processMouseMove(sdl, window, cameraD
 
     res.evt = evt;
     res.evtCentered = evtCentered;
+    res.evtNormalized = evtNormalized;
 
     res.cameraTheta = cameraTheta;
     res.cameraPhi = cameraPhi;
+
+    res.outwardMouseRay = matrixFrustrumCorners.getOutwardRayXY(res.pvMatrix,evtNormalized.x,1.0-evtNormalized.y);
+
+    //console.log(evtNormalized);
 
     if(mouseIsCaptured){
         sdl.mouse.setPosition(window.x + window.width/2, window.y + window.height/2)
@@ -35,5 +44,5 @@ module.exports.processMouseMove = function processMouseMove(sdl, window, cameraD
 
     Object.assign(cameraData, res);
 
-    return res;
+    return cameraData;
 }

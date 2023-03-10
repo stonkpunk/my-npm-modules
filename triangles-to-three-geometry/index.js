@@ -8,6 +8,16 @@ function trianglesIndexed2ThreeGeom(bunny){ //indexed triangles list to three ge
     return geometry;
 }
 
+function trianglesIndexed2ThreeGeom_dummyUvsNormals(bunny){ //includes dummy normal and uv attributes
+    var bunnyGeom = new THREE.BufferGeometry();
+    var vertsFlat = [].concat(...bunny.positions);
+    bunnyGeom.setIndex( [].concat(...bunny.cells) );
+    bunnyGeom.setAttribute( 'position', new Float32BufferAttribute( vertsFlat, 3 ) );
+    bunnyGeom.setAttribute( 'normal', new Float32BufferAttribute( vertsFlat, 3 ) );
+    bunnyGeom.setAttribute( 'uv', new Float32BufferAttribute( vertsFlat, 2 ) );
+    return bunnyGeom;
+}
+
 function _triangles2ThreeGeom(tris){ //raw triangles list to three geom
     var geometry = new THREE.BufferGeometry();
     var positions = [].concat(...tris);
@@ -16,7 +26,20 @@ function _triangles2ThreeGeom(tris){ //raw triangles list to three geom
     return geometry;
 }
 
+function triangles2ThreeGeom_dummyUvsNormals(tris){
+    var bunnyGeom = new THREE.BufferGeometry();
+    // var vertsFlat = [].concat(...bunny.positions);
+    var positions = [].concat(...tris);
+    var vertsFlat = [].concat(...positions);
+    // bunnyGeom.setIndex( [].concat(...bunny.cells) );
+    bunnyGeom.setAttribute( 'position', new Float32BufferAttribute( vertsFlat, 3 ) );
+    bunnyGeom.setAttribute( 'normal', new Float32BufferAttribute( vertsFlat, 3 ) );
+    bunnyGeom.setAttribute( 'uv', new Float32BufferAttribute( vertsFlat, 2 ) );
+    return bunnyGeom;
+}
+
 var ti = require('triangles-index');
+const {Float32BufferAttribute} = require("three");
 function triangles2ThreeGeom(tris, doIndex=true){
     if(doIndex){
         var bunny = ti.indexTriangles_meshView(tris);
@@ -58,7 +81,7 @@ function threeGeomToTrianglesIndexed(threeGeom){
     return threeGeomToTriangles(threeGeom, true);
 }
 
-module.exports = {triangles2ThreeGeom, trianglesIndexed2ThreeGeom, threeGeomToTriangles, threeGeomToTrianglesIndexed};
+module.exports = {triangles2ThreeGeom_dummyUvsNormals, triangles2ThreeGeom, trianglesIndexed2ThreeGeom_dummyUvsNormals, trianglesIndexed2ThreeGeom, threeGeomToTriangles, threeGeomToTrianglesIndexed};
 
 //building a geometry...
 //const geometry = new THREE.BufferGeometry();

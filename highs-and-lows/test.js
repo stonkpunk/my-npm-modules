@@ -8,6 +8,11 @@ var doFilterRuns = true; //remove runs -- keep the highest highs and lowest lows
 var res = hl.highsAndLows(prices, windowSize, doFilterRuns);
 console.log(res);
 
+var bidAskSpread = 0.01; //1% spread
+var profits = hl.buySellProfitsForWindowSize(prices, windowSize, bidAskSpread);
+
+console.log(profits);
+
 // [
 //     [ 5, 'high' ], //sell
 //     [ 10, 'low' ], //buy

@@ -132,7 +132,7 @@ function sectorVolume_fast(s){ //assumes sector parts in correct order
 }
 
 //TODO array based version?
-function sectorsCanMerge(s0, s1, aspectLimit){ //TODO include case where one sector encloses the other ?
+function sectorsCanMerge(s0, s1, aspectLimit=99999999){ //TODO include case where one sector encloses the other ?
     if(s0==s1)return false;
     var mergedSector = sectorIncludeSector(cloneSector(s0),s1);
     var volumeChange = sectorVolume_fast(s0)+sectorVolume_fast(s1)-sectorVolume_fast(mergedSector);

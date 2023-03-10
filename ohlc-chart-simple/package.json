@@ -1,6 +1,6 @@
 {
   "name": "ohlc-chart-simple",
-  "version": "0.0.01123",
+  "version": "0.0.01126",
   "description": "simple ohlc candlestick charts with volume profile for Node.js",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "author": "stonkpunk",
   "license": "MIT",
   "dependencies": {
+    "kde-simple": "0.0.12",
     "pixel-draw": "0.0.1272"
   },
   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/ohlc-chart-simple"

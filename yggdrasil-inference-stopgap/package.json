@@ -1,0 +1,32 @@
+{
+  "name": "yggdrasil-inference-stopgap",
+  "version": "0.0.0112",
+  "description": "unofficial hack to run inference from pre-trained yggdrasil decision forests models in node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yggdrasil",
+    "decision",
+    "forest",
+    "random",
+    "inference"
+  ],
+  "author": "stonkpunk",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cross-blob": "^2.0.0",
+    "finalhandler": "^1.2.0",
+    "http": "0.0.1-security",
+    "jsonfile-compressed": "0.0.11",
+    "lie": "^3.3.0",
+    "node-fetch": "^2.6.8",
+    "pako": "^2.1.0",
+    "readable-stream": "^4.3.0",
+    "serve-index": "^1.9.1",
+    "serve-static": "^1.15.0",
+    "setimmediate": "^1.0.5"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/yggdrasil-inference-stopgap"
+}

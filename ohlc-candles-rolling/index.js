@@ -3,6 +3,8 @@ module.exports = function(maxPeriods=20000){
     this.index = 0;
     this.b = new Float32Array(maxPeriods);
     this.a = new Float32Array(maxPeriods);
+    this.bs = new Int32Array(maxPeriods);
+    this.as = new Int32Array(maxPeriods);
     this.o = new Float32Array(maxPeriods);
     this.h = new Float32Array(maxPeriods);
     this.l = new Float32Array(maxPeriods);
@@ -11,7 +13,7 @@ module.exports = function(maxPeriods=20000){
     this.td = new Int32Array(maxPeriods);
     this.ts = new BigInt64Array(maxPeriods);
 
-    this.submitCandle = function(o=0,h=0,l=0,c=0,v=0, b=0,a=0,td=0,ts=0){
+    this.submitCandle = function(o=0,h=0,l=0,c=0,v=0, b=0,a=0,td=0,ts=0,bs=0,as=0){
         var i = _this.index;
         _this.b[i] = b;
         _this.a[i] = a;
@@ -20,6 +22,8 @@ module.exports = function(maxPeriods=20000){
         _this.l[i] = l;
         _this.c[i] = c;
         _this.v[i] = v;
+        _this.bs[i] = bs;
+        _this.as[i] = as;
         _this.td[i] = td;
         _this.ts[i] = BigInt((ts||0));
         _this.index=(_this.index+1)%maxPeriods;
@@ -35,6 +39,8 @@ module.exports = function(maxPeriods=20000){
             v: _this.v[i],
             b: _this.b[i],
             a: _this.a[i],
+            bs: _this.bs[i],
+            as: _this.as[i],
             td: _this.td[i],
             ts: _this.ts[i]
         }

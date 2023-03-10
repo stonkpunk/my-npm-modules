@@ -100,4 +100,51 @@ function threeGeomToVoxels(geom, iters=3, cubifyBounds=true, edgesOnly=true, vol
     return voxels;
 }
 
-module.exports = {meshToVoxels, threeGeomToVoxels, meshToBvh, threeGeomToBvh, meshBoundingBlock, threeGeomBoundingBlock};
+function getSubBlocksGridForBlock(fullBlock, miniBlockSizeXYZ){
+    var minX = fullBlock[0][0];
+    var minY = fullBlock[0][1];
+    var minZ = fullBlock[0][2];
+    var maxX = fullBlock[1][0];
+    var maxY = fullBlock[1][1];
+    var maxZ = fullBlock[1][2];
+    var blockW = maxX-minX;
+    var blockH = maxY-minY;
+    var blockD = maxZ-minZ;
+    var res = [];
+    for(var x=minX;x<maxX;x+=miniBlockSizeXYZ[0]){
+        for(var y=minY;y<maxY;y+=miniBlockSizeXYZ[1]){
+            for(var z=minZ;z<maxZ;z+=miniBlockSizeXYZ[2]){
+                res.push([[x,y,z],[x+miniBlockSizeXYZ[0],y+miniBlockSizeXYZ[1],z+miniBlockSizeXYZ[2]]])
+            }
+        }
+    }
+    return res;
+}
+
+//todo version of meshToVoxels using this function [more stable...]
+function getSubBlocksGridForBlock(fullBlock, miniBlockSizeXYZ){
+    var minX = fullBlock[0][0];
+    var minY = fullBlock[0][1];
+    var minZ = fullBlock[0][2];
+    var maxX = fullBlock[1][0];
+    var maxY = fullBlock[1][1];
+    var maxZ = fullBlock[1][2];
+    var blockW = maxX-minX;
+    var blockH = maxY-minY;
+    var blockD = maxZ-minZ;
+    var res = [];
+    for(var x=minX;x<maxX;x+=miniBlockSizeXYZ[0]){
+        for(var y=minY;y<maxY;y+=miniBlockSizeXYZ[1]){
+            for(var z=minZ;z<maxZ;z+=miniBlockSizeXYZ[2]){
+                res.push([[x,y,z],[x+miniBlockSizeXYZ[0],y+miniBlockSizeXYZ[1],z+miniBlockSizeXYZ[2]]])
+            }
+        }
+    }
+    return res;
+}
+
+function boundingBlockOfMesh(bunny){
+    return boundingBlockOfPts(bunny.positions)
+}
+
+module.exports = {boundingBlockOfPts, boundingBlockOfMesh, meshToVoxels, threeGeomToVoxels, meshToBvh, threeGeomToBvh, meshBoundingBlock, threeGeomBoundingBlock};

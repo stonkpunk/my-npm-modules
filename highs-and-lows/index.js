@@ -70,6 +70,61 @@ function highsAndLows(values, numRowsToLook = 30, doFilterRuns= true){
     return result;
 }
 
+function buySellProfitsForIndices(values, windowSize, doFilterRuns){
+    return highsAndLows(values, windowSize, doFilterRuns).map(function(r){
+        r[1]=r[1].replace('high','sell').replace('low','buy');
+        return r;
+    })
+}
+
+//get highs and lows for window size, then [with "buys" at lows and "sells" at highs], calculate profit for the given series of prices
+function buySellProfitsForWindowSize(prices, windowSize, bidAskSpread=0){
+    var _buysAndSells = buysAndSells(prices, windowSize, true);
+    var profitObj = buySellProfitsForIndices(_buysAndSells, prices, bidAskSpread);
+    //{profit: money, maxMoney, minMoney: _minMoney, minMoneyAfterSell:minMoney,riskReward}
+    return profitObj;
+}
+
+//like above but takes raw list of buys/sells produced by buysAndSells function
+function buySellProfitsForIndices(buySellIndices,pricesList, bidAskSpread=0){
+    if(buySellIndices[0][1]=="sell"){
+        buySellIndices.shift(); //remove first item so we start w a buy
+        // console.log('discard first');
+    }
+    if(buySellIndices[buySellIndices.length-1][1]=="buy"){
+        buySellIndices.pop(); //remove last item so we end w a sell
+        // console.log('discard last');
+    }
+    var money = 0;
+    var lastBuyPrice = 0;
+    var maxMoney = -1;
+    var minMoney = 99999999;
+    var _minMoney = 9999999;
+
+    buySellIndices.forEach(function(row){
+        var indexOfCandle = row[0];
+        var priceHere = pricesList[indexOfCandle];
+        if(row[1]=="buy"){
+            var amt = row[2] || 1;
+            money-=(priceHere*(1.0+bidAskSpread/2.0))*amt;
+            lastBuyPrice = priceHere;
+            //console.log(`buy for ${priceHere} we now have ${money.toFixed(2)}`, candlesOriginal[indexOfCandle].day, candlesOriginal[indexOfCandle].clock);
+        }else if(row[1]=="sell"){
+            var amt = row[2] || 1;
+            money+=(priceHere*(1.0-bidAskSpread/2.0))*amt;
+            var profit = (priceHere-lastBuyPrice)*amt;
+            //console.log(`sell for ${priceHere} we now have ${money.toFixed(2)} (profit ${profit.toFixed(2)})`);
+            maxMoney=Math.max(money,maxMoney);
+            minMoney=Math.min(money,minMoney);
+        }
+        _minMoney=Math.min(_minMoney,money); //max amt of money "risked"
+    });
+
+    var riskReward = maxMoney/-_minMoney; //higher is better
+
+    return {profit: money, maxMoney, minMoney: _minMoney, minMoneyAfterSell:minMoney,riskReward};
+}
+
 function buysAndSells(values, windowSize, doFilterRuns){
     return highsAndLows(values, windowSize, doFilterRuns).map(function(r){
         r[1]=r[1].replace('high','sell').replace('low','buy');
@@ -77,4 +132,4 @@ function buysAndSells(values, windowSize, doFilterRuns){
     })
 }
 
-module.exports = {buysAndSells, highsAndLows, getHighIndices, getLowIndices}
+module.exports = {buySellProfitsForWindowSize, buySellProfitsForIndices, buysAndSells, highsAndLows, getHighIndices, getLowIndices}

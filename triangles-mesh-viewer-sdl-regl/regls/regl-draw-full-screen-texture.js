@@ -1,4 +1,4 @@
-var drawFullScreenTextureCommand = function(regl){
+var drawFullScreenTextureCommand = function(regl, DO_USE_FBO, fbo, typedArrayTexture){
     return regl({
         context: {texxxture1: function (context, props) {return DO_USE_FBO ? fbo.color[0] : typedArrayTexture}},
         frag: `

@@ -18,6 +18,10 @@ function candlesLowHighRange(candles, padding=0.01){
 }
 
 function drawCandles(candles, w=512,h=512, _canvas=null, config = {}, skipDrawBars = false, skipDrawIndicators, bottomPartSize=32){
+
+    var rects = config.rects || [];
+    var lines = config.lines || [];
+
     // var candlesLowHiVol = candles.map(function(c) {
     //     var row = [c.low, c.high, c.volume]
     //     return row;
@@ -107,6 +111,25 @@ function drawCandles(candles, w=512,h=512, _canvas=null, config = {}, skipDrawBa
     //canvas.drawRectangle(0,h-__h,w,__h,[200,200,200]); //vol bars bg color
 
     var indicatorLegend = {};
+
+    rects.forEach(function(rect){ //draw rects {minPrice,maxPrice,startIndex,endIndex,color}
+        var _h=h-__h;
+        var rx = rect.startIndex/candles.length*w;
+        var rxEnd = rect.endIndex/candles.length*w;
+        var rminPrice = _h-(rect.minPrice - lowHiRange[0])/lowHiDiff *_h;
+        var rmaxPrice = _h-(rect.maxPrice - lowHiRange[0])/lowHiDiff *_h;
+        canvas.drawRectangle(rx,Math.min(rminPrice, rmaxPrice),rxEnd-rx,Math.abs(rmaxPrice-rminPrice),rect.color, rect.filled, rect.thickness); //open-close thick rect
+    });
+
+    lines.forEach(function(line){ //draw lines
+        var _h=h-__h;
+        var rx = line.startIndex/candles.length*w;
+        var rxEnd = line.endIndex/candles.length*w;
+        var rstartPrice = _h-(line.startPrice - lowHiRange[0])/lowHiDiff *_h;
+        var rendPrice = _h-(line.endPrice - lowHiRange[0])/lowHiDiff *_h;
+        canvas.drawLine([[rx,rstartPrice],[rxEnd,rendPrice]], line.color||[0,0,0], line.thickness||0);
+        //canvas.drawLine(rx,Math.min(rminPrice, rmaxPrice),rxEnd-rx,Math.abs(rmaxPrice-rminPrice),line.color, line.filled, line.thickness); //open-close thick rect
+    });
 
     //draw the candles
     candles.forEach(function(candle,i){

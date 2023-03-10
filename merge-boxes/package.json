@@ -7,7 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "aabb","3d","merge","axis","aligned","bounding","box","voxel","brush","cuboid"
+    "aabb",
+    "3d",
+    "merge",
+    "axis",
+    "aligned",
+    "bounding",
+    "box",
+    "voxel",
+    "brush",
+    "cuboid"
   ],
   "author": "stonkpunk",
   "license": "MIT",

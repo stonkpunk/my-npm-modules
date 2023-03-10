@@ -1,8 +1,58 @@
 var pd = require("pixel-draw");
 var pu = require('./pt-utils.js');
 const vp = require("./volume-profile");
+var {kernelDensityEstimate, getRange} = require('kde-simple');
 
-function drawProfileBuckets(profile, profileBuckets, w=512,h=512, _canvas=null, renderWidth = 32){
+function drawKde(priceRange, config, _canvas){//w=512,h=512, _canvas, renderWidth = 32, bottomPartHeight=32){
+    var { w,h, profileBucketsWidth, kdePrices, kdeBandwidthDollars, kdeIsGaussian} = config;
+    var canvas = _canvas || pd(w,h);
+    var renderWidth = profileBucketsWidth;
+    var prices = kdePrices;
+
+    var bottomPartHeight = config.volumeBarsHeight; //todo why does 16 look more correct? //32 is bottom area for volume series from draw-candles.js...
+    var _h = h-bottomPartHeight;
+
+    var useTriangularKernel = !kdeIsGaussian; //if false, uses gaussian kernel
+    var bandwidth = kdeBandwidthDollars;
+
+    // var nBuckets = profileBuckets.length;
+    // var bucketHeight = _h/nBuckets;
+
+    var bucketMaxWidth = renderWidth;
+
+    var _prices = prices.map(function(p){return {x:p[0],weight:p[1]||1.0}});
+    var kRange = getRange(_prices, bandwidth, useTriangularKernel);
+
+    var yStep = 1.0;
+    for(var y=0; y<_h; y+=yStep){
+        var __h = yStep;
+        var _w = renderWidth;
+        var x = w-renderWidth;
+
+        var t = y/_h;
+        var priceHere = priceRange[1]-(priceRange[1]-priceRange[0])*t;
+        var val = renderWidth * kernelDensityEstimate(_prices, priceHere, bandwidth, useTriangularKernel, kRange);
+// console.log({priceHere,val,kRange})
+        canvas.drawRectangle(w-renderWidth+renderWidth-val, y, val, __h, config.kdeColor);
+    }
+
+    // var blue = [230,230,255];
+    // var green = [230,255,230];
+    // canvas.drawRectangle(0,_h*(1.0-pocBucketsIndex/nBuckets), w, bucketHeight, blue);
+    // if(avPriceIndex>=0){
+    //     canvas.drawRectangle(0,_h*(1.0-avPriceIndex/nBuckets), w, bucketHeight, green);
+    // }
+    //
+    // //canvas.drawRectangle(1,_h*(1.0-pocBucketsIndex/nBuckets), 64, bucketHeight, blue);
+    //
+    // profileBuckets.forEach(function(bucket,i){
+    //     var bw = bucketMaxWidth*bucket.volume/volRange[1];
+    //     canvas.drawRectangle(w-bw,_h*(1.0-i/nBuckets), bw, bucketHeight, bucket.volume_color);
+    // });
+    return canvas;
+}
+
+function drawProfileBuckets(profile, profileBuckets, w=512,h=512, _canvas=null, config){//renderWidth = 32){
     //bucket
     // {
     //     priceRange: [ 1974.3925, 1999.59 ],
@@ -11,6 +61,8 @@ function drawProfileBuckets(profile, profileBuckets, w=512,h=512, _canvas=null, 
     //     volume_color: [ 69.49705366130003, 186.04589207042886, 69.49705366130003 ],
     //     volume_color_t: 0.7285271341355468
     // }
+
+    var renderWidth = config.profileBucketsWidth;
 
     //var pocBucketsPrice = vp.getBucketsPOC(profileBuckets);
     var pocBucketsIndex = vp.getBucketsPOC_index(profileBuckets);
@@ -150,4 +202,4 @@ function drawProfileBucketsFlow(profileBucketsArr, w=512,h=512, _canvas=null, sk
 }
 
 
-module.exports = {drawProfileBuckets, drawProfileBucketsFlow};
+module.exports = {drawKde, drawProfileBuckets, drawProfileBucketsFlow};
