@@ -1,0 +1,25 @@
+{
+  "name": "needle-haystack-1d",
+  "version": "0.0.0112",
+  "description": "find scaled+shifted fuzzy copies of a 1-d 'needle' within a 1-d 'haystack'",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "needle",
+    "haystack",
+    "search",
+    "1d",
+    "correlation"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+    "ndarray": "^1.0.19",
+    "ndarray-convolve": "^2.0.0",
+    "ndarray-normalize": "^1.0.0",
+    "regression": "^2.0.1"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/needle-haystack-1d"
+}
