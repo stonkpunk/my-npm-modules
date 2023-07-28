@@ -1,0 +1,17 @@
+{
+  "name": "wave-function-collapse-simple",
+  "version": "0.0.0116",
+  "description": "wave function collapse algorithm for cuboids with backtracking and entropy minimization, 3D and 2D versions. works by either matching edge content or matching arbitrary string labels for each cube face.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wave","function","collapse","wfc"
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/wave-function-collapse-simple"
+}

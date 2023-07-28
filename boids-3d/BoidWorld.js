@@ -1,3 +1,90 @@
+function fNormalUnitLinePtTurbo_faster(f1,eps=0.1){
+
+    //from https://github.com/nicoptere/raymarching-for-THREE/blob/master/glsl/fragment.glsl
+    //in turn from https://github.com/stackgl/glsl-sdf-normal -- mit license
+
+    // var v1 = [ 1.0,-1.0,-1.0];
+    // var v2 = [-1.0,-1.0, 1.0];
+    // var v3 = [-1.0, 1.0,-1.0];
+    // var v4 = [1.0, 1.0, 1.0];
+    //
+    // return function(x,y,z){
+    //     var dv1 = f1(x+v1[0]*eps,y+v1[1]*eps,z+v1[2]*eps);
+    //     var dv2 = f1(x+v2[0]*eps,y+v2[1]*eps,z+v2[2]*eps);
+    //     var dv3 = f1(x+v3[0]*eps,y+v3[1]*eps,z+v3[2]*eps);
+    //     var dv4 = f1(x+v4[0]*eps,y+v4[1]*eps,z+v4[2]*eps);
+    //     var vecSum = [
+    //         dv1*v1[0]+dv2*v2[0]+dv3*v3[0]+dv4*v4[0],
+    //         dv1*v1[1]+dv2*v2[1]+dv3*v3[1]+dv4*v4[1],
+    //         dv1*v1[2]+dv2*v2[2]+dv3*v3[2]+dv4*v4[2]];
+    //     var dlen = Math.sqrt(vecSum[0]*vecSum[0]+vecSum[1]*vecSum[1]+vecSum[2]*vecSum[2]);
+    //
+    //     return [vecSum[0]/dlen,vecSum[1]/dlen,vecSum[2]/dlen];
+    // };
+
+    return function(x,y,z){
+        var dv1 = f1(x+eps,y-eps,z-eps);
+        var dv2 = f1(x-eps,y-eps,z+eps);
+        var dv3 = f1(x-eps,y+eps,z-eps);
+        var dv4 = f1(x+eps,y+eps,z+eps);
+        var vecSum = [
+            dv1-dv2-dv3+dv4,
+            -dv1-dv2+dv3+dv4,
+            -dv1+dv2-dv3+dv4];
+        var dlen = Math.sqrt(vecSum[0]*vecSum[0]+vecSum[1]*vecSum[1]+vecSum[2]*vecSum[2]);
+
+        return [vecSum[0]/dlen,vecSum[1]/dlen,vecSum[2]/dlen];
+    };
+}
+
+function dfNormDirect(f1, x,y,z, eps=0.1){
+    var dv1 = f1(x+eps,y-eps,z-eps);
+    var dv2 = f1(x-eps,y-eps,z+eps);
+    var dv3 = f1(x-eps,y+eps,z-eps);
+    var dv4 = f1(x+eps,y+eps,z+eps);
+    var vecSum = [
+        dv1-dv2-dv3+dv4,
+        -dv1-dv2+dv3+dv4,
+        -dv1+dv2-dv3+dv4];
+    var dlen = Math.sqrt(vecSum[0]*vecSum[0]+vecSum[1]*vecSum[1]+vecSum[2]*vecSum[2]);
+
+    return [vecSum[0]/dlen,vecSum[1]/dlen,vecSum[2]/dlen];
+};
+
+function getPointAlongLine(line, _t){
+    var arr = [
+        line[0][0] + (line[1][0]-line[0][0])*_t,
+        line[0][1] + (line[1][1]-line[0][1])*_t,
+        line[0][2] + (line[1][2]-line[0][2])*_t,
+    ];
+    return arr;
+};
+
+function lineLength(line){
+    var a = line[1][0]-line[0][0];
+    var b = line[1][1]-line[0][1];
+    var c = line[1][2]-line[0][2];
+    return Math.sqrt(a*a+b*b+c*c);
+};
+
+function getPointAlongLine_dist(line, dist){
+    var _t = dist/lineLength(line);
+    var arr = [
+        line[0][0] + (line[1][0]-line[0][0])*_t,
+        line[0][1] + (line[1][1]-line[0][1])*_t,
+        line[0][2] + (line[1][2]-line[0][2])*_t,
+    ];
+    return arr;
+};
+
+function addPts(p0, p1){
+    return [p0[0]+p1[0],p0[1]+p1[1],p0[2]+p1[2]];
+};
+
+function ptDiff(pt, pt1){
+    return [pt[0]-pt1[0],pt[1]-pt1[1],pt[2]-pt1[2]];
+}
+
 // this is based the boids example by takashi
 // Copyright (c) 2023 by takashi (https://codepen.io/tksiiii/pen/jzBZdo)
 //
@@ -28,26 +115,38 @@ var _params = params = {
 };
 
 class BoidWorld {
-    constructor(creatures = []) {
+    constructor(creatures = [], nearbyCreaturesFunction = null) {
         this.creatures = creatures;
         this.params = _params;
+        this.nearbyCreaturesFunction = nearbyCreaturesFunction || function(x,y,z){return creatures;};
     }
 
-    update() {
+    update(dfContainer=null) {
         // console.log('update boids positions...');
         this.creatures.forEach((creature) => {
+
+            var pos = creature.mesh.position;
+            var creaturesNearby = this.nearbyCreaturesFunction(pos.x,pos.y,pos.z);
+
             // boid
-            creature.applyForce(this.align(creature));
-            creature.applyForce(this.separate(creature));
-            creature.applyForce(this.choesin(creature));
+            creature.applyForce(this.align(creature, creaturesNearby));
+            creature.applyForce(this.separate(creature, creaturesNearby));
+            creature.applyForce(this.choesin(creature, creaturesNearby));
 
             // aboid light ball
-            creature.applyForce(this.avoidLightBall(creature, {x:0,y:0,z:0}, 10));
+            // creature.applyForce(this.avoidLightBall(creature, {x:0,y:0,z:0}, 10));
 
             // aboid container
             // if (guiControls.container === 'ball') {
-            var ballContainerRadius = 500;
-            creature.applyForce(this.avoidBallContainer(creature, ballContainerRadius));
+
+            if(dfContainer){
+                creature.applyForce(this.avoidDistanceFunctionContainer(creature, dfContainer));
+            }else{
+                var ballContainerRadius = 500;
+                creature.applyForce(this.avoidBallContainer(creature, ballContainerRadius));
+            }
+
+
             // } else if (guiControls.container === 'box') {
             //     creature.applyForce(this.avoidBoxContainer(creature, boxContainer.mesh.geometry.parameters.width / 2,
             //         boxContainer.mesh.geometry.parameters.height / 2,
@@ -88,7 +187,7 @@ class BoidWorld {
         return steerVector;
     }
 
-    align(currentCreature) {
+    align(currentCreature, creaturesNearby) {
         const sumVector = new THREE.Vector3();
         let cnt = 0;
         const maxSpeed = this.params.maxSpeed;;
@@ -96,7 +195,7 @@ class BoidWorld {
         const effectiveRange = this.params.align.effectiveRange;
         const steerVector = new THREE.Vector3();
 
-        this.creatures.forEach((creature) => {
+        creaturesNearby.forEach((creature) => {
             const dist = currentCreature.mesh.position.distanceTo(creature.mesh.position);
             if (dist > 0 && dist < effectiveRange) {
                 sumVector.add(creature.velocity);
@@ -119,7 +218,7 @@ class BoidWorld {
         return steerVector;
     }
 
-    separate(currentCreature) {
+    separate(currentCreature, creaturesNearby) {
         const sumVector = new THREE.Vector3();
         let cnt = 0;
         const maxSpeed = this.params.maxSpeed;
@@ -127,7 +226,7 @@ class BoidWorld {
         const effectiveRange = this.params.separate.effectiveRange;
         const steerVector = new THREE.Vector3();
 
-        this.creatures.forEach((creature) => {
+        creaturesNearby.forEach((creature) => {
             const dist = currentCreature.mesh.position.distanceTo(creature.mesh.position);
             if (dist > 0 && dist < effectiveRange) {
                 let toMeVector = new THREE.Vector3();
@@ -154,13 +253,13 @@ class BoidWorld {
         return steerVector;
     }
 
-    choesin(currentCreature) {
+    choesin(currentCreature, creaturesNearby) {
         const sumVector = new THREE.Vector3();
         let cnt = 0;
         const effectiveRange = this.params.choesin.effectiveRange;
         const steerVector = new THREE.Vector3();
 
-        this.creatures.forEach((creature) => {
+        creaturesNearby.forEach((creature) => {
             const dist = currentCreature.mesh.position.distanceTo(creature.mesh.position);
             if (dist > 0 && dist < effectiveRange) {
                 sumVector.add(creature.mesh.position);
@@ -188,6 +287,44 @@ class BoidWorld {
         steerVector.normalize();
         steerVector.multiplyScalar(1 / (Math.pow(distance, 2)));
         return steerVector;
+    }
+
+    avoidDistanceFunctionContainer(currentCreature, df) { //df(x,y,z) = distance to surface
+        const sumVector = new THREE.Vector3();
+
+        var eps = 0.05;
+        var x = currentCreature.mesh.position.x;
+        var y = currentCreature.mesh.position.y;
+        var z = currentCreature.mesh.position.z;
+
+        var dfvHere = -df(x,y,z);
+
+        var normalDir = dfNormDirect(df, x,y,z, eps); //[x,y,z] norm dir
+        var normalLine = [[x,y,z],addPts([x,y,z],normalDir)];
+        var nearbySurfacePt = getPointAlongLine_dist(normalLine, dfvHere);
+
+        sumVector.add(this.avoid(currentCreature, new THREE.Vector3(nearbySurfacePt[0],nearbySurfacePt[1],nearbySurfacePt[2])));
+        sumVector.multiplyScalar(Math.pow(currentCreature.velocity.length(), 3));
+        return sumVector;
+    }
+
+    approachDistanceFunctionContainer(currentCreature, df) { //df(x,y,z) = distance to surface
+        const sumVector = new THREE.Vector3();
+
+        var eps = 0.05;
+        var x = currentCreature.mesh.position.x;
+        var y = currentCreature.mesh.position.y;
+        var z = currentCreature.mesh.position.z;
+
+        var dfvHere = df(x,y,z);
+
+        var normalDir = dfNormDirect(df, x,y,z, eps); //[x,y,z] norm dir
+        var normalLine = [[x,y,z],addPts([x,y,z],normalDir)];
+        var nearbySurfacePt = getPointAlongLine_dist(normalLine, dfvHere);
+
+        sumVector.add(this.avoid(currentCreature, new THREE.Vector3(nearbySurfacePt[0],nearbySurfacePt[1],nearbySurfacePt[2])));
+        sumVector.multiplyScalar(Math.pow(currentCreature.velocity.length(), 3));
+        return sumVector;
     }
 
     avoidBoxContainer(currentCreature, rangeWidth = 80, rangeHeight = 80, rangeDepth = 80) {

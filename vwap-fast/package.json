@@ -1,6 +1,6 @@
 {
   "name": "vwap-fast",
-  "version": "0.0.0114",
+  "version": "0.0.0122",
   "description": "Quickly calculate moving volume-weighted average prices [aka VWAP or MVWAP] from a stream of OHLCV candles. Uses prefix sums and static 'rolling' arrays for efficiency.",
   "main": "index.js",
   "scripts": {

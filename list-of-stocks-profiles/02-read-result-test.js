@@ -11,4 +11,4 @@ for(var sym in res){
     allCats[f]=allCats[f]||0;
     allCats[f]++;
 }
-console.log(Object.entries(allCats).sort());
+console.log(Object.entries(allCats).sort(function(a,b){return b[1]-a[1];}));

@@ -14,13 +14,13 @@ const getRandomNum = (max = 0, min = 0) => Math.floor(Math.random() * (max + 1 -
 class Creature {
     constructor() {
         this.color = [Math.random(),Math.random(),Math.random()];
-        this.mesh = {position: new THREE.Vector3(0,0,0), radius: 12};//new THREE.Mesh(geometry, material);
-        const radius = getRandomNum(500, 1000);
-        const theta = THREE.Math.degToRad(getRandomNum(180));
-        const phi = THREE.Math.degToRad(getRandomNum(360));
-        this.mesh.position.x = Math.sin(theta) * Math.cos(phi) * radius;
-        this.mesh.position.y = Math.sin(theta) * Math.sin(phi) * radius;
-        this.mesh.position.z = Math.cos(theta) * radius;
+        this.mesh = {position: new THREE.Vector3(0,0,0), radius: 1};//new THREE.Mesh(geometry, material);
+        // const radius = getRandomNum(500, 1000);
+        // const theta = THREE.Math.degToRad(getRandomNum(180));
+        // const phi = THREE.Math.degToRad(getRandomNum(360));
+        this.mesh.position.x = getRandomNum(-50, 50);//Math.sin(theta) * Math.cos(phi) * radius;
+        this.mesh.position.y = getRandomNum(-50, 50);//Math.sin(theta) * Math.sin(phi) * radius;
+        this.mesh.position.z = getRandomNum(-50, 50);//Math.cos(theta) * radius;
         this.velocity = new THREE.Vector3(getRandomNum(100, -100) * 0.1, getRandomNum(100, -100) * 0.1, getRandomNum(100, -100) * 0.1);
         this.acceleration = new THREE.Vector3();
         this.wonderTheta = 0;

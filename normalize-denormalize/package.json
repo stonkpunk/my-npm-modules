@@ -1,0 +1,17 @@
+{
+  "name": "normalize-denormalize",
+  "version": "0.0.011",
+  "description": "normalize a list of n-dimensional points, or a list of objects, to a 0...1 range, then de-normalize it back again",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "normalize","denormalize"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/normalize-denormalize"
+}

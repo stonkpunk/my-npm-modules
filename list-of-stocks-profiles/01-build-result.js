@@ -3,6 +3,8 @@ var jf = require('jsonfile');
 var jfcb = require('jsonfile-compressed-brotli');
 var listOfFiles = fg.sync('./results-cache/*.json');
 
+var ipos = require('list-of-stocks-ipos').loadIPOs();
+
 var result = {};
 
 listOfFiles.forEach(function(fileName){
@@ -28,8 +30,11 @@ listOfFiles.forEach(function(fileName){
         ask: res.ask ? res.ask.raw : -1,
         bidSize: res.bidSize ? res.bidSize.raw : -1,
         askSize: res.askSize ? res.askSize.raw : -1,
-        dividendYield: res.dividendYield ? res.dividendYield.raw : -1
+        dividendYield: res.dividendYield ? res.dividendYield.raw : -1,
+        ipoDate: ipos[sym] ? ipos[sym].isoString.slice(0,10) : null //date in yyyy-mm-dd format [can still use new Date("2020-01-01") etc]
     };
+
 });
 
+console.log('compressing/saving...');
 jfcb.writeFileSync("./COMPANY_PROFILES.json", result);

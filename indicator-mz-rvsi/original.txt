@@ -1,0 +1,167 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © MightyZinger
+
+//@version=4
+study(shorttitle="MZ RVSI",title="Relative Volume Strength Index (MZ RVSI)", overlay=false)
+
+
+uha   =input(true, title="Use Heikin Ashi Candles")
+chartResolution = input("",type=input.resolution, title="Chart Resolution")
+
+// Use only Heikinashi Candles for all calculations
+haclose = uha ? security(heikinashi(syminfo.tickerid), chartResolution, close) : security(syminfo.tickerid, chartResolution, close)
+haopen = uha ? security(heikinashi(syminfo.tickerid), chartResolution, open) : security(syminfo.tickerid, chartResolution, open)
+hahigh = uha ? security(heikinashi(syminfo.tickerid), chartResolution, high) : security(syminfo.tickerid, chartResolution, high)
+halow = uha ?security(heikinashi(syminfo.tickerid), chartResolution, low) : security(syminfo.tickerid, chartResolution, low)
+
+vol = security(syminfo.tickerid, chartResolution, volume)
+
+// Oscillator Types Input
+osc1 = "TFS Volume Oscillator"
+osc2 = "On Balance Volume"
+osc3 = "Klinger Volume Oscillator"
+osc4 = "Cumulative Volume Oscillator"
+osc5 = "Volume Zone Oscillator"
+osctype = input(title="Volume Oscillator Type", type=input.string, group="Indicator Parameters", defval = osc2, options=[osc1, osc2, osc3, osc4, osc5])
+
+volLen = input(30, minval=1,title="Volume Length", group="Indicator Parameters")
+rvsiLen = input(14, minval=1,title="RVSI Period", group="Indicator Parameters")
+vBrk = input(50, minval=1,title="RVSI Break point", group="Indicator Parameters")
+
+//Slope calculation to determine whether Volume is in trend, or in consolidation or choppy, or might about to change current trend
+
+slopePeriod = input(34, title="Slope Period", group="Slope Parameters")
+slopeInRange = input(25, title="Slope Initial Range", group="Slope Parameters")
+flat        = input(17, title="Consolidation area is when slope below:", group="Slope Parameters")
+
+calcslope(_ma,src,slope_period,range)=>
+    pi = atan(1) * 4
+    highestHigh = highest(slope_period)
+    lowestLow = lowest(slope_period)
+    slope_range = range / (highestHigh - lowestLow) * lowestLow
+    dt = (_ma[2] - _ma) / src * slope_range
+    c = sqrt(1 + dt * dt)
+    xAngle = round(180 * acos(1 / c) / pi)
+    maAngle = iff(dt > 0, -xAngle, xAngle)
+    maAngle
+
+// Dynamic coloring function to detect trend
+
+dynColor(_flat, upPara, dnPara, slp, col_1, col_2, col_3, col_4, col_r) =>
+    col = color.green
+    if slp > _flat and upPara
+        col := col_1
+
+    if slp > _flat and not upPara
+        col := col_2
+
+    if slp <= _flat and slp > -flat
+        col := col_r
+
+    if slp <= -_flat and dnPara
+        col := col_3
+
+    if slp <= -_flat and not dnPara
+        col := col_4
+    col
+
+/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+/////             Volume Oscillator Functions                  //////
+/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+
+// Volume Zone Oscillator
+
+zone(_src, _type, _len) =>
+    vp = _src > _src[1] ? _type : _src < _src[1] ? -_type : _src == _src[1] ? 0 : 0
+    z = 100 * (ema(vp, _len) / ema(_type, _len))
+
+vzo(vol_src, _close) =>
+    float result = 0
+    zLen = input(21, "VZO Length", minval=1, group="Volume Zone Oscillator Parameters")
+    result := zone(_close, vol_src, zLen)
+    result
+
+//  Cumulative Volume Oscillator
+
+_rate(cond, tw, bw, body) =>
+    ret = 0.5 * (tw + bw + (cond ? 2 * body : 0)) / (tw + bw + body)
+    ret := nz(ret) == 0 ? 0.5 : ret
+    ret
+
+cvo(vol_src, _open, _high, _low, _close) =>
+    float result = 0
+    ema1len = input(defval = 8, title = "EMA 1 Length", minval = 1, group="Cumulative Volume Oscillator Parameters")
+    ema2len = input(defval = 21, title = "EMA 1 Length", minval = 1, group="Cumulative Volume Oscillator Parameters")
+    obvl = "On Balance Volume"
+    cvdo = "Cumulative Volume Delta"
+    pvlt = "Price Volume Trend"
+    cvtype = input(defval = pvlt, options = [obvl, cvdo, pvlt], group="Cumulative Volume Oscillator Parameters")
+
+    tw = _high - max(_open, _close)
+    bw = min(_open, _close) - _low
+    body = abs(_close - _open)
+
+    deltaup =  vol_src * _rate(_open <= _close , tw, bw, body)
+    deltadown = vol_src * _rate(_open > _close , tw, bw, body)
+    delta = _close >= _open ? deltaup : -deltadown
+    cumdelta = cum(delta)
+    float ctl = na
+    ctl := cumdelta
+    cv = cvtype == obvl ? obv : cvtype == cvdo ? ctl : pvt
+    ema1 = ema(cv,ema1len)
+    ema2 = ema(cv,ema2len)
+    result := ema1 - ema2
+    result
+
+//  Volume Oscillator function
+
+vol_osc(type, vol_src, vol_Len, _open, _high, _low, _close) =>
+    float result = 0
+    if type=="TFS Volume Oscillator"
+        nVolAccum = sum(iff(_close > _open, vol_src, iff(_close < _open, -vol_src, 0))  ,vol_Len)
+        result := nVolAccum / vol_Len
+    if type=="On Balance Volume"
+        result :=  cum(sign(change(_close)) * vol_src)
+    if type=="Klinger Volume Oscillator"
+        FastX = input(34, minval=1,title="Volume Fast Length", group="KVO Parameters")
+        SlowX = input(55, minval=1,title="Volume Slow Length", group="KVO Parameters")
+        xTrend = iff(_close > _close[1], vol * 100, -vol * 100)
+        xFast = ema(xTrend, FastX)
+        xSlow = ema(xTrend, SlowX)
+        result :=  xFast - xSlow
+    if type=="Cumulative Volume Oscillator"
+        result := cvo(vol_src, _open, _high, _low, _close)
+    if type=="Volume Zone Oscillator"
+        result := vzo(vol_src, _close)
+    result
+/////////////////////////////////////////////////////////////////////
+
+// MA of Volume Oscillator Source
+volMA = hma(vol_osc(osctype,vol,volLen,haopen,hahigh,halow,haclose) , rvsiLen)
+
+// RSI of Volume Oscillator Data
+rsivol = rsi(volMA, rvsiLen)
+rvsi = hma(rsivol, rvsiLen)
+
+// RVSI IndicatorPlot
+TopBand   = input(80, step=0.01, title="Top Band", group="Indicator Plot Parameters")
+LowBand   = input(20, step=0.01, title="Low Band", group="Indicator Plot Parameters")
+MidBand   = input(50, step=0.01, title="Middle Band", group="Indicator Plot Parameters")
+
+hline(TopBand, color=color.red,linestyle=hline.style_dotted, linewidth=2)
+hline(LowBand, color=color.green, linestyle=hline.style_dotted, linewidth=2)
+hline(MidBand, color=color.lime, linestyle=hline.style_dotted, linewidth=1)
+
+volBrkUp = rvsi > vBrk
+volBrkDn = rvsi < vBrk
+slope = calcslope(rvsi, rsivol, slopePeriod, slopeInRange)   // Slope Calculations
+rvsi_col = dynColor(flat, volBrkUp, volBrkDn, slope, color.lime, color.fuchsia, color.red, color.gray, color.yellow)
+plot(rvsi, "MZ RVSI", rvsi_col, 4)
+
+hline(0,  "0", color.green, linewidth=1)
+hline(100,  "100", color.red, linewidth=1)
+hline(125,  "125", color.gray, linewidth=1)
+
+plotchar(rvsi, "MZ RVSI", "", location.top, color.yellow)

@@ -32,6 +32,15 @@ img.saveAs(`./output.png`);
 //blank(width,height,colorRGB=[255,255,255])
 var blankImg = imageSync.blank(512,512);
 blankImg.saveAs("./blank.png");
+
+//create image with existing data buffer [colorRGB is ignored if rawData is set]
+// blank(width,height,colorRGB=ignored,rawData=existingDataRGBA)
+
+//grab pixel value [r,g,b,a] at integer coordinates
+//var [r,g,b,a] = img.getPixel(x,y);
+
+//grab pixel value [r,g,b,a] at float coordinates with interpolation
+//var [r,g,b,a] = img.getPixelBilinear(x,y);
 ```
 
 ![original](https://i.imgur.com/6swcKzf.png) *cat.png*

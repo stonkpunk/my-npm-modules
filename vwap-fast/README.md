@@ -13,7 +13,7 @@ npm i vwap-fast
 ## Usage 
 
 ```javascript
-//example candle
+//example candle -- can use {o h l c v} or {open high low close volume} 
 // var candle = {
 //     o: 1,
 //     h: 1,
@@ -28,7 +28,7 @@ var vwap = new Vwap(maximumPeriods); //note - 'new' keyword is optional, works e
 
 //first we generate 1,000,000 candles
 for(var i=0;i<1000000;i++){
-    var candle = vwap.generateFakeCandle(); //generate random candle around price $150
+    var candle = vwap.generateFakeCandle(); //generate random candle around price $150 {o h l c v}
     //submitCandle(candle, useTypicalPrice=true, doAutoShift=true) 
     // -- typical price is (l+h+c)/3 -- otherwise use closing price
     // -- doAutoShift resets the zero-th prefix sum to zero every 
@@ -37,10 +37,17 @@ for(var i=0;i<1000000;i++){
     vwap.submitCandle(candle);
 }
 
+//or submit bulk with vwap.submitCandles(candles)
+
 //get mvwap for 1000 periods
 var vwap1k = vwap.getVwap(1000) //getVwap(nPeriods >= 1)
 
-//see also getVwapNPeriodsAgo(nPeriodsInVwap, nPeriodsAgo) -- generate limited "historic" charts
+//see also getVwapNPeriodsAgo(nPeriodsInVwap, nPeriodsAgo) 
+//see also lastPriceIsBelowVwaps(listOfPeriods) ==> true if most recent price below all vwap periods in input 
+//see also submitAndTestCandles = function(_candles, listOfPeriods, useTypicalPrice=true, doAutoShift=true){
+// _this.submitCandles(_candles, useTypicalPrice, doAutoShift);
+// return lastPriceIsBelowVwaps(listOfPeriods);
+// }
 
 console.log(vwap1k);
 //150.01489792240628

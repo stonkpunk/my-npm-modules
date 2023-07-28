@@ -1,8 +1,8 @@
 var getmac = require('getmac').default;
+var Chance = require('chance');
 
-function myNameIs(salt){
-    var Chance = require('chance');
-    var chance = new Chance(getmac() + (salt||""));
+function myNameIs(salt, mac_override = null){
+    var chance = new Chance((mac_override || getmac()) + (salt||""));
     var myName = chance.first() +" "+ chance.last();
     return myName;
 }

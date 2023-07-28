@@ -1,0 +1,16 @@
+{
+  "name": "options-contract-name-parse",
+  "version": "0.0.011",
+  "description": "parse names of options contracts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/options-contract-name-parse"
+}

@@ -17,8 +17,11 @@ function weighted_random(items, weights, _random=Math.random) {
 function Histo(data, numBuckets = 10, dataMin, dataMax){
     var _this = this;
     this.data = data;
-    this.dataMax = typeof dataMax === 'undefined' ? Math.max(..._this.data) : dataMax;
-    this.dataMin = typeof dataMin === 'undefined' ? Math.min(..._this.data) : dataMin;
+    var maxDatum = Math.max(..._this.data);
+    var minDatum = Math.min(..._this.data);
+    var bandwidth = 0;//(maxDatum - minDatum)/numBuckets/2.0; //todo is this an improvement or not?
+    this.dataMax = typeof dataMax === 'undefined' ? maxDatum+bandwidth : dataMax;
+    this.dataMin = typeof dataMin === 'undefined' ? minDatum-bandwidth : dataMin;
     this.numBuckets = numBuckets;
     this.buckets = {};
     this.bucketsFreqs = {};

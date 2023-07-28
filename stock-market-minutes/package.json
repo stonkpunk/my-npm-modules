@@ -1,0 +1,17 @@
+{
+  "name": "stock-market-minutes",
+  "version": "0.0.01",
+  "description": "given a date object or isostring, return the number of minutes into the market day for US markets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "stock market","minutes"
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/stock-market-minutes"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "backtester-simple",
+  "version": "0.0.0112",
+  "description": "simple experimental back-testing util for quant trading",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "backtest","stocks","quant"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/backtester-simple"
+}

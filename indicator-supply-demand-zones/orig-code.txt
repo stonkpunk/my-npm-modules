@@ -1,0 +1,89 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © frozon
+
+// Updates:
+//  - update screenshot
+//  - update zone discovery
+
+//@version=4
+study("Supply & Demand", overlay=true)
+
+srcH = input(high, title="Pivot High", inline="Pivot High")
+leftLenH = input(title="", type=input.integer, defval=2, minval=1, inline="Pivot High")
+rightLenH = input(title="/", type=input.integer, defval=1, minval=1, inline="Pivot High")
+
+srcL = input(low, title="Pivot Low ", inline="Pivot Low")
+leftLenL = input(title="", type=input.integer, defval=2, minval=1, inline="Pivot Low")
+rightLenL = input(title="/", type=input.integer, defval=1, minval=1, inline="Pivot Low")
+
+demandBoxColor = input(title="Demand box color", type=input.color, defval=color.rgb(120, 255, 120, 60))
+supplyBoxColor = input(title="Supply box color", type=input.color, defval=color.rgb(255, 120, 120, 60))
+
+f_boxExistsInArray(top, bottom, boxArr) =>
+    if array.size(boxArr) > 0
+        for i = 0 to array.size(boxArr) - 1 by 1
+            b = array.get(boxArr, i)
+            boxTop = box.get_top(b)
+            boxBot = box.get_bottom(array.get(boxArr, i))
+            if boxTop == top and boxBot == bottom
+                true
+            else
+                false
+    else
+        false
+
+var box[] demandBoxes = array.new_box()
+var box[] supplyBoxes = array.new_box()
+var line[] testLine = array.new_line()
+
+ph = pivothigh(srcH, leftLenH, rightLenH)
+pl = pivotlow(srcL, leftLenL, rightLenL)
+
+pvtH = 0.0
+pvtL = 0.0
+pvtHIdx = 0
+pvtLIdx = 0
+pvtH := na(ph) ? pvtH[1] : ph
+pvtL := na(pl) ? pvtL[1] : pl
+pvtHIdx := na(ph) ? pvtHIdx[1] : bar_index
+pvtLIdx := na(pl) ? pvtLIdx[1] : bar_index
+
+// Check if we releasized an imbalanced
+if high[3] < low[1]
+    // imbalanced up
+    if pvtHIdx[3] < pvtLIdx[2]
+        exists = f_boxExistsInArray(pvtH[3], pvtL[2], demandBoxes)
+        if not exists
+            array.push(demandBoxes, box.new(left=bar_index + 5, top=pvtH[3], right=bar_index + 20, bottom=pvtL[2], bgcolor=demandBoxColor, border_color=demandBoxColor))
+
+if low[3] > high[1]
+    // imbalanced down
+    if pvtLIdx[3] < pvtHIdx[2]
+        exists = f_boxExistsInArray(pvtH[3], pvtL[2], supplyBoxes)
+        if not exists
+            array.push(supplyBoxes, box.new(left=bar_index + 5, top=pvtH[2], right=bar_index + 20, bottom=pvtL[3], bgcolor=supplyBoxColor, border_color=supplyBoxColor))
+
+if array.size(demandBoxes) > 0
+    for i = array.size(demandBoxes) - 1 to 0 by 1
+        dsBox = array.get(demandBoxes, i)
+        top = box.get_top(dsBox)
+        left = box.get_left(dsBox)
+        if low <= top and left < bar_index
+            box.delete(dsBox)
+            array.remove(demandBoxes, i)
+
+        if low > top
+            box.set_right(dsBox, bar_index + 20)
+
+if array.size(supplyBoxes) > 0
+    for i = array.size(supplyBoxes) - 1 to 0 by 1
+        dsBox = array.get(supplyBoxes, i)
+        bottom = box.get_bottom(dsBox)
+        left = box.get_left(dsBox)
+        if high >= bottom and left < bar_index
+            box.delete(dsBox)
+            array.remove(supplyBoxes, i)
+
+        if high < bottom
+            box.set_right(dsBox, bar_index + 20)
+

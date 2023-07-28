@@ -1,0 +1,17 @@
+{
+  "name": "voxel-world",
+  "version": "0.0.011",
+  "description": "npm version of VoxelWorld class originally by threejsfundamentals + some extra functions and changes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "voxel","world"
+  ],
+  "author": "stonkpunk",
+  "license": "BSD",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/voxel-world"
+}

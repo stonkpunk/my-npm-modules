@@ -1,0 +1,16 @@
+{
+  "name": "candles-align",
+  "version": "0.0.011",
+  "description": "align 2 or more sets of OHLCV candles by date string or unix epoch seconds; discard candles without a matching partner",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/candles-align"
+}

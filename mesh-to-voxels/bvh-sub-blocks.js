@@ -57,8 +57,32 @@ function aabbToPts(aabb){
     return [p000, p001, p010, p011, p100, p101, p110, p111]
 }
 
+function isInsideEEC(bvh, pt, eps = 0.001) { //"error correcting code" version of bvh.isinside
+  const jitterAmount = eps; // Adjust the jitter amount as needed
+  const results = [false, false, false]; // Initialize results array with false values
+
+  // Generate jittered copies and run isInside on each jittered point
+  for (let i = 0; i < 3; i++) {
+    const jitteredPt = [...pt];
+    jitteredPt[i] += (Math.random()-0.5) * jitterAmount;
+    results[i] = bvh.isInside(jitteredPt);
+
+    // Return if we already have at least 2 true or 2 false results
+    if (results[i] && results[i - 1]) return true;
+    if (!results[i] && !results[i - 1]) return false;
+  }
+
+  // Count the number of true and false results
+  const trueCount = results.filter(result => result).length;
+
+  // Return true if at least 2 results are true or at least 2 results are false
+  return trueCount >= 2;
+}
+
 function aabbInsideOutness(aabb,bvh){ //returns number of corners inside the mesh
-    return aabbToPts(aabb).filter(pt=>bvh.isInside(pt)).length;
+    //todo maybe do "Error correcting code" here
+    // return aabbToPts(aabb).filter(pt=>bvh.isInside(pt)).length;
+    return aabbToPts(aabb).filter(pt=>isInsideEEC(bvh,pt)).length;
 }
 
 var mergeBoxes = require('merge-boxes').mergeBoxes;

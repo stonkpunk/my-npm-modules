@@ -1,6 +1,6 @@
 {
   "name": "stock-market-clock",
-  "version": "0.0.0115",
+  "version": "0.0.0117",
   "description": "Util for American stock market timing. Calculate the next minute that the NYSE will be open.",
   "main": "index.js",
   "scripts": {

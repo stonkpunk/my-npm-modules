@@ -1,6 +1,6 @@
 {
   "name": "triangles-mesh-renderer",
-  "version": "0.0.024",
+  "version": "0.0.02411",
   "description": "simple software renderer. render an image of a triangle mesh directly to a pixel buffer without using the GPU.",
   "main": "index.js",
   "scripts": {
@@ -26,10 +26,11 @@
     "marching-cubes-faster": "0.0.15",
     "mesh-to-spheres": "0.0.3",
     "mesh-to-tetrahedra": "0.0.12",
-    "pixel-scale-epx": "0.0.128",
+    "pixel-scale-epx": "^0.0.128",
     "raycasting-utils": "0.0.16",
     "slide-along-wall": "0.0.1",
-    "triangle-draw": "0.0.26"
+    "triangle-draw": "0.0.26",
+    "underscore": "^1.13.6"
   },
   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/triangles-mesh-renderer",
   "devDependencies": {

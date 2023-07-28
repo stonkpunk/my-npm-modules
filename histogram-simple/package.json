@@ -1,6 +1,6 @@
 {
   "name": "histogram-simple",
-  "version": "0.0.0112",
+  "version": "0.0.0113",
   "description": "simple 1d histogram util",
   "main": "index.js",
   "scripts": {

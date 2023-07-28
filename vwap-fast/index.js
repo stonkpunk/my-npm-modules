@@ -6,6 +6,7 @@ function Vwap(maximumRows=20000){
     var prefixSums_Volume=new Float64Array(maximumRows);//.fill(0.0);
 
     this.totalCandles=0;
+    this.mostRecentCandle = null;
     this.prefixSums_PriceTimesVolume = prefixSums_PriceTimesVolume;
     this.prefixSums_Volume = prefixSums_Volume;
     this.currentArrayIndex = currentArrayIndex;
@@ -23,7 +24,31 @@ function Vwap(maximumRows=20000){
         return res;
     }
 
-    this.submitCandle = function(candle, useTypicalPrice=true, doAutoShift=true){ //candle = {o,h,l,c,v}
+    this.lastPriceIsBelowVwaps = function(listOfPeriods){
+        var lastPrice = _this.mostRecentCandle ? _this.mostRecentCandle.c : 0;
+        return listOfPeriods.map(function(p){
+            return lastPrice < _this.getVwap(p)
+        }).filter(n=>n).length==listOfPeriods.length;
+    }
+
+    this.submitCandles = function(_candles, useTypicalPrice=true, doAutoShift=true){
+        for(var i=0;i<_candles.length;i++){
+            _this.submitCandle(_candles[i],useTypicalPrice,doAutoShift);
+        }
+    }
+
+    this.submitAndTestCandles = function(_candles, listOfPeriods, useTypicalPrice=true, doAutoShift=true){
+        _this.submitCandles(_candles, useTypicalPrice, doAutoShift);
+        return _this.lastPriceIsBelowVwaps(listOfPeriods);
+    }
+
+    this.submitCandle = function(_candle, useTypicalPrice=true, doAutoShift=true){ //candle = {o,h,l,c,v} or {open high low close volume}
+        var candle = _candle.hasOwnProperty('open') ?
+            {o:_candle.open, h:_candle.high, l:_candle.low, c:_candle.close, v: _candle.volume}
+            : _candle;
+
+        _this.mostRecentCandle = candle;
+
         var typ = useTypicalPrice ? (candle.h+candle.l+candle.c)/3.0 : candle.c; //typical price
 
         var previousIndex = (currentArrayIndex + maximumRows-1)%maximumRows;
@@ -50,6 +75,25 @@ function Vwap(maximumRows=20000){
         _this.totalCandles++;
         currentArrayIndex=nextIndex;
         _this.currentArrayIndex = currentArrayIndex;
+    }
+
+    this.applyVwapsToCandles = function(candles,periodsArr){ //experimental
+        for(var i=0;i<candles.length;i++){
+            var c = candles[i];
+            _this.submitCandle(c);
+            var belowAllVwaps = true;
+            var aboveAllVwaps = true;
+            for(var j =0;j<periodsArr.length;j++){
+                var p = periodsArr[j];
+                var vwapNow = _this.getVwap(p);
+                c['vwap'+p]=vwapNow;
+                if(c.close > vwapNow){belowAllVwaps=false;}
+                if(c.close < vwapNow){aboveAllVwaps=false;}
+            }
+            c.belowAllVwaps=belowAllVwaps;
+            c.aboveAllVwaps=aboveAllVwaps;
+        }
+        return candles;
     }
 
     this.getVwap = function(nPeriods=1){

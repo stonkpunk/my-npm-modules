@@ -155,5 +155,11 @@ Result - textures [image of earth on each triangle]
 
 ![bunny5](https://i.imgur.com/JGEDjgF.png)
 
+## See Also
+
+- [triangles-mesh-viewer-sdl-regl](https://www.npmjs.com/package/triangles-mesh-viewer-sdl-regl) - very simple openGL mesh viewer for node.js 
+
+
+
 [![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
 

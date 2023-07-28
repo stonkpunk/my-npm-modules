@@ -1,6 +1,6 @@
 {
   "name": "highs-and-lows",
-  "version": "0.0.0113",
+  "version": "0.0.01145",
   "description": "Extract indices of high/low points in a 1D array with a moving window",
   "main": "index.js",
   "scripts": {

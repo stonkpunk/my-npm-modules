@@ -1,0 +1,16 @@
+{
+  "name": "candles-convert",
+  "version": "0.0.012",
+  "description": "yet another util to convert the time-duration of OHLCV candles. results are either naively merged with n-candle chunks or can be time-aligned to the clock so that, ex: 15min candles start at 10:00, 10:15 etc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/candles-convert"
+}

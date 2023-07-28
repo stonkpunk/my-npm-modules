@@ -4,7 +4,7 @@ const vp = require("./volume-profile");
 var {kernelDensityEstimate, getRange} = require('kde-simple');
 
 function drawKde(priceRange, config, _canvas){//w=512,h=512, _canvas, renderWidth = 32, bottomPartHeight=32){
-    var { w,h, profileBucketsWidth, kdePrices, kdeBandwidthDollars, kdeIsGaussian} = config;
+    var { w,h, profileBucketsWidth, kdePrices, kdeBandwidthDollars, kdeBandwidthPercent, kdeIsGaussian} = config;
     var canvas = _canvas || pd(w,h);
     var renderWidth = profileBucketsWidth;
     var prices = kdePrices;
@@ -13,8 +13,10 @@ function drawKde(priceRange, config, _canvas){//w=512,h=512, _canvas, renderWidt
     var _h = h-bottomPartHeight;
 
     var useTriangularKernel = !kdeIsGaussian; //if false, uses gaussian kernel
-    var bandwidth = kdeBandwidthDollars;
+    var bandwidth = kdeBandwidthDollars ? kdeBandwidthDollars : (priceRange[1]-priceRange[0])*kdeBandwidthPercent/100.0;
 
+
+    // console.log("BW",bandwidth);
     // var nBuckets = profileBuckets.length;
     // var bucketHeight = _h/nBuckets;
 

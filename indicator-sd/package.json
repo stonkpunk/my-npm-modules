@@ -1,0 +1,16 @@
+{
+  "name": "indicator-sd",
+  "version": "0.0.01111",
+  "description": "simple candle indicator for dumb-vs-smart-money signal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/indicator-sd"
+}

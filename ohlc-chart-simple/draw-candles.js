@@ -20,6 +20,7 @@ function candlesLowHighRange(candles, padding=0.01){
 function drawCandles(candles, w=512,h=512, _canvas=null, config = {}, skipDrawBars = false, skipDrawIndicators, bottomPartSize=32){
 
     var rects = config.rects || [];
+    var rectsBelow = config.rectsBelow || [];
     var lines = config.lines || [];
 
     // var candlesLowHiVol = candles.map(function(c) {
@@ -100,10 +101,21 @@ function drawCandles(candles, w=512,h=512, _canvas=null, config = {}, skipDrawBa
         return res;
     }
 
+
+    rectsBelow.forEach(function(rect){ //draw rects below price data etc {minPrice,maxPrice,startIndex,endIndex,color}
+        var _h=h-__h;
+        var rx = rect.startIndex/candles.length*w;
+        var rxEnd = rect.endIndex/candles.length*w;
+        var rminPrice = _h-(rect.minPrice - lowHiRange[0])/lowHiDiff *_h;
+        var rmaxPrice = _h-(rect.maxPrice - lowHiRange[0])/lowHiDiff *_h;
+        canvas.drawRectangle(rx,Math.min(rminPrice, rmaxPrice),rxEnd-rx,Math.abs(rmaxPrice-rminPrice),rect.color, rect.filled, rect.thickness); //open-close thick rect
+    });
+
     if(!config.skipDrawPriceBars){
         var priceBarDist = getOrderOfMagnitude();//Math.max(lowHiDiff/5.0,0.01);
         drawPriceBars(priceBarDist);
     }
+
 
     //draw price and date info
     drawPriceAndDate();

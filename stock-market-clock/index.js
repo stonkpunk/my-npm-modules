@@ -86,12 +86,100 @@ function marketTimeData(dateStr, skipFindNext= false){
     var nextMarketOpenDateStrEST = skipFindNext ? null : moment(nextMarketOpenDateStr).tz('America/New_York').format('YYYY-MM-DD hh:mma z');
     var skippableDaysAhead = skipFindNext ? null : Math.floor((new Date(nextMarketOpenDateStr).getTime() - new Date(dateStr).getTime())/millisPerDay)
     var dateStrEST = startMoment.tz('America/New_York').format('YYYY-MM-DD hh:mma z');
+    var marketMinute = getMinutesIntoMarketDay(dateStr);
     return {
+        marketMinute,
         skippableDaysAhead, isHoliday, isWeekend, marketIsOpenToday, marketIsOpenNow, dateStr, dateStrEST, nextMarketOpenDateStr, nextMarketOpenDateStrEST
     };
 }
 
-module.exports = {getNextMarketOpenTime, marketTimeData, timeStrAddTime, getListOfMarketDays}
+function getMinutesIntoMarketDay(isoDateString) {
+    // Parse the ISO date string into a JavaScript Date object
+    var date = new Date(isoDateString);
+
+    // Adjust the time to EST
+    var estDate = new Date(date.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+
+    // Get hours and minutes of EST time
+    var estHours = estDate.getHours();
+    var estMinutes = estDate.getMinutes();
+
+    // Define the market open and close times in minutes from midnight
+    var marketOpen = 9.5 * 60;  // 9:30am
+    var marketClose = 16 * 60;  // 4:00pm
+
+    // Calculate how many minutes into the day the provided time is
+    var minutesIntoDay = estHours * 60 + estMinutes;
+
+    // Return the difference between the provided time and the market times
+    if (minutesIntoDay < marketOpen) {
+        return minutesIntoDay - marketOpen;
+    } else if (minutesIntoDay > marketClose) {
+        return minutesIntoDay - marketClose - 2 * (marketClose - marketOpen);
+    } else {
+        return minutesIntoDay - marketOpen;
+    }
+}
+
+// Example usage
+// const isoDateString = "2023-05-27T10:15:00.000Z";
+// const minutesIntoMarketDay = getMinutesIntoMarketDay(isoDateString);
+// console.log(minutesIntoMarketDay); // Output: 45
+//
+// const isoDateString2 = "2023-05-27T08:00:00.000Z";
+// const minutesIntoMarketDay2 = getMinutesIntoMarketDay(isoDateString2);
+// console.log(minutesIntoMarketDay2); // Output: -150
+//
+// const isoDateString3 = "2023-05-27T16:30:00.000Z";
+// const minutesIntoMarketDay3 = getMinutesIntoMarketDay(isoDateString3);
+// console.log(minutesIntoMarketDay3); // Output: 390
+
+function convertToNMinuteIntervals(candles, n) {
+    let results = [];
+    let tempCandle = null;
+    let nSrcCandles = 0;
+    let tempVolume = 0;
+
+    for (let candle of candles) {
+        let date = new Date(candle.date);
+        let roundedDate = new Date(Math.floor(date.getTime() / (n * 60000)) * (n * 60000));
+
+        if (tempCandle === null) {
+            tempCandle = { ...candle, date: roundedDate.toISOString() };
+            tempVolume = candle.volume;
+            nSrcCandles = 1;
+        } else {
+            if (roundedDate.getTime() === new Date(tempCandle.date).getTime()) {
+                // Same interval, update high, low and close if necessary, accumulate volume
+                if (candle.high > tempCandle.high) tempCandle.high = candle.high;
+                if (candle.low < tempCandle.low) tempCandle.low = candle.low;
+                tempCandle.close = candle.close;  // last close of the interval
+                tempVolume += candle.volume;
+                nSrcCandles += 1;
+            } else {
+                // New interval, add the old tempCandle to results and start a new one
+                tempCandle.volume = tempVolume;
+                tempCandle.nSrcCandles = nSrcCandles;
+                results.push(tempCandle);
+                tempCandle = { ...candle, date: roundedDate.toISOString() };
+                tempVolume = candle.volume;
+                nSrcCandles = 1;
+            }
+        }
+    }
+
+    // Add the last tempCandle to results if it exists
+    if (tempCandle !== null) {
+        tempCandle.volume = tempVolume;
+        tempCandle.nSrcCandles = nSrcCandles;
+        results.push(tempCandle);
+    }
+
+    return results;
+}
+
+
+module.exports = {convertToNMinuteIntervals, getMinutesIntoMarketDay, getNextMarketOpenTime, marketTimeData, timeStrAddTime, getListOfMarketDays}
 
 // {
 //     isHoliday: false,

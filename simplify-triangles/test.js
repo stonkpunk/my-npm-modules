@@ -1,10 +1,9 @@
 var fs = require("fs");
-var stl = require("stl");
 var st = require('./index.js');
 
 //triangles have format [ [x,y,z], [x,y,z], [x,y,z] ]
 
-var triangles = stl.toObject(fs.readFileSync('./Bitey_Reconstructed_5k.stl')).facets.map(f=>f.verts);
+var triangles = require('triangles-index').deindexTriangles_meshView(require('bitey'));//stl.toObject(fs.readFileSync('./Bitey_Reconstructed_5k.stl')).facets.map(f=>f.verts);
 var simplifiedTriangles = st.simplify(triangles,0.125,true); //result will have 0.125x as many triangles...
 
 var config = {

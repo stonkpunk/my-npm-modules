@@ -1,0 +1,19 @@
+{
+  "name": "indicator-max-intersection-prices",
+  "version": "0.0.011",
+  "description": "Given a set of OHLCV candles, find the 'most intersected prices'.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "candles",
+    "quant",
+    "ohlcv"
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/indicator-max-intersection-prices"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "fibonacci-fit",
+  "version": "0.0.0115",
+  "description": "find best-fit fibonacci price retracement levels [or arbitrary levels] for an array of prices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fibonacci",
+    "candles",
+    "quant",
+    "ohlcv"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/fibonacci-fit"
+}

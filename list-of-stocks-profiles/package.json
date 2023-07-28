@@ -1,6 +1,6 @@
 {
   "name": "list-of-stocks-profiles",
-  "version": "0.0.1201221",
+  "version": "0.0.230433",
   "description": "pre-baked dataset of NASDAQ/NYSE stock profiles from Yahoo Finance with basic information and approximate market capitalization for each ticker",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "jsonfile-compressed-brotli": "0.0.117",
-    "list-of-stocks": "0.0.120122"
+    "list-of-stocks": "0.0.120122",
+    "list-of-stocks-ipos": "0.0.11"
   },
   "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/list-of-stocks-profiles"
 }

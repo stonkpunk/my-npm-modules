@@ -1,0 +1,16 @@
+{
+  "name": "indicator-order-block-finder",
+  "version": "0.0.011",
+  "description": "simplified js port of wugamlo's order block finder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+  ],
+  "author": "stonkpunk",
+  "license": "MPL-2.0",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/indicator-order-block-finder"
+}

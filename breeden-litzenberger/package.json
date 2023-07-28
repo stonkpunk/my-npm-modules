@@ -1,0 +1,18 @@
+{
+  "name": "breeden-litzenberger",
+  "version": "0.0.011",
+  "description": "Breeden-Litzenberger formula with central differences",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "breeden",
+    "litzenberger"
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/breeden-litzenberger"
+}

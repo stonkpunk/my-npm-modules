@@ -50,6 +50,7 @@ var config = {
     w: 1024,
     h: 700,
     rects: [], //rectangles {minPrice,maxPrice,startIndex,endIndex,color,filled,thickness} -- example {minPrice: 140, maxPrice: 145, startIndex:5, endIndex: 15, color: [255,0,0], filled: true, thickness:0}
+    rectsBelow: [], //same as rects but drawn BEHIND the bars, price lines, text, etc. 
     lines: [], //draw lines on the chart {startPrice, endPrice, startIndex, endIndex, color: [0,0,0], thickness:0}
     profileBucketsTotal: 32,
     profileBucketsWidth: 64, //set to zero to skip VP render 
@@ -59,7 +60,8 @@ var config = {
     //alternative to volume profile: arbitrary kernel density histogram
     //uncommenting these will replace VP with KDE graph of the same width
     // kdePrices: candles.map(c=>[c.low, 1]),
-    // kdeBandwidthDollars: 0.05,
+    // kdeBandwidthDollars: 0.00,
+    // kdeBandwidthPercent: 1.00,
     // kdeIsGaussian: true, //false == kernel is triangular 
     
     skipDrawOhlcBars: false,

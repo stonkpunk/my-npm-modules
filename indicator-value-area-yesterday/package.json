@@ -1,0 +1,21 @@
+{
+  "name": "indicator-value-area-yesterday",
+  "version": "0.0.0116",
+  "description": "get yesterday's VAH/VAL/VPOC tacked onto today's candles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/indicator-value-area-yesterday",
+  "devDependencies": {
+    "candles-sample-aapl": "^0.0.23",
+    "ohlc-chart-simple": "^0.0.1127",
+    "stock-market-clock": "^0.0.117"
+  },
+  "dependencies": {
+    "stock-market-minutes": "^0.0.1"
+  }
+}

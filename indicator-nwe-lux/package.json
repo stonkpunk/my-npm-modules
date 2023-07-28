@@ -1,0 +1,17 @@
+{
+  "name": "indicator-nwe-lux",
+  "version": "0.0.01",
+  "description": "Nadaraya–Watson envelope indicator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nwe"
+  ],
+  "author": "stonkpunk",
+  "license": "see LICENSE.txt",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/indicator-nwe-lux"
+}

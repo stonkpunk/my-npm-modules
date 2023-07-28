@@ -2,7 +2,7 @@ var {Creature, BoidWorld} = require('./index.js');
 
 var theBoidWorld;
 
-var creatureNum = 250;
+var creatureNum = 100;
 
 var creatures = [];
 var generateBoidWorld = () => {
@@ -10,7 +10,12 @@ var generateBoidWorld = () => {
         const creature = new Creature();
         creatures.push(creature);
     }
-    theBoidWorld = new BoidWorld(creatures);
+
+    // var boidsNearby = function(x,y,z){
+    //     //return creatures near this point, using rtree etc
+    // }
+
+    theBoidWorld = new BoidWorld(creatures /*, boidsNearby*/);
 }
 generateBoidWorld();
 
@@ -32,6 +37,18 @@ var config = {
 
 art.runScene(config);
 
+function lineLength(line){
+    var a = line[1][0]-line[0][0];
+    var b = line[1][1]-line[0][1];
+    var c = line[1][2]-line[0][2];
+    return Math.sqrt(a*a+b*b+c*c);
+};
+
+var theDf = function(x,y,z){
+    var ballRadius = 500;
+    return ballRadius - lineLength([[x,y,z],[0,0,0]]);
+}
+
 setInterval(function(){
     var s = 0.1;
     var vs = 1.0;
@@ -46,6 +63,6 @@ setInterval(function(){
         return line;
     });
     art.updateDfForLines(res,1);
-    theBoidWorld.update();
+    theBoidWorld.update(theDf);
 },10 );
 

@@ -1,0 +1,19 @@
+{
+  "name": "black-scholes-probability",
+  "version": "0.0.01",
+  "description": "Get the probability that the price of an asset will be above the strike price of an option at the time of expiration according to the Black-Scholes model.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "black",
+    "scholes"
+  ],
+  "author": "stonkpunk",
+  "license": "GPL",
+  "dependencies": {
+    "math-erf": "^1.0.0"
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/black-scholes-probability"
+}

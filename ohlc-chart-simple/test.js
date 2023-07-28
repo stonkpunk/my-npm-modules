@@ -55,7 +55,8 @@ var config = {
 
     //alternative to volume profile: arbitrary kernel density histogram
     kdePrices: candles.map(c=>[c.low, 1]), //[value, weight]
-    kdeBandwidthDollars: 0.01,
+    // kdeBandwidthDollars: 0.01,
+    kdeBandwidthPercent: 1.00,
     kdeIsGaussian: true, //false == kernel is triangular
     kdeColor: [0,0,255],
 

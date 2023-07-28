@@ -1,0 +1,17 @@
+{
+  "name": "kd-tree-simple",
+  "version": "0.0.011",
+  "description": "simple experimental kd tree for sloppy json objects",
+  "main": "kd-tree-simple.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kd","tree"
+  ],
+  "author": "stonkpunk",
+  "license": "CC0",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/kd-tree-simple"
+}

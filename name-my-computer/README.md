@@ -38,6 +38,9 @@ console.log(require('name-my-computer').getName());
 var salt = "12345";
 console.log(require('name-my-computer').getName(salt)); 
 //returns "Eula Tucci"
+
+//suppose we want to convert some arbitrary input [rather than the mac address], into a name...
+//console.log(require('name-my-computer').getName(salt, input));
 ```
 
 

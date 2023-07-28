@@ -27,6 +27,9 @@ var bunny = require('bunny'); //mesh has format {cells, positions}
 // meshBvh? = null       //existing BVH
 //)
 
+//slower, simpler, more reliable:
+//meshToVoxelsNaive(mesh, resolutionXYZ=[32,32,32], cubifyBounds=true, mergeAfter = false, meshBvh = null)
+
 var voxels = m2v.meshToVoxels(bunny)
 //see also .threeGeomToVoxels, same api, takes old-style three.js geometry with .faces
 

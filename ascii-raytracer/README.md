@@ -333,7 +333,8 @@ Note that the options `distanceFunction`,`triangles`, `boxes`, `lines`, `points`
 - [ascii-data-image](https://www.npmjs.com/package/ascii-data-image) - render data to ascii
 - [pixel-scale-epx](https://www.npmjs.com/package/pixel-scale-epx) - EPX scaling
 - [glsl-imager](https://www.npmjs.com/package/glsl-imager) - render GLSL in terminal
-
+- [triangles-mesh-renderer](https://www.npmjs.com/package/triangles-mesh-renderer) - CPU mesh renderer
+- [triangles-mesh-viewer-sdl-regl](https://www.npmjs.com/package/triangles-mesh-viewer-sdl-regl) - GPU mesh viewer using regl+SDL
 
 [![stonks](https://i.imgur.com/UpDxbfe.png)](https://www.npmjs.com/~stonkpunk)
 

@@ -1,0 +1,17 @@
+{
+  "name": "indicator-supply-demand-zones",
+  "version": "0.0.01",
+  "description": "supply/demand zones indicator, based on the tradingView indicator by frozon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "supply","demand","zones"
+  ],
+  "author": "stonkpunk",
+  "license": "MPL-2.0",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/indicator-supply-demand-zones"
+}

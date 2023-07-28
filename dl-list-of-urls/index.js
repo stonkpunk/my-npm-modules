@@ -23,12 +23,12 @@ function downloadListOfUrls(list,cbDone,cbEach,limitParallel=1, delayMs=100){
     });
 }
 
-function downloadListOfUrlsJquery(list, cbDone, cbEach, limitParallel=1){
+function downloadListOfUrlsJquery(list, cbDone, cbEach, limitParallel=1, delayMs=100){
     function onDownloaded(url,res){
         var $ = cheerio.load(res);
         cbEach(url,res,$);
     }
-    downloadListOfUrls(list, cbDone,onDownloaded, limitParallel)
+    downloadListOfUrls(list, cbDone,onDownloaded, limitParallel, delayMs)
 }
 
 module.exports.downloadListOfUrls = downloadListOfUrls;

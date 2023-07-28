@@ -1,6 +1,6 @@
 {
   "name": "mesh-to-voxels",
-  "version": "0.0.0111",
+  "version": "0.0.0112",
   "description": "convert a triangle mesh into a set of voxels / axis-aligned bounding boxes",
   "main": "index.js",
   "scripts": {

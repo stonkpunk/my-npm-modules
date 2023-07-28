@@ -86,11 +86,84 @@ function threeGeomToBvh(threeGeom){
     return bvh;
 }
 
-function meshToVoxels(mesh, iters=3, cubifyBounds=true, edgesOnly=true, volumeOnly = false, dontSubdivideEnclosedBlocks=false, mergeAfter = false, meshBvh = null){
+function meshToVoxels(mesh, iters=3, cubifyBounds=true, edgesOnly=true, volumeOnly = false, dontSubdivideEnclosedBlocks=false, mergeAfter = false, meshBvh = null, preIters=0){
     var meshBounds = cubifyBounds ? bsb.blockToCube(meshBoundingBlock(mesh)) : meshBoundingBlock(mesh);
     meshBvh = meshBvh || meshToBvh(mesh);
     var voxels = bsb.getSubBlocksForBlockIterated(meshBounds,iters,meshBvh,edgesOnly,volumeOnly,dontSubdivideEnclosedBlocks,mergeAfter);
     return voxels;
+}
+
+function createVoxels(bounds, resolutionXYZ) {
+    const [minPoint, maxPoint] = bounds;
+    const [numVoxelsX, numVoxelsY, numVoxelsZ] = resolutionXYZ;
+
+    const voxelSizeX = (maxPoint[0] - minPoint[0]) / numVoxelsX;
+    const voxelSizeY = (maxPoint[1] - minPoint[1]) / numVoxelsY;
+    const voxelSizeZ = (maxPoint[2] - minPoint[2]) / numVoxelsZ;
+
+    const voxels = [];
+
+    for (let x = 0; x < numVoxelsX; x++) {
+        for (let y = 0; y < numVoxelsY; y++) {
+            for (let z = 0; z < numVoxelsZ; z++) {
+                const voxelMinX = minPoint[0] + x * voxelSizeX;
+                const voxelMinY = minPoint[1] + y * voxelSizeY;
+                const voxelMinZ = minPoint[2] + z * voxelSizeZ;
+
+                const voxelMaxX = voxelMinX + voxelSizeX;
+                const voxelMaxY = voxelMinY + voxelSizeY;
+                const voxelMaxZ = voxelMinZ + voxelSizeZ;
+
+                const voxel = [
+                    [voxelMinX, voxelMinY, voxelMinZ],
+                    [voxelMaxX, voxelMaxY, voxelMaxZ]
+                ];
+
+                voxels.push(voxel);
+            }
+        }
+    }
+
+    return voxels;
+}
+
+function calculateBoundingBoxMidpoint(bounds) {
+    const [minPoint, maxPoint] = bounds;
+
+    const midX = (minPoint[0] + maxPoint[0]) / 2;
+    const midY = (minPoint[1] + maxPoint[1]) / 2;
+    const midZ = (minPoint[2] + maxPoint[2]) / 2;
+
+    const midpoint = [midX, midY, midZ];
+    return midpoint;
+}
+
+// function jitterPoint(point, factor) {
+//     const jitteredPoint = point.map(coord => {
+//         const randomDisplacement = (Math.random() - 0.5) * factor;
+//         return coord + randomDisplacement;
+//     });
+//
+//     return jitteredPoint;
+// }
+
+var mergeBoxes = require('merge-boxes').mergeBoxes;
+
+function meshToVoxelsNaive(mesh, resolutionXYZ=[32,32,32], cubifyBounds=true, mergeAfter = false, meshBvh = null){
+    var meshBounds = cubifyBounds ? bsb.blockToCube(meshBoundingBlock(mesh)) : meshBoundingBlock(mesh);
+    meshBvh = meshBvh || meshToBvh(mesh);
+    var allBlocks = createVoxels(meshBounds, resolutionXYZ) ; //todo subdivide entire bounds by resolutoin xyz, then sift by bvh.isInside(pt)
+    // var voxels = bsb.getSubBlocksForBlockIterated(meshBounds,iters,meshBvh,edgesOnly,volumeOnly,dontSubdivideEnclosedBlocks,mergeAfter);
+    var blocks = allBlocks.filter(function(s){
+        var center = calculateBoundingBoxMidpoint(s)
+        return meshBvh.isInside(center);
+    });
+
+    if(mergeAfter){
+        mergeBoxes(blocks);
+    }
+
+    return blocks;
 }
 
 function threeGeomToVoxels(geom, iters=3, cubifyBounds=true, edgesOnly=true, volumeOnly = false, dontSubdivideEnclosedBlocks=false, mergeAfter = false, geomBvh = null){
@@ -147,4 +220,4 @@ function boundingBlockOfMesh(bunny){
     return boundingBlockOfPts(bunny.positions)
 }
 
-module.exports = {boundingBlockOfPts, boundingBlockOfMesh, meshToVoxels, threeGeomToVoxels, meshToBvh, threeGeomToBvh, meshBoundingBlock, threeGeomBoundingBlock};
+module.exports = {meshToVoxelsNaive, boundingBlockOfPts, boundingBlockOfMesh, meshToVoxels, threeGeomToVoxels, meshToBvh, threeGeomToBvh, meshBoundingBlock, threeGeomBoundingBlock};

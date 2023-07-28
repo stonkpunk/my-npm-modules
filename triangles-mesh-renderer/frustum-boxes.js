@@ -26,7 +26,7 @@ function getSubBlocksForBlock(block){ //decomposes block into 8 sub-blocks
 
 var bf = require("box-frustum");
 
-function frustumBoxes(pvMatrix, fullBox, iters=2){
+function frustumBoxes(pvMatrix, fullBox, iters=2){ //get fullBox vs getPvMatrixFrustrumCorners
     if(iters==0){
         return [fullBox];
     }else{

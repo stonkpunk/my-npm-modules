@@ -1,0 +1,17 @@
+{
+  "name": "markov-simple",
+  "version": "0.0.01",
+  "description": "yet another markov chain tool for text, very simple, no tokenization; degree-n memos predict individual characters",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "markov","chain","text"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/markov-simple"
+}
