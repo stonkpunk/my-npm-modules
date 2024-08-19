@@ -1,13 +1,13 @@
 {
   "name": "flatten-objects-array",
-  "version": "0.0.001",
+  "version": "0.0.014",
   "description": "flatten a list of objects into a flat typed / untyped array, or an untyped array of arrays, then un-flatten the result back into the original objects again.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "struct","flatten","unflatten","serialize"
+    "struct","flatten","unflatten","serialize","csv"
   ],
   "author": "stonkpunk",
   "license": "MIT",

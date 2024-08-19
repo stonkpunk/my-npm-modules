@@ -3,6 +3,11 @@
 automatically flatten a list of similar objects into a flat array (or array of arrays)... 
 
 then un-flatten the result back into the original objects' format again.
+
+can also convert arbitrary objects arrays to csv with `objectsArrayToCSV`
+
+and can also interpolate between arbitrary [numerical] objects with `objectsInterpolate`
+
 ## Installation
 
 ```sh
@@ -20,6 +25,8 @@ var {
     loadObjectsIntoArray,
     loadObjectsFromArray,
     getObjectFieldsList,
+    objectsArrayToCSV,
+    objectsInterpolate
     // getValueFromPath, //these are used internally but exposed for convenience
     // getTypeFromPath,
     // getType,
@@ -102,6 +109,22 @@ console.log(objsAgainFromArrFlatFloat[0].stuff.my_matrix)
 console.log(objsAgainFromArrFlatFloat[1].stuff.my_matrix)
 //    [ [ 1, 1 ], [ NaN, NaN ] ]
 
+var sep = ','; //default
+var newline = '\n'; //default
+//convert to csv string
+console.log(objectsArrayToCSV(objects, sep, newline));
+// color.0,color.1,color.2,stuff.my_matrix.0.0,stuff.my_matrix.0.1,stuff.my_matrix.1.0,stuff.my_matrix.1.1,height
+// 0,1,3,1,2,4,5,53
+// 77,123,32,1,1,,,not-a-number
+
+//note the header is made from fields of first object 
+
+//linear interpolation between arbitrary objects with numerical fields [non numerical fields will cause an err]
+var objA= {r:0,g:0,b:0, coords: {u:0,v:0}}
+var objB= {r:255,g:255,b:255, coords: {u:1,v:1}}
+
+console.log(objectsInterpolate(objA,objB,0.5));
+//{ r: 127.5, g: 127.5, b: 127.5, coords: { u: 0.5, v: 0.5 } }
 ```
 
 ## See Also

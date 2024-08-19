@@ -19,6 +19,9 @@ function getValueFromPath(obj, path) {
     const keys = path.split('.');
     let value = obj;
     for (const key of keys) {
+        if (!isValidKey(key)) {
+            throw new Error('Invalid key: ' + key);
+        }
         if (value && value.hasOwnProperty(key)) {
             value = value[key];
         } else if (Array.isArray(value) && /^\d+$/.test(key)) {
@@ -50,6 +53,12 @@ function getType(value) {
     }
 }
 
+function isValidKey(key) {
+    // Blacklist of potentially dangerous property names
+    const dangerousProps = ['__proto__', 'constructor', 'prototype'];
+    return typeof key === 'string' && !dangerousProps.includes(key);
+}
+
 //set or create fields given a string like "apple[0].seed" and a value
 
 function setFieldValue(obj, path, value) {
@@ -58,6 +67,9 @@ function setFieldValue(obj, path, value) {
 
     for (let i = 0; i < keys.length - 1; i++) {
         const key = keys[i];
+        if (!isValidKey(key)) {
+            throw new Error('Invalid key: ' + key);
+        }
         const nextKey = keys[i + 1];
         const isArray = /\[(\d+)\]$/.exec(nextKey);
 
@@ -70,7 +82,11 @@ function setFieldValue(obj, path, value) {
         }
     }
 
-    current[keys[keys.length - 1]] = value;
+    const lastKey = keys[keys.length - 1];
+    if (!isValidKey(lastKey)) {
+        throw new Error('Invalid key: ' + lastKey);
+    }
+    current[lastKey] = value;
     return obj;
 }
 
@@ -198,6 +214,23 @@ function replaceNumericObjectsWithArrays(obj) {
     return obj;
 }
 
+function objectsArrayToCSV(objs,sep=',',newline='\n'){
+    var fields = getObjectFieldsList(objs[0]).join(sep);
+    var rows = loadObjectsIntoArrayOfArrays(objs).map(row=>row.join(sep)).join(newline)
+    return `${fields}${newline}${rows}`;
+}
+
+function objectsInterpolate(objectA, objectB, t, _fields=null){ //linear interpolation from objectA to objectB with param t 0...1
+    var rows = loadObjectsIntoArrayOfArrays([objectA, objectB]);
+    var fields = _fields || getObjectFieldsList(objectA)
+    var interpObj = rows[0].map(function(value,index){
+        return rows[0][index] + (rows[1][index] - rows[0][index])*t;
+    });
+    return buildObjectFromFields(fields, interpObj);
+}
+
 module.exports = {
+    objectsArrayToCSV,
+    objectsInterpolate,
     loadObjectsIntoArray, replaceNumericObjectsWithArrays, loadObjectsFromArrayOfArrays , loadObjectsIntoArrayOfArrays, loadObjectsIntoIntArray, loadObjectsIntoFloatArray, loadObjectsFromArray, getObjectFieldsList, getValueFromPath, getTypeFromPath, getType, setFieldValue, buildObjectFromFields
 }
