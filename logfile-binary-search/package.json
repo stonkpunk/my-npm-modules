@@ -1,0 +1,17 @@
+{
+  "name": "logfile-binary-search",
+  "version": "0.0.01",
+  "description": "efficiently search and extract date-ranged entries from large log files using binary search",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "large","file","binary", "search", "dates"
+  ],
+  "author": "stonkpunk",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "homepage": "https://github.com/stonkpunk/my-npm-modules/tree/main/logfile-binary-search"
+}
